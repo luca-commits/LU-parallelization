@@ -10,6 +10,7 @@
 /* jacobi-2d.c: this file is part of PolyBench/C */
 
 #include <math.h>
+#include <mpi.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -58,6 +59,8 @@ static void kernel_jacobi_2d(int tsteps, int n,
   int t, i, j;
 
 #pragma scop
+  /* TODO: Exchange ghost cells */
+
   for (t = 0; t < _PB_TSTEPS; t++) {
     for (i = 1; i < _PB_N - 1; i++)
       for (j = 1; j < _PB_N - 1; j++)
@@ -72,34 +75,96 @@ static void kernel_jacobi_2d(int tsteps, int n,
 }
 
 int main(int argc, char** argv) {
+  /* Initialize MPI */
+  MPI_Comm comm_cart;
+
+  int rank, size;
+
+  MPI_Init(&argc, &argv);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+  int dims[2], periods[2];
+  MPI_Dims_create(rank, 2, dims);
+  periods[0] = periods[1] = 0;  // no periodic bdc
+
+  MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 0, &comm_cart);
+
+  /* Find neighbours of each rank */
+  int rank_top, rank_bottom, rank_left, rank_right;
+  MPI_Cart_shift(comm_cart, 0, 1, &rank_top, &rank_bottom);
+  MPI_Cart_shift(comm_cart, 1, 1, &rank_left, &rank_right);
+
   /* Retrieve problem size. */
   int n = N;
   int tsteps = TSTEPS;
 
-  /* Variable declaration/allocation. */
-  POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
-  POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, N, N, n, n);
+  /* Calculate problem size of local domain for every rank */
+  int nx_local = n / dims[0];
+  if (rank_right == MPI_PROC_NULL) nx_local += n % dims[0];
 
-  /* Initialize array(s). */
-  init_array(n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
+  int ny_local = n / dims[1];
+  if (rank_bottom == MPI_PROC_NULL) ny_local += n % dims[1];
 
-  /* Start timer. */
-  polybench_start_instruments;
+  /* TODO: Define a data type for sending parts of the matrix back and forth */
 
-  /* Run kernel. */
-  kernel_jacobi_2d(tsteps, n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
+  /* TODO: Define a data type for sending columns of local domains */
 
-  /* Stop and print timer. */
-  polybench_stop_instruments;
-  polybench_print_instruments;
+  if (rank == 0) {
+    /* Variable declaration/allocation. */
+    POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
+    POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, N, N, n, n);
 
-  /* Prevent dead-code elimination. All live-out data must be printed
-     by the function call in argument. */
-  polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
+    /* Initialize array(s). */
+    init_array(n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
 
-  /* Be clean. */
-  POLYBENCH_FREE_ARRAY(A);
-  POLYBENCH_FREE_ARRAY(B);
+    /* Start timer. */
+    polybench_start_instruments;
+
+    /* TODO: Send the segregated domain to all other ranks */
+    MPI_Scatterv();
+    MPI_Scatterv();
+
+    /* Run kernel. */
+    kernel_jacobi_2d(tsteps, n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
+
+    /* TODO: Put the segregated domain back together */
+    MPI_Gatherv();
+    MPI_Gatherv();
+
+    /* Stop and print timer. */
+    polybench_stop_instruments;
+    polybench_print_instruments;
+
+    /* Prevent dead-code elimination. All live-out data must be printed
+       by the function call in argument. */
+    polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
+
+    /* Be clean. */
+    POLYBENCH_FREE_ARRAY(A);
+    POLYBENCH_FREE_ARRAY(B);
+  } else {
+    POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, nx_local, ny_local, nx_local,
+                            ny_local);
+    POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, nx_local, ny_local, nx_local,
+                            ny_local);
+
+    /* TODO: Receive the local domain from rank 0 */
+    MPI_Scatterv();
+    MPI_Scatterv();
+
+    /* Run kernel. */
+    kernel_jacobi_2d(tsteps, n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
+
+    /* TODO: Send local domain back to main rank */
+    MPI_Gatherv();
+    MPI_Gatherv();
+
+    POLYBENCH_FREE_ARRAY(A);
+    POLYBENCH_FREE_ARRAY(B);
+  }
+
+  MPI_Finalize();
 
   return 0;
 }

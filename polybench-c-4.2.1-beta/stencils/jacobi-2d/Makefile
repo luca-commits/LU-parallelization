@@ -1,6 +1,7 @@
 include ../../config.mk
 
 EXTRA_FLAGS=
+CC=mpicc
 
 jacobi-2d: jacobi-2d.c jacobi-2d.h
 	${VERBOSE} ${CC} -o jacobi-2d jacobi-2d.c ${CFLAGS} -I. -I../../utilities ../../utilities/polybench.c ${EXTRA_FLAGS}
