@@ -107,9 +107,10 @@ int main(int argc, char** argv) {
   if (rank_bottom == MPI_PROC_NULL) ny_local += n % dims[1];
 
   /* TODO: Define a data type for sending parts of the matrix back and forth */
-  MPI_Datatype blocktypes[4];
+  MPI_Datatype blocktypes[dims[0] * dims[1]];
   int subsizes[2];
   int starts[2] = {0,0};
+  const int globalsizes[2] = {n,n};
 
   /*initialize dimensions of the submatrices for the "interior" submatrices*/
   subsizes[0] = nx_local;
@@ -126,22 +127,31 @@ int main(int argc, char** argv) {
   /*initialize dimensions for the last row */
   subsizes[1] = n - ny_local * dims[1];
   subsizes[0] = nx_local;
-  for(int j = 0; j < dims[1]; ++j){
+  for(int j = 0; j < dims[1] - 1; ++j){
     MPI_Type_create_subarray(2, globalsizes, subsizes, starts,
 						     MPI_ORDER_C, MPI_CHAR, &blocktypes[dims[0]*(dims[1]-1)+j]
 						    );
     MPI_Type_commit(&blocktypes[dims[0]*(dims[1]-1)+j]);
   }
 
+  /* Initialize the dimensions for the last column */
+  subsizes[0] = n - nx_local * dims[0];
+  subsizes[1] = ny_local;
+  for(int i = 0; i < dims[0] - 1; ++i){
+	MPI_Type_create_subarray(2, globalsizes, subsizes, starts,
+						     MPI_ORDER_C, MPI_CHAR, &blocktypes[dims[1] * i - 1]
+						    );
+    MPI_Type_commit(&blocktypes[dims[1] * i - 1]);
+  }
 
 
   /*initialize dimensions for the lower-right corner submatrix*/
   subsizes[0] = n - nx_local * dims[0];
-  subsize[1] = n - ny_local * dims[1];
+  subsizes[1] = n - ny_local * dims[1];
   MPI_Type_create_subarray(2, globalsizes, subsizes, starts,
-						   MPI_ORDER_C, MPI_CHAR, &blocktypes[dims[0] * dims[1] - 1];
+						   MPI_ORDER_C, MPI_CHAR, &blocktypes[dims[0] * dims[1] - 1]
 						  );
-  MPI_Type_commit(&blocktypes[dims[0]*i+j]);
+  MPI_Type_commit(&blocktypes[dims[0] * dims[1] - 1]);
 
 
   /* TODO: Define a data type for sending columns of local domains */
