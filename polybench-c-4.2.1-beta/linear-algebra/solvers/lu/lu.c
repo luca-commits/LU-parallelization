@@ -11,6 +11,7 @@
 
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -64,21 +65,45 @@ static void print_array(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n))
   POLYBENCH_DUMP_FINISH;
 }
 
+/* Swap functions */
+static void swap(DATA_TYPE x, DATA_TYPE y) {
+  DATA_TYPE temp = x;
+  x = y;
+  y = temp;
+}
+
 /* Main computational kernel. The whole function will be timed,
    including the call and return. */
 static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
-  int i, j, k;
+  int i, j, k, r;
+  int p[_PB_N];
+  DATA_TYPE max;
 
 #pragma scop
+  // initialize permutation vector
   for (i = 0; i < _PB_N; i++) {
-    for (j = 0; j < i; j++) {
-      for (k = 0; k < j; k++) {
-        A[i][j] -= A[i][k] * A[k][j];
+    p[i] = i;
+  }
+  // find largest absolute value in column k
+  for (k = 0; k < _PB_N; k++) {
+    max = A[0][k];
+    for (i = k; i < _PB_N; i++) {
+      if (max < fabs(A[i][k])) {
+        max = fabs(A[i][k]);
+        r = i;
       }
-      A[i][j] /= A[j][j];
     }
-    for (j = i; j < _PB_N; j++) {
-      for (k = 0; k < i; k++) {
+    // swap components k and r of the permutation vector
+    swap(p[k], p[r]);
+    for (j = 0; j < _PB_N; j++) {
+      swap(A[k][j], A[r][j]);
+    }
+    // memory-efficient sequential LU decomposition
+    for (i = k + 1; i < _PB_N; i++) {
+      A[i][k] /= A[k][k];
+    }
+    for (i = k + 1; i < _PB_N; i++) {
+      for (j = k + 1; j < _PB_N; j++) {
         A[i][j] -= A[i][k] * A[k][j];
       }
     }
