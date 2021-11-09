@@ -24,6 +24,9 @@
 /* Include benchmark-specific header. */
 #include "lu.h"
 
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
 /* Array initialization. */
 static void init_array(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
   int i, j;
@@ -78,10 +81,10 @@ static void swap(DATA_TYPE x, DATA_TYPE y) {
 /* Main computational kernel. The whole function will be timed,
    including the call and return. */
 static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), p_id) {
-  DATA_TYPE s = p_id % N;
-  DATA_TYPE t = p_id / N;
-  DATA_TYPE nr = (n + N - s - 1) / N;
-  DATA_TYPE nc = (n + N - t - 1) / N;
+  DATA_TYPE s = p_id % _PB_N;
+  DATA_TYPE t = p_id / _PB_N;
+  DATA_TYPE nr = (n + _PB_N - s - 1) / _PB_N;
+  DATA_TYPE nc = (n + _PB_N - t - 1) / _PB_N;
   int i, j, k, r;
   int p[_PB_N];
   DATA_TYPE absmax;
@@ -93,9 +96,11 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), p_id) {
     p[i] = i;
   }
   // find largest absolute value in column k
+  DATA_TYPE* Max = malloc(MAX(_PB_N, 1) * sizeof(DATA_TYPE));
+  DATA_TYPE* IMax = malloc(MAX(_PB_N, 1) * sizeof(long));
   for (k = 0; k < _PB_N; k++) {
-    DATA_TYPE kr = (k + N - s - 1) / N;
-    DATA_TYPE kc = (k + N - t - 1) / N;
+    DATA_TYPE kr = (k + _PB_N - s - 1) / _PB_N;
+    DATA_TYPE kc = (k + _PB_N - t - 1) / _PB_N;
     if (k % _PB_N == t) {
       absmax = A[0][k];
       for (i = kr; i < nr; i++) {
@@ -107,6 +112,12 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), p_id) {
       max = 0;
       if (absmax > 0.0) {
         max = A[r][kc]
+      }
+      for (j = 0; j < _PB_N; j++) {
+        // Probably wrong ...
+        MPI_Bcast(j + t * _PB_N, &max, Max, s * sizeof(DATA_TYPE),
+                  sizeof(DATA_TYPE));
+        MPI_Bcast(j + t * _PB_N, &r, IMax, s * sizeof(long), sizeof(long));
       }
     }
   }
