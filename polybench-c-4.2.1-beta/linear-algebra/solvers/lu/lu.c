@@ -72,12 +72,6 @@ static void swap(DATA_TYPE x, DATA_TYPE y) {
   y = temp;
 }
 
-static void swap_int(int x, int y) {
-  int temp = x;
-  x = y;
-  y = temp;
-}
-
 /* Main computational kernel. The whole function will be timed,
    including the call and return. */
 static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
@@ -100,7 +94,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
       }
     }
     // swap components k and r of the permutation vector
-    swap_int(p[k], p[r]);
+    swap(p[k], p[r]);
     for (j = 0; j < _PB_N; j++) {
       swap(A[k][j], A[r][j]);
     }
