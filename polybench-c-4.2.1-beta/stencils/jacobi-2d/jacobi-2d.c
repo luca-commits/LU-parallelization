@@ -106,6 +106,35 @@ int main(int argc, char** argv) {
   int ny_local = n / dims[1];
   if (rank_bottom == MPI_PROC_NULL) ny_local += n % dims[1];
 
+  /* TODO: Define a data type for sending columns of local domains */
+
+  int sendcounts[ size ];
+      int senddispls[ size ];
+      MPI_Datatype sendtypes[size];
+      int recvcounts[ size ];
+      int recvdispls[ size ];
+      MPI_Datatype recvtypes[size];
+
+      for (int proc=0; proc<size; proc++) {
+          recvcounts[proc] = 0;
+          recvdispls[proc] = nx_local + 3;
+          recvtypes[proc] = MPI_DOUBLE;
+
+          sendcounts[proc] = 0;
+          senddispls[proc] = 0;
+          sendtypes[proc] = MPI_DOUBLE;
+      }
+      recvcounts[0] = nx_local * ny_local;
+
+
+  if (rank == 0) {
+    /* Variable declaration/allocation. */
+    POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
+    POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, N, N, n, n);
+
+    /* Initialize array(s). */
+    init_array(n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
+
   /* TODO: Define a data type for sending parts of the matrix back and forth */
   MPI_Datatype blocktypes[dims[0] * dims[1]];
   int subsizes[2];
@@ -154,31 +183,31 @@ int main(int argc, char** argv) {
   MPI_Type_commit(&blocktypes[dims[0] * dims[1] - 1]);
 
 
-  /* TODO: Define a data type for sending columns of local domains */
+  /* now figure out the displacement and type of each processor's data */
+  for (int proc=0; proc<size; proc++) {
+      int coords[2];
 
-  if (rank == 0) {
-    /* Variable declaration/allocation. */
-    POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
-    POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, N, N, n, n);
+      MPI_Cart_coords(comm_cart, proc, 2, coords);
 
-    /* Initialize array(s). */
-    init_array(n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
+      sendcounts[proc] = 1;
+      senddispls[proc] = (coords[0]*ny_local*n + coords[1]*nx_local)*sizeof(double);
+  }
 
-    /* Start timer. */
-    polybench_start_instruments;
-
+    POLYBENCH_2D_ARRAY_DECL(A_local, DATA_TYPE, nx_local + 2, ny_local + 2, nx_local + 2,
+                                ny_local + 2);
+    POLYBENCH_2D_ARRAY_DECL(B_local, DATA_TYPE, nx_local + 2, ny_local + 2, nx_local + 2,
+                                ny_local + 2);
     /* TODO: Send the segregated domain to all other ranks */
-    MPI_Scatterv();
-    MPI_Scatterv();
+    MPI_Alltoallw(A, sendcounts, senddispls, blocktypes,
+                A_local, recvcounts, recvdispls, recvtypes, 
+                MPI_COMM_WORLD);
 
     /* Run kernel. */
-    kernel_jacobi_2d(tsteps, n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
-
-    /* TODO: Put the segregated domain back together */
-    MPI_Gatherv();
-    MPI_Gatherv();
+    kernel_jacobi_2d(tsteps, n, POLYBENCH_ARRAY(A_local), POLYBENCH_ARRAY(B_local));
 
     /* Stop and print timer. */
+    /* Start timer. */
+    polybench_start_instruments;
     polybench_stop_instruments;
     polybench_print_instruments;
 
@@ -187,24 +216,21 @@ int main(int argc, char** argv) {
     polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
     /* Be clean. */
-    POLYBENCH_FREE_ARRAY(A);
-    POLYBENCH_FREE_ARRAY(B);
+    POLYBENCH_FREE_ARRAY(A_local);
+    POLYBENCH_FREE_ARRAY(B_local);
   } else {
-    POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, nx_local, ny_local, nx_local,
-                            ny_local);
-    POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, nx_local, ny_local, nx_local,
-                            ny_local);
+    POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, nx_local + 2, ny_local + 2, nx_local + 2,
+                            ny_local + 2);
+    POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, nx_local + 2, ny_local + 2, nx_local + 2,
+                            ny_local + 2);
 
-    /* TODO: Receive the local domain from rank 0 */
-    MPI_Scatterv();
-    MPI_Scatterv();
 
     /* Run kernel. */
     kernel_jacobi_2d(tsteps, n, POLYBENCH_ARRAY(A), POLYBENCH_ARRAY(B));
 
-    /* TODO: Send local domain back to main rank */
-    MPI_Gatherv();
-    MPI_Gatherv();
+    // /* TODO: Send local domain back to main rank */
+    // MPI_Gatherv();
+    // MPI_Gatherv();
 
     POLYBENCH_FREE_ARRAY(A);
     POLYBENCH_FREE_ARRAY(B);
