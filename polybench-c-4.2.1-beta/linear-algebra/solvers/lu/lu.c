@@ -15,6 +15,9 @@
 #include <string.h>
 #include <unistd.h>
 
+/* Include MPI header. */
+#include <mpi.h>
+
 /* Include polybench common header. */
 #include <polybench.h>
 
@@ -74,9 +77,14 @@ static void swap(DATA_TYPE x, DATA_TYPE y) {
 
 /* Main computational kernel. The whole function will be timed,
    including the call and return. */
-static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
+static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), p_id) {
+  DATA_TYPE s = p_id % N;
+  DATA_TYPE t = p_id / N;
+  DATA_TYPE nr = (n + N - s - 1) / N;
+  DATA_TYPE nc = (n + N - t - 1) / N;
   int i, j, k, r;
   int p[_PB_N];
+  DATA_TYPE absmax;
   DATA_TYPE max;
 
 #pragma scop
@@ -86,32 +94,46 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
   }
   // find largest absolute value in column k
   for (k = 0; k < _PB_N; k++) {
-    max = A[0][k];
-    for (i = k; i < _PB_N; i++) {
-      if (max < fabs(A[i][k])) {
-        max = fabs(A[i][k]);
-        r = i;
+    DATA_TYPE kr = (k + N - s - 1) / N;
+    DATA_TYPE kc = (k + N - t - 1) / N;
+    if (k % _PB_N == t) {
+      absmax = A[0][k];
+      for (i = kr; i < nr; i++) {
+        if (absmax < fabs(A[i][kc])) {
+          absmax = fabs(A[i][kc]);
+          r = i;
+        }
+      }
+      max = 0;
+      if (absmax > 0.0) {
+        max = A[r][kc]
       }
     }
-    // swap components k and r of the permutation vector
-    swap(p[k], p[r]);
-    for (j = 0; j < _PB_N; j++) {
-      swap(A[k][j], A[r][j]);
-    }
-    // memory-efficient sequential LU decomposition
-    for (i = k + 1; i < _PB_N; i++) {
-      A[i][k] /= A[k][k];
-    }
-    for (i = k + 1; i < _PB_N; i++) {
-      for (j = k + 1; j < _PB_N; j++) {
-        A[i][j] -= A[i][k] * A[k][j];
-      }
+  }
+  // swap components k and r of the permutation vector
+  swap(p[k], p[r]);
+  for (j = 0; j < _PB_N; j++) {
+    swap(A[k][j], A[r][j]);
+  }
+  // memory-efficient sequential LU decomposition
+  for (i = k + 1; i < _PB_N; i++) {
+    A[i][k] /= A[k][k];
+  }
+  for (i = k + 1; i < _PB_N; i++) {
+    for (j = k + 1; j < _PB_N; j++) {
+      A[i][j] -= A[i][k] * A[k][j];
     }
   }
 #pragma endscop
 }
 
 int main(int argc, char** argv) {
+  int rank, size;
+
+  MPI_Init(&argc, &argv);
+  MPI_Comm_size(MPI_COMM_WORLD, &size);
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
   /* Retrieve problem size. */
   int n = N;
 
@@ -125,7 +147,7 @@ int main(int argc, char** argv) {
   polybench_start_instruments;
 
   /* Run kernel. */
-  kernel_lu(n, POLYBENCH_ARRAY(A));
+  kernel_lu(n, POLYBENCH_ARRAY(A), &rank);
 
   /* Stop and print timer. */
   polybench_stop_instruments;
