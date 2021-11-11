@@ -303,7 +303,8 @@ int main(int argc, char** argv) {
 
   if (rank == 0) {
     /* Start timer. */
-    polybench_start_instruments;
+    polybench_prepare_instruments();
+    polybench_timer_start();
   }
 
   /* Run kernel. */
@@ -312,8 +313,8 @@ int main(int argc, char** argv) {
 
   if (rank == 0) {
     /* Stop and print timer. */
-    polybench_stop_instruments;
-    polybench_print_instruments;
+    polybench_timer_stop();
+    polybench_timer_print();
   }
 
   // if (rank == 2) {
@@ -329,7 +330,7 @@ int main(int argc, char** argv) {
      by the function call in argument. */
   // polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
-  if (rank == 0) print_array(n, A);
+  // if (rank == 0) print_array(n, A);
 
   /* Be clean. */
   if (rank == 0) {
