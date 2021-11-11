@@ -27,8 +27,7 @@ static void init_array(int n, double* A, double* B) {
 
   for (i = 0; i < n; i++)
     for (j = 0; j < n; j++) {
-      // A[n * i + j] = ((DATA_TYPE)i * (j + 2) + 2) / n;
-      A[n * i + j] = 1;
+      A[n * i + j] = ((DATA_TYPE)i * (j + 2) + 2) / n;
       B[n * i + j] = ((DATA_TYPE)i * (j + 3) + 3) / n;
     }
 }
@@ -126,9 +125,9 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
   for (t = 0; t < _PB_TSTEPS; t++) {
     exchange_cells(A, nx_local, ny_local, neighbours, comm_cart, column_vec);
-    //   /* TODO: Implement SIMD instructions */
-    for (i = x_bound_low; i < x_bound_high; i++)
-      for (j = y_bound_low; j < y_bound_high; j++)
+    /* TODO: Implement SIMD instructions */
+    for (i = y_bound_low; i < y_bound_high; i++)
+      for (j = x_bound_low; j < x_bound_high; j++)
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
@@ -137,8 +136,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     exchange_cells(B, nx_local, ny_local, neighbours, comm_cart, column_vec);
 
-    for (i = x_bound_low; i < x_bound_high; i++)
-      for (j = y_bound_low; j < y_bound_high; j++)
+    for (i = y_bound_low; i < y_bound_high; i++)
+      for (j = x_bound_low; j < x_bound_high; j++)
         A[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
@@ -221,7 +220,7 @@ int main(int argc, char** argv) {
     /* Initialize array(s). */
     init_array(n, A, B);
 
-    print_array(n, A);
+    // print_array(n, A);
 
     /* TODO: Define a data type for sending parts of the matrix back and forth
      */
@@ -297,10 +296,10 @@ int main(int argc, char** argv) {
   MPI_Alltoallw(B, sendcounts, senddispls, blocktypes, B_local, recvcounts,
                 recvdispls, recvtypes, MPI_COMM_WORLD);
 
-  if (rank == 0) {
-    print_array(nx_local + 2, A_local);
-    print_array(nx_local + 2, B_local);
-  }
+  // if (rank == 2) {
+  //   print_array(nx_local + 2, A_local);
+  //   print_array(nx_local + 2, B_local);
+  // }
 
   if (rank == 0) {
     /* Start timer. */
@@ -317,10 +316,10 @@ int main(int argc, char** argv) {
     polybench_print_instruments;
   }
 
-  if (rank == 0) {
-    print_array(nx_local + 2, A_local);
-    print_array(nx_local + 2, B_local);
-  }
+  // if (rank == 2) {
+  //   print_array(nx_local + 2, A_local);
+  //   print_array(nx_local + 2, B_local);
+  // }
 
   /* TODO: Put submatrices back together */
   MPI_Alltoallw(A_local, recvcounts, recvdispls, recvtypes, A, sendcounts,
