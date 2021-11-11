@@ -1,6 +1,6 @@
 include ../../config.mk
 
-EXTRA_FLAGS=
+EXTRA_FLAGS=-Wall -g -DMINI_DATASET
 CC=mpicc
 
 jacobi-2d: jacobi-2d.c jacobi-2d.h
