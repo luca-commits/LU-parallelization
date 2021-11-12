@@ -91,10 +91,8 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), p_id) {
   DATA_TYPE max;
 
 #pragma scop
-  // initialize permutation vector
-  for (i = 0; i < _PB_N; i++) {
-    p[i] = i;
-  }
+
+
   // find largest absolute value in column k
   DATA_TYPE* Max = malloc(MAX(_PB_N, 1) * sizeof(DATA_TYPE));
   DATA_TYPE* IMax = malloc(MAX(_PB_N, 1) * sizeof(long));
@@ -120,12 +118,49 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), p_id) {
         MPI_Bcast(j + t * _PB_N, &r, IMax, s * sizeof(long), sizeof(long));
       }
     }
-  }
-  // swap components k and r of the permutation vector
-  swap(p[k], p[r]);
-  for (j = 0; j < _PB_N; j++) {
-    swap(A[k][j], A[r][j]);
-  }
+    R[k-k0]= r; /* store index of pivot row */
+
+      long nperm= 0;
+      long Src2[2], Dest2[2];
+      if (k%M==s && r!=k){
+          /* Store pi(k) in pi(r) on P(r%M,t) */
+          MPI_Send(&)
+          Src2[nperm]= k; Dest2[nperm]= r; nperm++;
+      }
+      if (r%M==s && r!=k){
+          bsp_put(k%M+t*M,&pi[r/M],pi,(k/M)*sizeof(long),
+                  sizeof(long));
+          Src2[nperm]= r; Dest2[nperm]= k; nperm++;
+      }
+      /* Swap rows k and r for columns in range k0..k0+b-1 */
+      bsp_permute_rows(M,Src2,Dest2,nperm,pa,nc,k0c,k0cb);
+      bsp_sync();
+
+      /****** Superstep (6) ******/
+      /* Phase 0 of two-phase broadcasts */
+      if (k%N==t){ 
+          /* Store new column k in Lk */
+          for (long i=kr1; i<nr; i++)     
+              Lk[i-kr1]= a[i][kc];
+      }
+      if (k%M==s){ 
+          /* Store new row k in Uk for columns
+              in range k+1..k0+b-1 */
+          for (long j=kc1; j<k0cb; j++)
+              Uk[j-kc1]= a[kr][j];
+      }
+      bsp_broadcast(Lk,nr-kr1,s+(k%N)*M,s,M,N,0);
+      bsp_broadcast(Uk,k0cb-kc1,(k%M)+t*M,t*M,1,M,0);
+      bsp_sync();
+      
+      /****** Superstep (7) ******/
+      /* Phase 1 of two-phase broadcasts */
+      bsp_broadcast(Lk,nr-kr1,s+(k%N)*M,s,M,N,1); 
+      bsp_broadcast(Uk,k0cb-kc1,(k%M)+t*M,t*M,1,M,1);
+      bsp_sync();
+}
+
+
   // memory-efficient sequential LU decomposition
   for (i = k + 1; i < _PB_N; i++) {
     A[i][k] /= A[k][k];
