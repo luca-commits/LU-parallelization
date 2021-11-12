@@ -21,6 +21,17 @@
 /* Include benchmark-specific header. */
 #include "jacobi-2d.h"
 
+/* Matrix norm */
+static double frobenius_norm(int nx, int ny, double* A) {
+  double norm_sq = 0;
+
+  for (int i = 0; i < nx * ny; i++) {
+    norm_sq += A[i] * A[i];
+  }
+
+  return sqrt(norm_sq);
+}
+
 /* Array initialization. */
 static void init_array(int n, double* A, double* B) {
   int i, j;
@@ -259,8 +270,8 @@ int main(int argc, char** argv) {
     for (int i = 0; i < dims[0] - 1; ++i) {
       MPI_Type_create_subarray(2, globalsizes, subsizes, starts, MPI_ORDER_C,
                                MPI_DOUBLE, &blocktypes[dims[1] * (i + 1) - 1]);
-      printf("last column %d\n", dims[0] * (i + 1) - 1);
-      MPI_Type_commit(&blocktypes[dims[0] * (i + 1) - 1]);
+      printf("last column %d\n", dims[1] * (i + 1) - 1);
+      MPI_Type_commit(&blocktypes[dims[1] * (i + 1) - 1]);
     }
 
     /*initialize dimensions for the lower-right corner submatrix*/
@@ -330,7 +341,7 @@ int main(int argc, char** argv) {
      by the function call in argument. */
   // polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
-  // if (rank == 0) print_array(n, A);
+  if (rank == 0) printf("Norm of A: %f\n", frobenius_norm(n, n, A));
 
   /* Be clean. */
   if (rank == 0) {
