@@ -79,8 +79,11 @@ static void swap(DATA_TYPE x, DATA_TYPE y) {
 }
 
 /* Main computational kernel. The whole function will be timed,
-   including the call and return. */
-static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), p_id) {
+   including the call and return. 
+   pi: permutation vector (need to solve lse)
+*/
+static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), 
+                      unsigned p_id, unsigned *pi, MPI_Win win_A, MPI_Win win_pi) {
   DATA_TYPE s = p_id % _PB_N;
   DATA_TYPE t = p_id / _PB_N;
   DATA_TYPE nr = (n + _PB_N - s - 1) / _PB_N;
@@ -120,44 +123,47 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), p_id) {
     }
     R[k-k0]= r; /* store index of pivot row */
 
-      long nperm= 0;
-      long Src2[2], Dest2[2];
-      if (k%M==s && r!=k){
-          /* Store pi(k) in pi(r) on P(r%M,t) */
-          MPI_Send(&)
-          Src2[nperm]= k; Dest2[nperm]= r; nperm++;
-      }
-      if (r%M==s && r!=k){
-          bsp_put(k%M+t*M,&pi[r/M],pi,(k/M)*sizeof(long),
-                  sizeof(long));
-          Src2[nperm]= r; Dest2[nperm]= k; nperm++;
-      }
-      /* Swap rows k and r for columns in range k0..k0+b-1 */
-      bsp_permute_rows(M,Src2,Dest2,nperm,pa,nc,k0c,k0cb);
-      bsp_sync();
+    long nperm= 0;
+    long Src2[2], Dest2[2];
+    if (k%M==s && r!=k){
+      /* Store pi(k) in pi(r) on P(r%M,t) */
+      MPI_Put()
+      Src2[nperm]= k; Dest2[nperm]= r; nperm++;
+    }
+    if(p_id == r%M+t*M){
+      MPI_Recv(&pi[k/M], 1, MPI_DOUBLE, )
+    }
+    if (r%M==s && r!=k){
+        bsp_put(k%M+t*M,&pi[r/M],pi,(k/M)*sizeof(long),
+                sizeof(long));
+        Src2[nperm]= r; Dest2[nperm]= k; nperm++;
+    }
+    /* Swap rows k and r for columns in range k0..k0+b-1 */
+    bsp_permute_rows(M,Src2,Dest2,nperm,pa,nc,k0c,k0cb);
+    bsp_sync();
 
-      /****** Superstep (6) ******/
-      /* Phase 0 of two-phase broadcasts */
-      if (k%N==t){ 
-          /* Store new column k in Lk */
-          for (long i=kr1; i<nr; i++)     
-              Lk[i-kr1]= a[i][kc];
-      }
-      if (k%M==s){ 
-          /* Store new row k in Uk for columns
-              in range k+1..k0+b-1 */
-          for (long j=kc1; j<k0cb; j++)
-              Uk[j-kc1]= a[kr][j];
-      }
-      bsp_broadcast(Lk,nr-kr1,s+(k%N)*M,s,M,N,0);
-      bsp_broadcast(Uk,k0cb-kc1,(k%M)+t*M,t*M,1,M,0);
-      bsp_sync();
-      
-      /****** Superstep (7) ******/
-      /* Phase 1 of two-phase broadcasts */
-      bsp_broadcast(Lk,nr-kr1,s+(k%N)*M,s,M,N,1); 
-      bsp_broadcast(Uk,k0cb-kc1,(k%M)+t*M,t*M,1,M,1);
-      bsp_sync();
+    /****** Superstep (6) ******/
+    /* Phase 0 of two-phase broadcasts */
+    if (k%N==t){ 
+        /* Store new column k in Lk */
+        for (long i=kr1; i<nr; i++)     
+            Lk[i-kr1]= a[i][kc];
+    }
+    if (k%M==s){ 
+        /* Store new row k in Uk for columns
+            in range k+1..k0+b-1 */
+        for (long j=kc1; j<k0cb; j++)
+            Uk[j-kc1]= a[kr][j];
+    }
+    bsp_broadcast(Lk,nr-kr1,s+(k%N)*M,s,M,N,0);
+    bsp_broadcast(Uk,k0cb-kc1,(k%M)+t*M,t*M,1,M,0);
+    bsp_sync();
+    
+    /****** Superstep (7) ******/
+    /* Phase 1 of two-phase broadcasts */
+    bsp_broadcast(Lk,nr-kr1,s+(k%N)*M,s,M,N,1); 
+    bsp_broadcast(Uk,k0cb-kc1,(k%M)+t*M,t*M,1,M,1);
+    bsp_sync();
 }
 
 
@@ -183,8 +189,18 @@ int main(int argc, char** argv) {
   /* Retrieve problem size. */
   int n = N;
 
+  DATA_TYPE *A;
+  unsigned *pi;
+  MPI_Win win_A;
+  MPI_Win win_pi;
+
   /* Variable declaration/allocation. */
-  POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
+  //POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
+  
+   MPI_Win_Allocate(n * n * sizeof(DATA_TYPE), sizeof(DATA_TYPE), MPI_INFO_NULL, 
+                    MPI_COMM_WORLD, &a, &win_A);
+  
+   MPI_Win_allocate(n * sizeof(unsigned), sizeof(unsigned), MPI_INFO_NULL, MPI_COMM_WORLD, pi, win_pi);
 
   /* Initialize array(s). */
   init_array(n, POLYBENCH_ARRAY(A));
@@ -193,7 +209,7 @@ int main(int argc, char** argv) {
   polybench_start_instruments;
 
   /* Run kernel. */
-  kernel_lu(n, POLYBENCH_ARRAY(A), &rank);
+  kernel_lu(n, POLYBENCH_ARRAY(A), &rank, win_A, win_pi);
 
   /* Stop and print timer. */
   polybench_stop_instruments;
