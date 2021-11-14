@@ -45,17 +45,17 @@ static void init_array(int n, double* A, double* B) {
 
 /* DCE code. Must scan the entire live-out data.
    Can be used also to check the correctness of the output. */
-static void print_array(int n, double* A)
+static void print_array(int nx, int ny, double* A)
 
 {
   int i, j;
 
   POLYBENCH_DUMP_START;
   POLYBENCH_DUMP_BEGIN("A");
-  for (i = 0; i < n; i++)
-    for (j = 0; j < n; j++) {
+  for (i = 0; i < ny; i++)
+    for (j = 0; j < nx; j++) {
       if (j == 0) fprintf(POLYBENCH_DUMP_TARGET, "\n");
-      fprintf(POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, A[n * i + j]);
+      fprintf(POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, A[nx * i + j]);
     }
   POLYBENCH_DUMP_END("A");
   POLYBENCH_DUMP_FINISH;
@@ -136,7 +136,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
   for (t = 0; t < _PB_TSTEPS; t++) {
     exchange_cells(A, nx_local, ny_local, neighbours, comm_cart, column_vec);
-    /* TODO: Implement SIMD instructions */
+    // /* TODO: Implement SIMD instructions */
     for (i = y_bound_low; i < y_bound_high; i++)
       for (j = x_bound_low; j < x_bound_high; j++)
         B[(nx_local + 2) * i + j] =
@@ -165,19 +165,27 @@ int main(int argc, char** argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-  int dims[2] = {0, 0};
+  int dims_temp[2] = {0, 0};
   int periods[2] = {0, 0};
-  MPI_Dims_create(size, 2, dims);
+  MPI_Dims_create(size, 2, dims_temp);
+
+  int dims[2] = {dims_temp[1],
+                 dims_temp[0]};  // definition: dims[0] as no of ranks in
+                                 // "x-direction" (to the right), dims[1] as no
+                                 // of ranks in "y-direction" (to the bottom)
 
   printf("%d = %d x %d\n", size, dims[0], dims[1]);
 
   MPI_Comm comm_cart;
-  MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 0, &comm_cart);
+  MPI_Cart_create(MPI_COMM_WORLD, 2, dims_temp, periods, 0, &comm_cart);
 
   /* Find neighbours of each rank */
   int neighbours[4];  // top, bottom, left, right
   MPI_Cart_shift(comm_cart, 0, 1, &neighbours[0], &neighbours[1]);
   MPI_Cart_shift(comm_cart, 1, 1, &neighbours[2], &neighbours[3]);
+
+  printf("Rank %d: %d %d %d %d\n", rank, neighbours[0], neighbours[1],
+         neighbours[2], neighbours[3]);
 
   /* Retrieve problem size. */
   int n = N;
@@ -195,6 +203,7 @@ int main(int argc, char** argv) {
   MPI_Type_vector(ny_local, 1, nx_local + 2, MPI_DOUBLE, &column_vec);
   MPI_Type_commit(&column_vec);
 
+  /* Segregate matrix and send to other ranks */
   int sendcounts[size];
   int senddispls[size];
   MPI_Datatype blocktypes[size];
@@ -231,7 +240,7 @@ int main(int argc, char** argv) {
     /* Initialize array(s). */
     init_array(n, A, B);
 
-    // print_array(n, A);
+    // print_array(n, n, A);
 
     /* TODO: Define a data type for sending parts of the matrix back and forth
      */
@@ -239,9 +248,10 @@ int main(int argc, char** argv) {
     int starts[2] = {0, 0};
     const int globalsizes[2] = {n, n};
 
-    /*initialize dimensions of the submatrices for the "interior" submatrices*/
-    subsizes[0] = nx_local;
-    subsizes[1] = ny_local;
+    /*initialize dimensions of the submatrices for the "interior"
+     * submatrices*/
+    subsizes[1] = nx_local;
+    subsizes[0] = ny_local;
 
     printf("%d x %d\n", subsizes[0], subsizes[1]);
     for (int i = 0; i < dims[0] - 1; i++) {
@@ -249,14 +259,15 @@ int main(int argc, char** argv) {
         MPI_Type_create_subarray(2, globalsizes, subsizes, starts, MPI_ORDER_C,
                                  MPI_DOUBLE, &blocktypes[dims[0] * i + j]);
         MPI_Type_commit(&blocktypes[dims[0] * i + j]);
+
         printf("interior %d\n", dims[0] * i + j);
       }
     }
 
     /*initialize dimensions for the last row */
-    subsizes[1] = ny_local + n - ny_local * dims[1];
-    subsizes[0] = nx_local;
-    for (int j = 0; j < dims[1] - 1; ++j) {
+    subsizes[0] = ny_local + n % dims[1];
+    subsizes[1] = nx_local;
+    for (int j = 0; j < dims[0] - 1; ++j) {
       MPI_Type_create_subarray(2, globalsizes, subsizes, starts, MPI_ORDER_C,
                                MPI_DOUBLE,
                                &blocktypes[dims[0] * (dims[1] - 1) + j]);
@@ -265,18 +276,18 @@ int main(int argc, char** argv) {
     }
 
     /* Initialize the dimensions for the last column */
-    subsizes[0] = nx_local + n - nx_local * dims[0];
-    subsizes[1] = ny_local;
-    for (int i = 0; i < dims[0] - 1; ++i) {
+    subsizes[1] = nx_local + n % dims[0];
+    subsizes[0] = ny_local;
+    for (int i = 0; i < dims[1] - 1; ++i) {
       MPI_Type_create_subarray(2, globalsizes, subsizes, starts, MPI_ORDER_C,
-                               MPI_DOUBLE, &blocktypes[dims[1] * (i + 1) - 1]);
-      printf("last column %d\n", dims[1] * (i + 1) - 1);
-      MPI_Type_commit(&blocktypes[dims[1] * (i + 1) - 1]);
+                               MPI_DOUBLE, &blocktypes[dims[0] * (i + 1) - 1]);
+      printf("last column %d\n", dims[0] * (i + 1) - 1);
+      MPI_Type_commit(&blocktypes[dims[0] * (i + 1) - 1]);
     }
 
     /*initialize dimensions for the lower-right corner submatrix*/
-    subsizes[0] = nx_local + n - nx_local * dims[0];
-    subsizes[1] = ny_local + n - ny_local * dims[1];
+    subsizes[1] = nx_local + n % dims[0];
+    subsizes[0] = ny_local + n % dims[1];
     MPI_Type_create_subarray(2, globalsizes, subsizes, starts, MPI_ORDER_C,
                              MPI_DOUBLE, &blocktypes[dims[0] * dims[1] - 1]);
     printf("corner %d\n", dims[0] * dims[1] - 1);
@@ -289,8 +300,16 @@ int main(int argc, char** argv) {
       MPI_Cart_coords(comm_cart, proc, 2, coords);
 
       sendcounts[proc] = 1;
-      senddispls[proc] =
-          (coords[0] * ny_local * n + coords[1] * nx_local) * sizeof(double);
+
+      if (proc == 0)
+        senddispls[proc] = 0;
+      else {
+        double displ = nx_local;
+
+        if (proc % dims[0] == 0) displ += n % dims[0] + n * (ny_local - 1);
+
+        senddispls[proc] = senddispls[proc - 1] + displ * sizeof(double);
+      }
     }
 
     printf("finished displ calc\n");
@@ -307,10 +326,10 @@ int main(int argc, char** argv) {
   MPI_Alltoallw(B, sendcounts, senddispls, blocktypes, B_local, recvcounts,
                 recvdispls, recvtypes, MPI_COMM_WORLD);
 
-  // if (rank == 2) {
-  //   print_array(nx_local + 2, A_local);
-  //   print_array(nx_local + 2, B_local);
-  // }
+  if (rank == 1) {
+    print_array(nx_local + 2, ny_local + 2, A_local);
+    print_array(nx_local + 2, ny_local + 2, B_local);
+  }
 
   if (rank == 0) {
     /* Start timer. */
@@ -328,14 +347,14 @@ int main(int argc, char** argv) {
     polybench_timer_print();
   }
 
-  // if (rank == 2) {
-  //   print_array(nx_local + 2, A_local);
-  //   print_array(nx_local + 2, B_local);
-  // }
+  if (rank == 0) {
+    print_array(nx_local + 2, ny_local + 2, A_local);
+    print_array(nx_local + 2, ny_local + 2, B_local);
+  }
 
   /* TODO: Put submatrices back together */
-  MPI_Alltoallw(A_local, recvcounts, recvdispls, recvtypes, A, sendcounts,
-                senddispls, blocktypes, comm_cart);
+  // MPI_Alltoallw(A_local, recvcounts, recvdispls, recvtypes, A, sendcounts,
+  //               senddispls, blocktypes, comm_cart);
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
