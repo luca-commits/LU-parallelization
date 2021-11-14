@@ -83,7 +83,7 @@ static void swap(DATA_TYPE x, DATA_TYPE y) {
    pi: permutation vector (need to solve lse)
 */
 static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), 
-                      unsigned p_id, unsigned *pi, MPI_Win win_A, MPI_Win win_pi) {
+                      unsigned p_id, unsigned *pi, unsigned distr_M, unsigned distr_N) {
   DATA_TYPE s = p_id % _PB_N;
   DATA_TYPE t = p_id / _PB_N;
   DATA_TYPE nr = (n + _PB_N - s - 1) / _PB_N;
@@ -93,6 +93,10 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
   DATA_TYPE absmax;
   DATA_TYPE max;
 
+  unsigned pi_k_temp, pi_r_temp;
+  unsigned A_row_k_temp[n/distr_N], A_row_r_temp[n/distr_N];
+  unsigned counter = 0; //used to see how many entries A_row_k_temp will have
+
 #pragma scop
 
 
@@ -100,6 +104,9 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
 DATA_TYPE* Max = malloc(MAX(_PB_N, 1) * sizeof(DATA_TYPE));
 DATA_TYPE* IMax = malloc(MAX(_PB_N, 1) * sizeof(long));
 for (k = 0; k < _PB_N; k++) {
+
+
+
   DATA_TYPE kr = (k + _PB_N - s - 1) / _PB_N;
   DATA_TYPE kc = (k + _PB_N - t - 1) / _PB_N;
   if (k % _PB_N == t) {
@@ -122,21 +129,56 @@ for (k = 0; k < _PB_N; k++) {
     }
   }
 
-  if (k%M==s && r!=k){
+  if (k%distr_M==s && r!=k){
     /* Store pi(k) in pi(r) on P(r%M,t) */
-    MPI_Send(&pi[k/M], 1, MPI_DOUBLE, r%M + t*M, k, MPI_COMM_WORLD);
+    MPI_Send(&pi[k/distr_M], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD);
+    for(unsigned j = 0; j < n; ++j){
+      if(j%distr_N == t){
+        MPI_Send(A[k][j], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD); //Probably should use ISend here (or even use one sided communication)
+        counter++;
+      }
+    }
   }
-  if(p_id == r%M+t*M){
-    MPI_Recv(&pi[k/M], 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+  if(p_id == r%distr_M+t*distr_M){
+    MPI_Recv(pi_k_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    MPI_Recv(A_row_k_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
   }
-  if (r%M==s && r!=k){
-    MPI_Send(&pi[r/M], 1, MPI_DOUBLE, k%M + t*M, k, MPI_COMM_WORLD);
+
+  if (r%distr_M==s && r!=k){
+    MPI_Send(&pi[r/distr_M], 1, MPI_DOUBLE, k%distr_M + t*distr_M, k, MPI_COMM_WORLD);
+    for(unsigned j = 0; j < n; ++j){
+      if(j%distr_N == t){
+        MPI_Send(A[r][j], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD); 
+      }
+    }
   }
-  if(p_id == k%M + t*M){
-    MPI_Recv(&pi[r/M], 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+  if(p_id == k%distr_M + t*distr_M){
+    MPI_Recv(pi_r_temp 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    MPI_Recv(A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  }
+
+  if(k%distr_M == s){
+    pi[k] = pi_r_temp;
+    unsigned i = 0;
+    for(unsigned j = t; j < n; j += distr_N){
+      a[k][j] = A_row_r_temp[i];
+      ++i;
+    }
   }
 
 
+  if(r%distr_M == s){
+    pi[r] = pi_k_temp;
+    unsigned i = 0;
+    for(unsigned j = t; j < n; j += distr_N){
+      a[r][j] = A_row_k_temp[i];
+      ++i;
+    }
+  }
+
+  
   // memory-efficient sequential LU decomposition
   for (i = k + 1; i < _PB_N; i++) {
     A[i][k] /= A[k][k];
@@ -159,11 +201,6 @@ int main(int argc, char** argv) {
   /* Retrieve problem size. */
   int n = N;
 
-  DATA_TYPE *A;
-  unsigned *pi;
-  MPI_Win win_A;
-  MPI_Win win_pi;
-
   /* Variable declaration/allocation. */
   //POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
   
@@ -174,8 +211,15 @@ int main(int argc, char** argv) {
   /* Start timer. */
   polybench_start_instruments;
 
+  unsigned *pi = malloc(sizeof(unsigned) * n);
+  for(unsigned i = 0; i < n; ++i){
+    pi[i] = i;
+  }
+
+  unsigned distr_M, distr_N; //M and N of the cyclic distr., need to be computed yet
+
   /* Run kernel. */
-  kernel_lu(n, POLYBENCH_ARRAY(A), &rank, win_A, win_pi);
+  kernel_lu(n, POLYBENCH_ARRAY(A), &rank, pi, distr_M, distr_N);
 
   /* Stop and print timer. */
   polybench_stop_instruments;
