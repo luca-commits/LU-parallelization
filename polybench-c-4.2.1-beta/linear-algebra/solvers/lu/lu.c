@@ -96,75 +96,45 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
 #pragma scop
 
 
-  // find largest absolute value in column k
-  DATA_TYPE* Max = malloc(MAX(_PB_N, 1) * sizeof(DATA_TYPE));
-  DATA_TYPE* IMax = malloc(MAX(_PB_N, 1) * sizeof(long));
-  for (k = 0; k < _PB_N; k++) {
-    DATA_TYPE kr = (k + _PB_N - s - 1) / _PB_N;
-    DATA_TYPE kc = (k + _PB_N - t - 1) / _PB_N;
-    if (k % _PB_N == t) {
-      absmax = A[0][k];
-      for (i = kr; i < nr; i++) {
-        if (absmax < fabs(A[i][kc])) {
-          absmax = fabs(A[i][kc]);
-          r = i;
-        }
-      }
-      max = 0;
-      if (absmax > 0.0) {
-        max = A[r][kc]
-      }
-      for (j = 0; j < _PB_N; j++) {
-        // Probably wrong ...
-        MPI_Bcast(j + t * _PB_N, &max, Max, s * sizeof(DATA_TYPE),
-                  sizeof(DATA_TYPE));
-        MPI_Bcast(j + t * _PB_N, &r, IMax, s * sizeof(long), sizeof(long));
+// find largest absolute value in column k
+DATA_TYPE* Max = malloc(MAX(_PB_N, 1) * sizeof(DATA_TYPE));
+DATA_TYPE* IMax = malloc(MAX(_PB_N, 1) * sizeof(long));
+for (k = 0; k < _PB_N; k++) {
+  DATA_TYPE kr = (k + _PB_N - s - 1) / _PB_N;
+  DATA_TYPE kc = (k + _PB_N - t - 1) / _PB_N;
+  if (k % _PB_N == t) {
+    absmax = A[0][k];
+    for (i = kr; i < nr; i++) {
+      if (absmax < fabs(A[i][kc])) {
+        absmax = fabs(A[i][kc]);
+        r = i;
       }
     }
-    R[k-k0]= r; /* store index of pivot row */
+    max = 0;
+    if (absmax > 0.0) {
+      max = A[r][kc]
+    }
+    for (j = 0; j < _PB_N; j++) {
+      // Probably wrong ...
+      MPI_Bcast(j + t * _PB_N, &max, Max, s * sizeof(DATA_TYPE),
+                sizeof(DATA_TYPE));
+      MPI_Bcast(j + t * _PB_N, &r, IMax, s * sizeof(long), sizeof(long));
+    }
+  }
 
-    long nperm= 0;
-    long Src2[2], Dest2[2];
-    if (k%M==s && r!=k){
-      /* Store pi(k) in pi(r) on P(r%M,t) */
-      MPI_Put()
-      Src2[nperm]= k; Dest2[nperm]= r; nperm++;
-    }
-    if(p_id == r%M+t*M){
-      MPI_Recv(&pi[k/M], 1, MPI_DOUBLE, )
-    }
-    if (r%M==s && r!=k){
-        bsp_put(k%M+t*M,&pi[r/M],pi,(k/M)*sizeof(long),
-                sizeof(long));
-        Src2[nperm]= r; Dest2[nperm]= k; nperm++;
-    }
-    /* Swap rows k and r for columns in range k0..k0+b-1 */
-    bsp_permute_rows(M,Src2,Dest2,nperm,pa,nc,k0c,k0cb);
-    bsp_sync();
-
-    /****** Superstep (6) ******/
-    /* Phase 0 of two-phase broadcasts */
-    if (k%N==t){ 
-        /* Store new column k in Lk */
-        for (long i=kr1; i<nr; i++)     
-            Lk[i-kr1]= a[i][kc];
-    }
-    if (k%M==s){ 
-        /* Store new row k in Uk for columns
-            in range k+1..k0+b-1 */
-        for (long j=kc1; j<k0cb; j++)
-            Uk[j-kc1]= a[kr][j];
-    }
-    bsp_broadcast(Lk,nr-kr1,s+(k%N)*M,s,M,N,0);
-    bsp_broadcast(Uk,k0cb-kc1,(k%M)+t*M,t*M,1,M,0);
-    bsp_sync();
-    
-    /****** Superstep (7) ******/
-    /* Phase 1 of two-phase broadcasts */
-    bsp_broadcast(Lk,nr-kr1,s+(k%N)*M,s,M,N,1); 
-    bsp_broadcast(Uk,k0cb-kc1,(k%M)+t*M,t*M,1,M,1);
-    bsp_sync();
-}
+  if (k%M==s && r!=k){
+    /* Store pi(k) in pi(r) on P(r%M,t) */
+    MPI_Send(&pi[k/M], 1, MPI_DOUBLE, r%M + t*M, k, MPI_COMM_WORLD);
+  }
+  if(p_id == r%M+t*M){
+    MPI_Recv(&pi[k/M], 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  }
+  if (r%M==s && r!=k){
+    MPI_Send(&pi[r/M], 1, MPI_DOUBLE, k%M + t*M, k, MPI_COMM_WORLD);
+  }
+  if(p_id == k%M + t*M){
+    MPI_Recv(&pi[r/M], 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  }
 
 
   // memory-efficient sequential LU decomposition
@@ -197,10 +167,6 @@ int main(int argc, char** argv) {
   /* Variable declaration/allocation. */
   //POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
   
-   MPI_Win_Allocate(n * n * sizeof(DATA_TYPE), sizeof(DATA_TYPE), MPI_INFO_NULL, 
-                    MPI_COMM_WORLD, &a, &win_A);
-  
-   MPI_Win_allocate(n * sizeof(unsigned), sizeof(unsigned), MPI_INFO_NULL, MPI_COMM_WORLD, pi, win_pi);
 
   /* Initialize array(s). */
   init_array(n, POLYBENCH_ARRAY(A));
