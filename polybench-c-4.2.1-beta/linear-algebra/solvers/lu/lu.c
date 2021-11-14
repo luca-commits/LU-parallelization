@@ -81,6 +81,7 @@ static void swap(DATA_TYPE x, DATA_TYPE y) {
 /* Main computational kernel. The whole function will be timed,
    including the call and return. 
    pi: permutation vector (need to solve lse)
+   distr_M, distr_N: rows and cols of the cyclic distribution
 */
 static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), 
                       unsigned p_id, unsigned *pi, unsigned distr_M, unsigned distr_N) {
@@ -130,33 +131,40 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     }
   */
     if (k%distr_M==s && r!=k){
+      
       /* Store pi(k) in pi(r) on P(r%M,t) */
       MPI_Send(&pi[k/distr_M], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD);
-      for(unsigned j = 0; j < n; ++j){
+      for(unsigned j = 0; j < n; ++j){ //waistful looping... will correct later
         if(j%distr_N == t){
-          MPI_Send(&A[k][j], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD); //Probably should use ISend here (or even use one sided communication)
+          A_row_k_temp[counter] = A[k][j]; /*counter was set to 0 at the beginning of the function,
+                                             used to see what size the buffer will have (and doubles index here)
+                                            */
           counter++;
         }
       }
+      /*I'm not sure if reciever would get right right message without tag so I just added one */
+      MPI_Send(&A_row_k_temp, counter, MPI_DOUBLE, r%distr_M + t*distr_M, k + 1, MPI_COMM_WORLD); //Probably should use ISend here (or even use one sided communication)
     }
 
     if(p_id == r%distr_M+t*distr_M){
       MPI_Recv(&pi_k_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      MPI_Recv(&A_row_k_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(&A_row_k_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     if (r%distr_M==s && r!=k){
-      MPI_Send(&pi[r/distr_M], 1, MPI_DOUBLE, k%distr_M + t*distr_M, k, MPI_COMM_WORLD);
+      unsigned i =0;
+      MPI_Send(&pi[r/distr_M], 1, MPI_DOUBLE, k%distr_M + t*distr_M, k + 2, MPI_COMM_WORLD);
       for(unsigned j = 0; j < n; ++j){
         if(j%distr_N == t){
-          MPI_Send(&A[r][j], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD); 
+          A_row_r_temp[i] = A[r][j];//should be able to reuse counter (but need extra index variable i)
         }
       }
+      MPI_Send(&A_row_r_temp, counter, MPI_DOUBLE, r%distr_M + t*distr_M, k + 3, MPI_COMM_WORLD); 
     }
 
     if(p_id == k%distr_M + t*distr_M){
-      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      MPI_Recv(&A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k + 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(&A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     if(k%distr_M == s){
@@ -167,7 +175,6 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
         ++i;
       }
     }
-
 
     if(r%distr_M == s){
       pi[r] = pi_k_temp;
