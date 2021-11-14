@@ -326,10 +326,10 @@ int main(int argc, char** argv) {
   MPI_Alltoallw(B, sendcounts, senddispls, blocktypes, B_local, recvcounts,
                 recvdispls, recvtypes, MPI_COMM_WORLD);
 
-  if (rank == 1) {
-    print_array(nx_local + 2, ny_local + 2, A_local);
-    print_array(nx_local + 2, ny_local + 2, B_local);
-  }
+  // if (rank == 1) {
+  //   print_array(nx_local + 2, ny_local + 2, A_local);
+  //   print_array(nx_local + 2, ny_local + 2, B_local);
+  // }
 
   if (rank == 0) {
     /* Start timer. */
@@ -347,10 +347,10 @@ int main(int argc, char** argv) {
     polybench_timer_print();
   }
 
-  if (rank == 0) {
-    print_array(nx_local + 2, ny_local + 2, A_local);
-    print_array(nx_local + 2, ny_local + 2, B_local);
-  }
+  // if (rank == 0) {
+  //   print_array(nx_local + 2, ny_local + 2, A_local);
+  //   print_array(nx_local + 2, ny_local + 2, B_local);
+  // }
 
   /* TODO: Put submatrices back together */
   // MPI_Alltoallw(A_local, recvcounts, recvdispls, recvtypes, A, sendcounts,
