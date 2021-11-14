@@ -97,98 +97,99 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
   unsigned A_row_k_temp[n/distr_N], A_row_r_temp[n/distr_N];
   unsigned counter = 0; //used to see how many entries A_row_k_temp will have
 
-#pragma scop
+  #pragma scop
 
 
-// find largest absolute value in column k
-DATA_TYPE* Max = malloc(MAX(_PB_N, 1) * sizeof(DATA_TYPE));
-DATA_TYPE* IMax = malloc(MAX(_PB_N, 1) * sizeof(long));
-for (k = 0; k < _PB_N; k++) {
+  // find largest absolute value in column k
+  DATA_TYPE* Max = malloc(MAX(_PB_N, 1) * sizeof(DATA_TYPE));
+  DATA_TYPE* IMax = malloc(MAX(_PB_N, 1) * sizeof(long));
+  for (k = 0; k < _PB_N; k++) {
 
 
-
-  DATA_TYPE kr = (k + _PB_N - s - 1) / _PB_N;
-  DATA_TYPE kc = (k + _PB_N - t - 1) / _PB_N;
-  if (k % _PB_N == t) {
-    absmax = A[0][k];
-    for (i = kr; i < nr; i++) {
-      if (absmax < fabs(A[i][kc])) {
-        absmax = fabs(A[i][kc]);
-        r = i;
+    /*
+    DATA_TYPE kr = (k + _PB_N - s - 1) / _PB_N;
+    DATA_TYPE kc = (k + _PB_N - t - 1) / _PB_N;
+    if (k % _PB_N == t) {
+      absmax = A[0][k];
+      for (i = kr; i < nr; i++) {
+        if (absmax < fabs(A[i][kc])) {
+          absmax = fabs(A[i][kc]);
+          r = i;
+        }
+      }
+      max = 0;
+      if (absmax > 0.0) {
+        max = A[r][kc]
+      }
+      for (j = 0; j < _PB_N; j++) {
+        // Probably wrong ...
+        MPI_Bcast(j + t * _PB_N, &max, Max, s * sizeof(DATA_TYPE),
+                  sizeof(DATA_TYPE));
+        MPI_Bcast(j + t * _PB_N, &r, IMax, s * sizeof(long), sizeof(long));
       }
     }
-    max = 0;
-    if (absmax > 0.0) {
-      max = A[r][kc]
-    }
-    for (j = 0; j < _PB_N; j++) {
-      // Probably wrong ...
-      MPI_Bcast(j + t * _PB_N, &max, Max, s * sizeof(DATA_TYPE),
-                sizeof(DATA_TYPE));
-      MPI_Bcast(j + t * _PB_N, &r, IMax, s * sizeof(long), sizeof(long));
-    }
-  }
-
-  if (k%distr_M==s && r!=k){
-    /* Store pi(k) in pi(r) on P(r%M,t) */
-    MPI_Send(&pi[k/distr_M], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD);
-    for(unsigned j = 0; j < n; ++j){
-      if(j%distr_N == t){
-        MPI_Send(A[k][j], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD); //Probably should use ISend here (or even use one sided communication)
-        counter++;
+  */
+    if (k%distr_M==s && r!=k){
+      /* Store pi(k) in pi(r) on P(r%M,t) */
+      MPI_Send(&pi[k/distr_M], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD);
+      for(unsigned j = 0; j < n; ++j){
+        if(j%distr_N == t){
+          MPI_Send(&A[k][j], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD); //Probably should use ISend here (or even use one sided communication)
+          counter++;
+        }
       }
     }
-  }
 
-  if(p_id == r%distr_M+t*distr_M){
-    MPI_Recv(pi_k_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    MPI_Recv(A_row_k_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-  }
+    if(p_id == r%distr_M+t*distr_M){
+      MPI_Recv(&pi_k_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(&A_row_k_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
 
-  if (r%distr_M==s && r!=k){
-    MPI_Send(&pi[r/distr_M], 1, MPI_DOUBLE, k%distr_M + t*distr_M, k, MPI_COMM_WORLD);
-    for(unsigned j = 0; j < n; ++j){
-      if(j%distr_N == t){
-        MPI_Send(A[r][j], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD); 
+    if (r%distr_M==s && r!=k){
+      MPI_Send(&pi[r/distr_M], 1, MPI_DOUBLE, k%distr_M + t*distr_M, k, MPI_COMM_WORLD);
+      for(unsigned j = 0; j < n; ++j){
+        if(j%distr_N == t){
+          MPI_Send(&A[r][j], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD); 
+        }
       }
     }
-  }
 
-  if(p_id == k%distr_M + t*distr_M){
-    MPI_Recv(pi_r_temp 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    MPI_Recv(A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-  }
-
-  if(k%distr_M == s){
-    pi[k] = pi_r_temp;
-    unsigned i = 0;
-    for(unsigned j = t; j < n; j += distr_N){
-      a[k][j] = A_row_r_temp[i];
-      ++i;
+    if(p_id == k%distr_M + t*distr_M){
+      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(&A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
-  }
 
-
-  if(r%distr_M == s){
-    pi[r] = pi_k_temp;
-    unsigned i = 0;
-    for(unsigned j = t; j < n; j += distr_N){
-      a[r][j] = A_row_k_temp[i];
-      ++i;
+    if(k%distr_M == s){
+      pi[k] = pi_r_temp;
+      unsigned i = 0;
+      for(unsigned j = t; j < n; j += distr_N){
+        A[k][j] = A_row_r_temp[i];
+        ++i;
+      }
     }
-  }
 
-  
-  // memory-efficient sequential LU decomposition
-  for (i = k + 1; i < _PB_N; i++) {
-    A[i][k] /= A[k][k];
-  }
-  for (i = k + 1; i < _PB_N; i++) {
-    for (j = k + 1; j < _PB_N; j++) {
-      A[i][j] -= A[i][k] * A[k][j];
+
+    if(r%distr_M == s){
+      pi[r] = pi_k_temp;
+      unsigned i = 0;
+      for(unsigned j = t; j < n; j += distr_N){
+        A[r][j] = A_row_k_temp[i];
+        ++i;
+      }
     }
+
+    
+    // memory-efficient sequential LU decomposition
+    for (i = k + 1; i < _PB_N; i++) {
+      A[i][k] /= A[k][k];
+    }
+    for (i = k + 1; i < _PB_N; i++) {
+      for (j = k + 1; j < _PB_N; j++) {
+        A[i][j] -= A[i][k] * A[k][j];
+      }
+    }
+  #pragma endscop
   }
-#pragma endscop
 }
 
 int main(int argc, char** argv) {
@@ -202,7 +203,7 @@ int main(int argc, char** argv) {
   int n = N;
 
   /* Variable declaration/allocation. */
-  //POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
+  POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
   
 
   /* Initialize array(s). */
@@ -219,7 +220,7 @@ int main(int argc, char** argv) {
   unsigned distr_M, distr_N; //M and N of the cyclic distr., need to be computed yet
 
   /* Run kernel. */
-  kernel_lu(n, POLYBENCH_ARRAY(A), &rank, pi, distr_M, distr_N);
+  kernel_lu(n, POLYBENCH_ARRAY(A), rank, pi, distr_M, distr_N);
 
   /* Stop and print timer. */
   polybench_stop_instruments;
