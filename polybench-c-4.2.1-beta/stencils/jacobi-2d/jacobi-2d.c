@@ -204,7 +204,7 @@ int main(int argc, char** argv) {
   MPI_Type_commit(&column_vec);
 
   /* Segregate matrix and send to other ranks */
-  int sendcounts[size];
+  MPI_Pcontrol(1, "Set up MPI") int sendcounts[size];
   int senddispls[size];
   MPI_Datatype blocktypes[size];
   int recvcounts[size];
@@ -240,7 +240,7 @@ int main(int argc, char** argv) {
     /* Initialize array(s). */
     init_array(n, A, B);
 
-    // print_array(n, n, A);
+    print_array(n, n, A);
 
     /* TODO: Define a data type for sending parts of the matrix back and forth
      */
@@ -249,7 +249,9 @@ int main(int argc, char** argv) {
     const int globalsizes[2] = {n, n};
 
     /*initialize dimensions of the submatrices for the "interior"
-     * submatrices*/
+     * submatrices; for subsizes we need to reverse the order of our defined
+     dimensions!!!
+     */
     subsizes[1] = nx_local;
     subsizes[0] = ny_local;
 
@@ -311,9 +313,8 @@ int main(int argc, char** argv) {
         senddispls[proc] = senddispls[proc - 1] + displ * sizeof(double);
       }
     }
-
-    printf("finished displ calc\n");
   }
+  MPI_Pcontrol(-1, "Set up MPI");
 
   double* A_local =
       (double*)malloc((nx_local + 2) * (ny_local + 2) * sizeof(double));
@@ -321,16 +322,19 @@ int main(int argc, char** argv) {
       (double*)malloc((nx_local + 2) * (ny_local + 2) * sizeof(double));
 
   /* Send the segregated domain to all other ranks */
+  MPI_Pcontrol(1, "Scatter Matrix");
   MPI_Alltoallw(A, sendcounts, senddispls, blocktypes, A_local, recvcounts,
                 recvdispls, recvtypes, MPI_COMM_WORLD);
   MPI_Alltoallw(B, sendcounts, senddispls, blocktypes, B_local, recvcounts,
                 recvdispls, recvtypes, MPI_COMM_WORLD);
+  MPI_Pcontrol(-1, "Scatter Matrix");
 
   // if (rank == 1) {
   //   print_array(nx_local + 2, ny_local + 2, A_local);
   //   print_array(nx_local + 2, ny_local + 2, B_local);
   // }
 
+  MPI_Pcontrol(1, "Kernel");
   if (rank == 0) {
     /* Start timer. */
     polybench_prepare_instruments();
@@ -346,21 +350,24 @@ int main(int argc, char** argv) {
     polybench_timer_stop();
     polybench_timer_print();
   }
+  MPI_Pcontrol(-1, "Kernel");
 
   // if (rank == 0) {
   //   print_array(nx_local + 2, ny_local + 2, A_local);
   //   print_array(nx_local + 2, ny_local + 2, B_local);
   // }
 
+  MPI_Pcontrol(1, "Reassembly");
   /* TODO: Put submatrices back together */
-  // MPI_Alltoallw(A_local, recvcounts, recvdispls, recvtypes, A, sendcounts,
-  //               senddispls, blocktypes, comm_cart);
+  MPI_Alltoallw(A_local, recvcounts, recvdispls, recvtypes, A, sendcounts,
+                senddispls, blocktypes, comm_cart);
+  MPI_Pcontrol(-1, "Reassembly");
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
   // polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
-  if (rank == 0) printf("Norm of A: %f\n", frobenius_norm(n, n, A));
+  if (rank == 0) print_array(n, n, A);
 
   /* Be clean. */
   if (rank == 0) {
