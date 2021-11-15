@@ -204,7 +204,8 @@ int main(int argc, char** argv) {
   MPI_Type_commit(&column_vec);
 
   /* Segregate matrix and send to other ranks */
-  MPI_Pcontrol(1, "Set up MPI") int sendcounts[size];
+  MPI_Pcontrol(1, "Set up MPI");
+  int sendcounts[size];
   int senddispls[size];
   MPI_Datatype blocktypes[size];
   int recvcounts[size];
