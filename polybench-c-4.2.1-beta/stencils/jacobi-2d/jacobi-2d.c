@@ -241,7 +241,7 @@ int main(int argc, char** argv) {
     /* Initialize array(s). */
     init_array(n, A, B);
 
-    print_array(n, n, A);
+    // print_array(n, n, A);
 
     /* TODO: Define a data type for sending parts of the matrix back and forth
      */
@@ -368,7 +368,7 @@ int main(int argc, char** argv) {
      by the function call in argument. */
   // polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
-  if (rank == 0) print_array(n, n, A);
+  // if (rank == 0) print_array(n, n, A);
 
   /* Be clean. */
   if (rank == 0) {
