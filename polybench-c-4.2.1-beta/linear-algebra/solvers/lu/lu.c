@@ -27,6 +27,23 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
+//source: https://slaystudy.com/c-c-program-to-find-the-largest-divisor-of-a-number/
+int largest_divisor(int n) {
+
+	int i;
+	for (i = n - 1; i >= 1; --i) {
+		// if i divides n, then i is the largest divisor of n
+		// return i
+		if (n % i == 0)
+			return i;
+	}
+	// we reach this point if n is equal to 1
+	// there is no proper divisor of 1
+	// simply return 0
+	return 0;
+
+}
+
 /* Array initialization. */
 static void init_array(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
   int i, j;
@@ -225,6 +242,9 @@ int main(int argc, char** argv) {
   }
 
   unsigned distr_M, distr_N; //M and N of the cyclic distr., need to be computed yet
+
+  distr_M = largest_divisor(size);
+  distr_N = size / distr_M;
 
   /* Run kernel. */
   kernel_lu(n, POLYBENCH_ARRAY(A), rank, pi, distr_M, distr_N);
