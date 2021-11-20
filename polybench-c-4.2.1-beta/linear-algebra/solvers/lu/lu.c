@@ -102,8 +102,8 @@ static void swap(DATA_TYPE x, DATA_TYPE y) {
 */
 static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), 
                       unsigned p_id, unsigned *pi, unsigned distr_M, unsigned distr_N) {
-  DATA_TYPE s = p_id % _PB_N;
-  DATA_TYPE t = p_id / _PB_N;
+  unsigned s = p_id % distr_M;
+  unsigned t = p_id / distr_M;
   DATA_TYPE nr = (n + _PB_N - s - 1) / _PB_N;
   DATA_TYPE nc = (n + _PB_N - t - 1) / _PB_N;
   int i, j, k, r;
