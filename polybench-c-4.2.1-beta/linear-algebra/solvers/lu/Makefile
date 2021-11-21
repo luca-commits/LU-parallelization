@@ -1,6 +1,6 @@
 include ../../../config.mk
 
-EXTRA_FLAGS=
+EXTRA_FLAGS=-Wall
 
 
 CC=mpicc
