@@ -78,13 +78,23 @@ static void swap(DATA_TYPE x, DATA_TYPE y) {
   y = temp;
 }
 
+/* Helper functions:
+   Index mapping to processors
+*/
+static unsigned phi0(unsigned i, unsigned distr_M) { return i % distr_M; }
+static unsigned phi1(unsigned j, unsigned distr_N) { return j % distr_N; }
+static unsigned get_rank(unsigned s, unsigned t, unsigned distr_M) {
+  return s + distr_M * t;
+};
+
 /* Main computational kernel. The whole function will be timed,
-   including the call and return. 
+   including the call and return.
    pi: permutation vector (need to solve lse)
    distr_M, distr_N: rows and cols of the cyclic distribution
 */
-static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n), 
-                      unsigned p_id, unsigned *pi, unsigned distr_M, unsigned distr_N) {
+static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
+                      unsigned p_id, unsigned* pi, unsigned distr_M,
+                      unsigned distr_N) {
   DATA_TYPE s = p_id % _PB_N;
   DATA_TYPE t = p_id / _PB_N;
   DATA_TYPE nr = (n + _PB_N - s - 1) / _PB_N;
@@ -95,97 +105,94 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
   DATA_TYPE max;
 
   unsigned pi_k_temp, pi_r_temp;
-  unsigned A_row_k_temp[n/distr_N], A_row_r_temp[n/distr_N];
-  unsigned counter = 0; //used to see how many entries A_row_k_temp will have
+  unsigned A_row_k_temp[n / distr_N], A_row_r_temp[n / distr_N];
+  unsigned counter = 0;  // used to see how many entries A_row_k_temp will have
 
-  #pragma scop
-
+#pragma scop
 
   // find largest absolute value in column k
   DATA_TYPE* Max = malloc(MAX(_PB_N, 1) * sizeof(DATA_TYPE));
   DATA_TYPE* IMax = malloc(MAX(_PB_N, 1) * sizeof(long));
   for (k = 0; k < _PB_N; k++) {
-
-
-    /*
-    DATA_TYPE kr = (k + _PB_N - s - 1) / _PB_N;
-    DATA_TYPE kc = (k + _PB_N - t - 1) / _PB_N;
-    if (k % _PB_N == t) {
-      absmax = A[0][k];
-      for (i = kr; i < nr; i++) {
-        if (absmax < fabs(A[i][kc])) {
-          absmax = fabs(A[i][kc]);
-          r = i;
-        }
-      }
-      max = 0;
-      if (absmax > 0.0) {
-        max = A[r][kc]
-      }
-      for (j = 0; j < _PB_N; j++) {
-        // Probably wrong ...
-        MPI_Bcast(j + t * _PB_N, &max, Max, s * sizeof(DATA_TYPE),
-                  sizeof(DATA_TYPE));
-        MPI_Bcast(j + t * _PB_N, &r, IMax, s * sizeof(long), sizeof(long));
-      }
-    }
-  */
-    if (k%distr_M==s && r!=k){
-      
+    /* Superstep (4), (6) send for phi_0(k) == s */
+    if (phi0(k, distr_M) == s && r != k) {
       /* Store pi(k) in pi(r) on P(r%M,t) */
-      MPI_Send(&pi[k/distr_M], 1, MPI_DOUBLE, r%distr_M + t*distr_M, k, MPI_COMM_WORLD);
-      for(unsigned j = 0; j < n; ++j){ //waistful looping... will correct later
-        if(j%distr_N == t){
-          A_row_k_temp[counter] = A[k][j]; /*counter was set to 0 at the beginning of the function,
-                                             used to see what size the buffer will have (and doubles index here)
-                                            */
+      /* Send permutation vector element */
+      MPI_Send(&pi[k / distr_M], 1, MPI_DOUBLE,
+               get_rank(phi0(r, distr_M), t, distr_M), k, MPI_COMM_WORLD);
+      for (unsigned j = 0; j < n; ++j) {
+        if (phi1(j, distr_N) == t) {
+          A_row_k_temp[counter] =
+              A[k][j]; /*counter was set to 0 at the beginning of the function,
+                         used to see what size the buffer will have (and doubles
+                         index here)
+                        */
           counter++;
         }
       }
-      /*I'm not sure if reciever would get right right message without tag so I just added one */
-      MPI_Send(&A_row_k_temp, counter, MPI_DOUBLE, r%distr_M + t*distr_M, k + 1, MPI_COMM_WORLD); //Probably should use ISend here (or even use one sided communication)
+
+      /* Send elements of A */
+      MPI_Send(&A_row_k_temp, counter, MPI_DOUBLE,
+               get_rank(phi0(r, distr_M), t, distr_M), k + 1,
+               MPI_COMM_WORLD);  // Probably should use ISend here (or
+                                 // even use one sided communication)
     }
 
-    if(p_id == r%distr_M+t*distr_M){
-      MPI_Recv(&pi_k_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      MPI_Recv(&A_row_k_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    /* Superstep (4), (6) receive for phi_0(r) == s */
+    if (get_rank(phi0(r, distr_M), t, distr_M) == p_id) {
+      MPI_Recv(&pi_k_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
+               MPI_STATUS_IGNORE);
+      MPI_Recv(&A_row_k_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 1,
+               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
-    if (r%distr_M==s && r!=k){
-      unsigned i =0;
-      MPI_Send(&pi[r/distr_M], 1, MPI_DOUBLE, k%distr_M + t*distr_M, k + 2, MPI_COMM_WORLD);
-      for(unsigned j = 0; j < n; ++j){
-        if(j%distr_N == t){
-          A_row_r_temp[i] = A[r][j];//should be able to reuse counter (but need extra index variable i)
+    /* Superstep (4), (6) send for phi_0(r) == s */
+    if (phi0(r, distr_M) == s && r != k) {
+      unsigned i = 0;
+      MPI_Send(&pi[r / distr_M], 1, MPI_DOUBLE,
+               get_rank(phi0(k, distr_M), t, distr_M), k + 2, MPI_COMM_WORLD);
+      for (unsigned j = 0; j < n; ++j) {
+        if (phi1(j, distr_N) == t) {
+          A_row_r_temp[i] = A[r][j];  // should be able to reuse counter (but
+                                      // need extra index variable i)
+          ++i;
         }
       }
-      MPI_Send(&A_row_r_temp, counter, MPI_DOUBLE, r%distr_M + t*distr_M, k + 3, MPI_COMM_WORLD); 
+      MPI_Send(&A_row_r_temp, counter, MPI_DOUBLE,
+               get_rank(phi0(r, distr_M), t, distr_M), k + 3, MPI_COMM_WORLD);
     }
 
-    if(p_id == k%distr_M + t*distr_M){
-      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k + 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      MPI_Recv(&A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    /* Superstep (4), (6) receive for phi_0(k) == */
+    if (p_id == get_rank(phi0(k, distr_M), t, distr_M)) {
+      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k + 2, MPI_COMM_WORLD,
+               MPI_STATUS_IGNORE);
+      MPI_Recv(&A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 3,
+               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
-    if(k%distr_M == s){
+    /* Superstep (7) */
+    if (phi0(k, distr_M) == s) {
       pi[k] = pi_r_temp;
-      unsigned i = 0;
-      for(unsigned j = t; j < n; j += distr_N){
-        A[k][j] = A_row_r_temp[i];
-        ++i;
+      unsigned idx_counter = 0;
+      for (unsigned j = 0; j < n; ++j) {
+        if (phi1(j, distr_N) == t) {
+          A[k][j] = A_row_r_temp[idx_counter];
+          ++idx_counter;
+        }
       }
     }
 
-    if(r%distr_M == s){
+    if (phi0(r, distr_M) == s) {
       pi[r] = pi_k_temp;
-      unsigned i = 0;
-      for(unsigned j = t; j < n; j += distr_N){
-        A[r][j] = A_row_k_temp[i];
-        ++i;
+      unsigned idx_counter = 0;
+      for (unsigned j = 0; j < n; ++j) {
+        if (phi1(j, distr_N) == t) {
+          A[r][j] = A_row_k_temp[idx_counter];
+          ++idx_counter;
+        }
       }
     }
 
-    
     // memory-efficient sequential LU decomposition
     for (i = k + 1; i < _PB_N; i++) {
       A[i][k] /= A[k][k];
@@ -195,7 +202,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
         A[i][j] -= A[i][k] * A[k][j];
       }
     }
-  #pragma endscop
+#pragma endscop
   }
 }
 
@@ -211,7 +218,6 @@ int main(int argc, char** argv) {
 
   /* Variable declaration/allocation. */
   POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
-  
 
   /* Initialize array(s). */
   init_array(n, POLYBENCH_ARRAY(A));
@@ -219,12 +225,13 @@ int main(int argc, char** argv) {
   /* Start timer. */
   polybench_start_instruments;
 
-  unsigned *pi = malloc(sizeof(unsigned) * n);
-  for(unsigned i = 0; i < n; ++i){
+  unsigned* pi = malloc(sizeof(unsigned) * n);
+  for (unsigned i = 0; i < n; ++i) {
     pi[i] = i;
   }
 
-  unsigned distr_M, distr_N; //M and N of the cyclic distr., need to be computed yet
+  unsigned distr_M,
+      distr_N;  // M and N of the cyclic distr., need to be computed yet
 
   /* Run kernel. */
   kernel_lu(n, POLYBENCH_ARRAY(A), rank, pi, distr_M, distr_N);
