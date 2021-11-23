@@ -1,6 +1,6 @@
 include ../../../config.mk
 
-EXTRA_FLAGS=-Wall
+EXTRA_FLAGS=-Wall -DMINI_DATASET
 
 
 CC=mpicc
