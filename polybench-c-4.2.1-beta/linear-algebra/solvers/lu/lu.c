@@ -238,7 +238,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     if (k % distr_M == s) {
       pi[k] = pi_r_temp;
       i = 0;
-      for (unsigned j = t; j < n; j += distr_N) {
+      for (j = t; j < n; j += distr_N) {
         A[k][j] = A_row_r_temp[i];
         ++i;
       }
@@ -356,7 +356,8 @@ int main(int argc, char** argv) {
   polybench_start_instruments;
 
   unsigned* pi = malloc(sizeof(unsigned) * n);
-  for (unsigned i = 0; i < n; ++i) {
+  unsigned i;
+  for (i = 0; i < n; ++i) {
     pi[i] = i;
   }
 
