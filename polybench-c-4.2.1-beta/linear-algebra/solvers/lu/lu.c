@@ -190,8 +190,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       /* Store pi(k) in pi(r) on P(r%M,t) */
       MPI_Send(&pi[k / distr_M], 1, MPI_DOUBLE, r % distr_M + t * distr_M, k,
                MPI_COMM_WORLD);
-      for (unsigned j = 0; j < n;
-           ++j) {  // waistful looping... will correct later
+      for (j = 0; j < n; ++j) {  // waistful looping... will correct later
         if (j % distr_N == t) {
           A_row_k_temp[counter] =
               A[k][j]; /*counter was set to 0 at the beginning of the function,
@@ -216,10 +215,10 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     }
 
     if (r % distr_M == s && r != k) {
-      unsigned i = 0;
+      i = 0;
       MPI_Send(&pi[r / distr_M], 1, MPI_DOUBLE, k % distr_M + t * distr_M,
                k + 2, MPI_COMM_WORLD);
-      for (unsigned j = 0; j < n; ++j) {
+      for (j = 0; j < n; ++j) {
         if (j % distr_N == t) {
           A_row_r_temp[i] = A[r][j];  // should be able to reuse counter (but
                                       // need extra index variable i)
@@ -238,7 +237,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
 
     if (k % distr_M == s) {
       pi[k] = pi_r_temp;
-      unsigned i = 0;
+      i = 0;
       for (unsigned j = t; j < n; j += distr_N) {
         A[k][j] = A_row_r_temp[i];
         ++i;
@@ -247,8 +246,8 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
 
     if (r % distr_M == s) {
       pi[r] = pi_k_temp;
-      unsigned i = 0;
-      for (unsigned j = t; j < n; j += distr_N) {
+      i = 0;
+      for (j = t; j < n; j += distr_N) {
         A[r][j] = A_row_k_temp[i];
         ++i;
       }
@@ -261,7 +260,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
     if (k % distr_M == s && k % distr_N == t) {
-      for (unsigned i = 0; i < distr_M; ++i) {
+      for (i = 0; i < distr_M; ++i) {
         MPI_Send(&A[k][k], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), k,
                  MPI_COMM_WORLD);
       }
@@ -270,7 +269,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     unsigned a_kk;
 
     if (phi1(k, distr_N) == t) {
-      for (unsigned i = 0; i < distr_N; ++i) {
+      for (i = 0; i < distr_N; ++i) {
         if (p_id == P(i, t, distr_M, distr_N)) {
           MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
                    MPI_STATUS_IGNORE);
@@ -281,7 +280,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     // superstep 9
 
     if (phi1(k, distr_N) == t) {
-      for (unsigned i = k; i < _PB_N; ++i) {
+      for (i = k; i < _PB_N; ++i) {
         if (phi0(i, distr_M) == s) {
           A[i][k] /= a_kk;
         }
@@ -290,9 +289,9 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
 
     // superstep 10
     if (phi1(k, distr_N) == t) {
-      for (unsigned i = k; i < _PB_N; ++i) {
+      for (i = k; i < _PB_N; ++i) {
         if (phi0(i, distr_N) == s) {
-          for (unsigned j = 0; j < distr_N; ++j) {
+          for (j = 0; j < distr_N; ++j) {
             MPI_Send(&A[i][k], 1, MPI_DOUBLE, P(s, j, distr_M, distr_N), k,
                      MPI_COMM_WORLD);
           }
@@ -307,9 +306,9 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     }
 
     if (phi0(k, distr_M) == s) {
-      for (unsigned j = k; j < _PB_N; ++j) {
+      for (j = k; j < _PB_N; ++j) {
         if (phi1(j, distr_N) == t) {
-          for (unsigned i = 0; i < distr_M; ++i) {
+          for (i = 0; i < distr_M; ++i) {
             MPI_Send(&A[k][j], 1, MPI_DOUBLE, P(j, t, distr_M, distr_N), k,
                      MPI_COMM_WORLD);
           }
@@ -324,9 +323,9 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     }
 
     // superstep 11
-    for (unsigned i = k; i < _PB_N; ++i) {
+    for (i = k; i < _PB_N; ++i) {
       if (phi0(i, distr_M) == s) {
-        for (unsigned j = 0; j < _PB_N; ++j) {
+        for (j = 0; j < _PB_N; ++j) {
           if (phi1(j, distr_N) == t) {
             A[i][j] -= a_ik * a_kj;
           }
