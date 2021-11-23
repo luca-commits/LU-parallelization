@@ -285,7 +285,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       MPI_Recv(&a_kj, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
- 
+    //superstep 11
     for(unsigned i = k; i < _PB_N; ++i){
       if (phi0(i, distr_M) == s){
         for(unsigned j = 0; j < _PB_N; ++j){
