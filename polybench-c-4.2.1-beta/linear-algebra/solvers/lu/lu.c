@@ -95,13 +95,6 @@ static void print_array(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n))
   POLYBENCH_DUMP_FINISH;
 }
 
-/* Swap functions */
-static void swap(DATA_TYPE x, DATA_TYPE y) {
-  DATA_TYPE temp = x;
-  x = y;
-  y = temp;
-}
-
 /* Main computational kernel. The whole function will be timed,
    including the call and return.
    pi: permutation vector (need to solve lse)
@@ -113,11 +106,8 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
   unsigned s = p_id % distr_M;
   unsigned t = p_id / distr_M;
   DATA_TYPE nr = (n + _PB_N - s - 1) / _PB_N;
-  DATA_TYPE nc = (n + _PB_N - t - 1) / _PB_N;
   int i, j, k, r;
-  int p[_PB_N];
   DATA_TYPE absmax;
-  DATA_TYPE max;
   int dummy;
   DATA_TYPE pivot;
 
@@ -125,215 +115,248 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
   unsigned A_row_k_temp[n / distr_N], A_row_r_temp[n / distr_N];
   unsigned counter = 0;  // used to see how many entries A_row_k_temp will have
 
-  DATA_TYPE k0 = 0;
-  // define BLOCK 16?
-  DATA_TYPE b = MIN(16, n);
-
-#pragma scop
-
   // find largest absolute value in column k
-  DATA_TYPE* Max = malloc(MAX(_PB_N, 1) * sizeof(DATA_TYPE));
-  DATA_TYPE* IMax = malloc(MAX(_PB_N, 1) * sizeof(long));
+  DATA_TYPE* Max = (DATA_TYPE*)malloc(MAX(distr_M, 1) * sizeof(DATA_TYPE));
+  int* IMax = (int*)malloc(MAX(distr_M, 1) * sizeof(int));
 
   for (k = 0; k < _PB_N; k++) {
     int kr = (k + distr_M - s - 1) / distr_M;
     int kc = (k + distr_N - t - 1) / distr_N;
-    int k0c = (k0 + distr_N - t - 1) / distr_N;
-    int k0cb = (k0 + b + distr_N - t - 1) / distr_N;
-    int k0rb = (k0 + b + distr_M - s - 1) / distr_M;
 
     if (phi1(k, distr_N) == t) {
       absmax = A[0][k];
+      int imax;
       for (i = kr; i < nr; i++) {
         if (absmax < fabs(A[i][kc])) {
           absmax = fabs(A[i][kc]);
-          IMax[k] = i;
+          imax = i;
         }
       }
-      // max = 0;
+
+      double max = 0;
       if (absmax > 0) {
-        Max[k] = A[r][kc];
+        max = A[imax][kc];
       }
 
       // TODO change second argument -> count
-      MPI_Bcast(Max, sizeof(Max), MPI_DOUBLE, 0, MPI_COMM_WORLD);
-      MPI_Bcast(IMax, sizeof(IMax), MPI_DOUBLE, 0, MPI_COMM_WORLD);
-    }
-    // superstep 2 & 3
-    if (phi1(k, distr_N) == t) {
-      absmax = 0;
-      dummy = 0;
-      // _PB_N mit M ersetzen?
-      for (i = 0; i < distr_M; i++) {
-        if (fabs(Max[i]) > absmax) {
-          absmax = fabs(Max[i]);
-          dummy = i;
-        }
-      }
-      // define EPS 1.0e-15?
-      if (absmax > 1.03e-15) {
-        int imax = IMax[dummy];
-        // _PB_N mit M ersetzen?
-        r = imax * distr_M + dummy;  // global index
-        pivot = Max[dummy];
-        for (j = kr; j < nr; j++) {
-          A[j][kc] /= pivot;
-        }
-        if (s == dummy) {
-          A[dummy][kc] = pivot;
-        }
-      } else {
-        // MPI_Abort(MPI_COMM_WORLD, int singularmatrix);
-      }
-    }
-    if (k % distr_M == s && r != k) {
-      /* Store pi(k) in pi(r) on P(r%M,t) */
-      MPI_Send(&pi[k / distr_M], 1, MPI_DOUBLE, r % distr_M + t * distr_M, k,
-               MPI_COMM_WORLD);
-      for (j = 0; j < n; ++j) {  // waistful looping... will correct later
-        if (j % distr_N == t) {
-          A_row_k_temp[counter] =
-              A[k][j]; /*counter was set to 0 at the beginning of the function,
-                         used to see what size the buffer will have (and doubles
-                         index here)
-                        */
-          counter++;
-        }
-      }
-      /*I'm not sure if reciever would get right write message without tag so I
-       * just added one */
-      MPI_Send(&A_row_k_temp, counter, MPI_DOUBLE, r % distr_M + t * distr_M,
-               k + 1, MPI_COMM_WORLD);  // Probably should use ISend here (or
-                                        // even use one sided communication)
-    }
 
-    if (p_id == r % distr_M + t * distr_M) {
-      MPI_Recv(&pi_k_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
-               MPI_STATUS_IGNORE);
-      MPI_Recv(&A_row_k_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 1,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }
+      MPI_Request requests[4 * distr_M];
 
-    if (r % distr_M == s && r != k) {
-      i = 0;
-      MPI_Send(&pi[r / distr_M], 1, MPI_DOUBLE, k % distr_M + t * distr_M,
-               k + 2, MPI_COMM_WORLD);
-      for (j = 0; j < n; ++j) {
-        if (j % distr_N == t) {
-          A_row_r_temp[i] = A[r][j];  // should be able to reuse counter (but
-                                      // need extra index variable i)
-        }
-      }
-      MPI_Send(&A_row_r_temp, counter, MPI_DOUBLE, r % distr_M + t * distr_M,
-               k + 3, MPI_COMM_WORLD);
-    }
-
-    if (p_id == k % distr_M + t * distr_M) {
-      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k + 2, MPI_COMM_WORLD,
-               MPI_STATUS_IGNORE);
-      MPI_Recv(&A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 3,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }
-
-    if (k % distr_M == s) {
-      pi[k] = pi_r_temp;
-      i = 0;
-      for (j = t; j < n; j += distr_N) {
-        A[k][j] = A_row_r_temp[i];
-        ++i;
-      }
-    }
-
-    if (r % distr_M == s) {
-      pi[r] = pi_k_temp;
-      i = 0;
-      for (j = t; j < n; j += distr_N) {
-        A[r][j] = A_row_k_temp[i];
-        ++i;
-      }
-    }
-
-    // algo 2.4 begin
-
-    // superstep 8
-    unsigned size;
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-
-    if (k % distr_M == s && k % distr_N == t) {
       for (i = 0; i < distr_M; ++i) {
-        MPI_Send(&A[k][k], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), k,
-                 MPI_COMM_WORLD);
+        MPI_Isend(&max, 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
+                  MPI_COMM_WORLD, &requests[2 * i]);
+        MPI_Isend(&imax, 1, MPI_INT, P(i, t, distr_M, distr_N), 0,
+                  MPI_COMM_WORLD, &requests[2 * i + 1]);
       }
-    }
 
-    unsigned a_kk;
-
-    if (phi1(k, distr_N) == t) {
-      for (i = 0; i < distr_N; ++i) {
-        if (p_id == P(i, t, distr_M, distr_N)) {
-          MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
-                   MPI_STATUS_IGNORE);
-        }
+      for (i = 0; i < distr_M; ++i) {
+        MPI_Irecv(&Max[i], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
+                  MPI_COMM_WORLD, &requests[2 * distr_M + 2 * i]);
+        MPI_Irecv(&IMax[i], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
+                  MPI_COMM_WORLD, &requests[2 * distr_M + 2 * i + 1]);
       }
+
+      MPI_Waitall(4 * distr_M, requests, MPI_STATUSES_IGNORE);
     }
 
-    // superstep 9
+    printf("finished superstep 1\n");
 
-    if (phi1(k, distr_N) == t) {
-      for (i = k; i < _PB_N; ++i) {
-        if (phi0(i, distr_M) == s) {
-          A[i][k] /= a_kk;
-        }
-      }
-    }
+    // // superstep 2 & 3
+    // if (phi1(k, distr_N) == t) {
+    //   absmax = 0;
+    //   dummy = 0;
+    //   // _PB_N mit M ersetzen?
+    //   for (i = 0; i < distr_M; i++) {
+    //     if (fabs(Max[i]) > absmax) {
+    //       absmax = fabs(Max[i]);
+    //       dummy = i;
+    //     }
+    //   }
+    //   // define EPS 1.0e-15?
+    //   if (absmax > 1.03e-15) {
+    //     int imax = IMax[dummy];
+    //     // _PB_N mit M ersetzen?
+    //     r = imax * distr_M + dummy;  // global index
+    //     pivot = Max[dummy];
+    //     for (j = kr; j < nr; j++) {
+    //       A[j][kc] /= pivot;
+    //     }
+    //     if (s == dummy) {
+    //       A[dummy][kc] = pivot;
+    //     }
+    //   } else {
+    //     // MPI_Abort(MPI_COMM_WORLD, int singularmatrix);
+    //   }
 
-    // superstep 10
-    if (phi1(k, distr_N) == t) {
-      for (i = k; i < _PB_N; ++i) {
-        if (phi0(i, distr_N) == s) {
-          for (j = 0; j < distr_N; ++j) {
-            MPI_Send(&A[i][k], 1, MPI_DOUBLE, P(s, j, distr_M, distr_N), k,
-                     MPI_COMM_WORLD);
-          }
-        }
-      }
-    }
+    //   /* Superstep (3) */
+    //   MPI_Request requests[distr_N - 1];
 
-    unsigned a_ik;
-    if (phi1(k, distr_N) != t) {
-      MPI_Recv(&a_ik, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
-               MPI_STATUS_IGNORE);
-    }
+    //   for (i = 0; i < distr_N; ++i) {
+    //     if (t != i)
+    //       MPI_Isend(&r, 1, MPI_DOUBLE, P(s, i, distr_M, distr_N), 0,
+    //                 MPI_COMM_WORLD, &requests[i]);
+    //   }
 
-    if (phi0(k, distr_M) == s) {
-      for (j = k; j < _PB_N; ++j) {
-        if (phi1(j, distr_N) == t) {
-          for (i = 0; i < distr_M; ++i) {
-            MPI_Send(&A[k][j], 1, MPI_DOUBLE, P(j, t, distr_M, distr_N), k,
-                     MPI_COMM_WORLD);
-          }
-        }
-      }
-    }
+    //   MPI_Waitall(distr_N - 1, requests, MPI_STATUSES_IGNORE);
+    // }
 
-    unsigned a_kj;
-    if (phi0(k, distr_M) != s) {
-      MPI_Recv(&a_kj, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
-               MPI_STATUS_IGNORE);
-    }
+    // if (s == phi0(k, distr_N)) {
+    //   MPI_Recv(&r, 1, MPI_DOUBLE, P(s, phi1(k, distr_N), distr_M, distr_N),
+    //   0,
+    //            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    // }
 
-    // superstep 11
-    for (i = k; i < _PB_N; ++i) {
-      if (phi0(i, distr_M) == s) {
-        for (j = 0; j < _PB_N; ++j) {
-          if (phi1(j, distr_N) == t) {
-            A[i][j] -= a_ik * a_kj;
-          }
-        }
-      }
-    }
+    // printf("%d\n", r);
+
+    // /* Superstep (4) & ... */
+    // if (k % distr_M == s && r != k) {
+    //   /* Store pi(k) in pi(r) on P(r%M,t) */
+    //   MPI_Send(&pi[k / distr_M], 1, MPI_DOUBLE, r % distr_M + t * distr_M, k,
+    //            MPI_COMM_WORLD);
+    //   for (j = 0; j < n; ++j) {  // waistful looping... will correct later
+    //     if (j % distr_N == t) {
+    //       A_row_k_temp[counter] =
+    //           A[k][j]; /*counter was set to 0 at the beginning of the
+    //                      function, used to see what size the buffer will have
+    //                      (and doubles index here)
+    //                     */
+    //       counter++;
+    //     }
+    //   }
+    //   /*I'm not sure if reciever would get right write message without tag so
+    //    * I just added one */
+    //   MPI_Send(&A_row_k_temp, counter, MPI_DOUBLE, r % distr_M + t * distr_M,
+    //            k + 1, MPI_COMM_WORLD);  // Probably should use ISend here (or
+    //                                     // even use one sided communication)
+    // }
+
+    // if (p_id == r % distr_M + t * distr_M) {
+    //   MPI_Recv(&pi_k_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
+    //            MPI_STATUS_IGNORE);
+    //   MPI_Recv(&A_row_k_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 1,
+    //            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    // }
+
+    // if (r % distr_M == s && r != k) {
+    //   i = 0;
+    //   MPI_Send(&pi[r / distr_M], 1, MPI_DOUBLE, k % distr_M + t * distr_M,
+    //            k + 2, MPI_COMM_WORLD);
+    //   for (j = 0; j < n; ++j) {
+    //     if (j % distr_N == t) {
+    //       A_row_r_temp[i] = A[r][j];  // should be able to reuse counter (but
+    //                                   // need extra index variable i)
+    //     }
+    //   }
+    //   MPI_Send(&A_row_r_temp, counter, MPI_DOUBLE, r % distr_M + t * distr_M,
+    //            k + 3, MPI_COMM_WORLD);
+    // }
+
+    // if (p_id == k % distr_M + t * distr_M) {
+    //   MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k + 2,
+    //   MPI_COMM_WORLD,
+    //            MPI_STATUS_IGNORE);
+    //   MPI_Recv(&A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 3,
+    //            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    // }
+
+    // if (k % distr_M == s) {
+    //   pi[k] = pi_r_temp;
+    //   i = 0;
+    //   for (j = t; j < n; j += distr_N) {
+    //     A[k][j] = A_row_r_temp[i];
+    //     ++i;
+    //   }
+    // }
+
+    // if (r % distr_M == s) {
+    //   pi[r] = pi_k_temp;
+    //   i = 0;
+    //   for (j = t; j < n; j += distr_N) {
+    //     A[r][j] = A_row_k_temp[i];
+    //     ++i;
+    //   }
+    // }
+
+    // // algo 2.4 begin
+
+    // // superstep 8
+    // int size;
+    // MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    // if (k % distr_M == s && k % distr_N == t) {
+    //   for (i = 0; i < distr_M; ++i) {
+    //     MPI_Send(&A[k][k], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), k,
+    //              MPI_COMM_WORLD);
+    //   }
+    // }
+
+    // unsigned a_kk;
+
+    // if (phi1(k, distr_N) == t) {
+    //   for (i = 0; i < distr_N; ++i) {
+    //     if (p_id == P(i, t, distr_M, distr_N)) {
+    //       MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
+    //                MPI_STATUS_IGNORE);
+    //     }
+    //   }
+    // }
+
+    // // superstep 9
+
+    // if (phi1(k, distr_N) == t) {
+    //   for (i = k; i < _PB_N; ++i) {
+    //     if (phi0(i, distr_M) == s) {
+    //       A[i][k] /= a_kk;
+    //     }
+    //   }
+    // }
+
+    // // superstep 10
+    // if (phi1(k, distr_N) == t) {
+    //   for (i = k; i < _PB_N; ++i) {
+    //     if (phi0(i, distr_N) == s) {
+    //       for (j = 0; j < distr_N; ++j) {
+    //         MPI_Send(&A[i][k], 1, MPI_DOUBLE, P(s, j, distr_M, distr_N), k,
+    //                  MPI_COMM_WORLD);
+    //       }
+    //     }
+    //   }
+    // }
+
+    // unsigned a_ik;
+    // if (phi1(k, distr_N) != t) {
+    //   MPI_Recv(&a_ik, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
+    //            MPI_STATUS_IGNORE);
+    // }
+
+    // if (phi0(k, distr_M) == s) {
+    //   for (j = k; j < _PB_N; ++j) {
+    //     if (phi1(j, distr_N) == t) {
+    //       for (i = 0; i < distr_M; ++i) {
+    //         MPI_Send(&A[k][j], 1, MPI_DOUBLE, P(j, t, distr_M, distr_N), k,
+    //                  MPI_COMM_WORLD);
+    //       }
+    //     }
+    //   }
+    // }
+
+    // unsigned a_kj;
+    // if (phi0(k, distr_M) != s) {
+    //   MPI_Recv(&a_kj, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
+    //            MPI_STATUS_IGNORE);
+    // }
+
+    // // superstep 11
+    // for (i = k; i < _PB_N; ++i) {
+    //   if (phi0(i, distr_M) == s) {
+    //     for (j = 0; j < _PB_N; ++j) {
+    //       if (phi1(j, distr_N) == t) {
+    //         A[i][j] -= a_ik * a_kj;
+    //       }
+    //     }
+    //   }
+    // }
   }
-#pragma endscop
 }
 
 int main(int argc, char** argv) {
@@ -380,6 +403,8 @@ int main(int argc, char** argv) {
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
+
+  MPI_Finalize();
 
   return 0;
 }
