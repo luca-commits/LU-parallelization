@@ -16,7 +16,7 @@
 #include <unistd.h>
 
 /* Include MPI header. */
-#include <mpi.h>
+#include <mpi.h> 
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -27,6 +27,21 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
+
+inline unsigned phi0(unsigned k, unsigned distr_M){
+  return k%distr_M;
+}
+
+inline unsigned phi1(unsigned k, unsigned distr_N){
+  return k%distr_N;
+}
+
+inline unsigned P(unsigned s, unsigned t, unsigned distr_M, unsigned distr_N){
+  return s % distr_M + t * distr_M;
+}
+
+
+//could be a macro for efficiency
 //source: https://slaystudy.com/c-c-program-to-find-the-largest-divisor-of-a-number/
 int largest_divisor(int n) {
 
@@ -159,7 +174,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
           counter++;
         }
       }
-      /*I'm not sure if reciever would get right right message without tag so I just added one */
+      /*I'm not sure if reciever would get right write message without tag so I just added one */
       MPI_Send(&A_row_k_temp, counter, MPI_DOUBLE, r%distr_M + t*distr_M, k + 1, MPI_COMM_WORLD); //Probably should use ISend here (or even use one sided communication)
     }
 
@@ -202,18 +217,86 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       }
     }
 
-    
-    // memory-efficient sequential LU decomposition
-    for (i = k + 1; i < _PB_N; i++) {
-      A[i][k] /= A[k][k];
-    }
-    for (i = k + 1; i < _PB_N; i++) {
-      for (j = k + 1; j < _PB_N; j++) {
-        A[i][j] -= A[i][k] * A[k][j];
+
+    //algo 2.4 begin
+
+    //superstep 8
+    unsigned size;
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+
+    if (k%distr_M == s && k%distr_N == t){
+      for(unsigned i = 0; i <  distr_M; ++i){
+          MPI_Send(&A[k][k], 1, MPI_DOUBLE, P(i, t,distr_M, distr_N), k, MPI_COMM_WORLD);
       }
     }
-  #pragma endscop
+    
+    unsigned a_kk;
+
+    if(phi1(k, distr_N) == t){
+      for(unsigned i = 0; i < distr_N; ++i){
+        if(p_id == P(i, t, distr_M, distr_N)){
+          MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k,
+                   MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        }
+      }
+    }
+
+    //superstep 9
+
+    if(phi1(k, distr_N) == t){
+      for(unsigned i = k; i < _PB_N; ++i){
+        if(phi0(i, distr_M) == s){
+          A[i][k] /= a_kk;
+        }
+      }
+    }
+
+
+    //superstep 10
+    if (phi1(k, distr_N) == t){
+      for(unsigned i = k; i < _PB_N; ++i){
+        if (phi0(i, distr_N) == s){
+          for(unsigned j = 0; j < distr_N; ++j){
+            MPI_Send(&A[i][k], 1, MPI_DOUBLE, P(s, j, distr_M, distr_N), k, MPI_COMM_WORLD);
+          }
+        }
+      }
+    }
+
+    unsigned a_ik;
+    if(phi1(k, distr_N) != t){
+      MPI_Recv(&a_ik, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+
+    if(phi0(k, distr_M) == s){
+      for(unsigned j = k; j < _PB_N; ++j){
+        if(phi1(j, distr_N) == t){
+          for(unsigned i = 0; i < distr_M; ++i){
+            MPI_Send(&A[k][j], 1, MPI_DOUBLE, 
+                     P(j, t, distr_M, distr_N), k, MPI_COMM_WORLD);
+          }
+        }
+      }
+    }
+  
+    unsigned a_kj;
+    if(phi0(k, distr_M) != s){
+      MPI_Recv(&a_kj, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    }
+
+ 
+    for(unsigned i = k; i < _PB_N; ++i){
+      if (phi0(i, distr_M) == s){
+        for(unsigned j = 0; j < _PB_N; ++j){
+          if(phi1(j, distr_N) == t){
+            A[i][j] -= a_ik * a_kj;
+          }
+        }
+      }
+    }
   }
+  #pragma endscop
 }
 
 int main(int argc, char** argv) {
