@@ -27,6 +27,8 @@
 #define MAX(a, b) ((a) > (b) ? (a) : (b))
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
+#define EPS 1.0e-15
+
 inline unsigned phi0(unsigned i, unsigned distr_M) { return i % distr_M; }
 
 inline unsigned phi1(unsigned j, unsigned distr_N) { return j % distr_N; }
@@ -108,8 +110,6 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
   unsigned nr = (n + distr_M - s - 1) / distr_M;
   int i, j, k, r;
   DATA_TYPE absmax;
-  int dummy;
-  DATA_TYPE pivot;
 
   unsigned pi_k_temp, pi_r_temp;
   unsigned A_row_k_temp[n / distr_N], A_row_r_temp[n / distr_N];
@@ -120,27 +120,23 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
   int* IMax = (int*)malloc(MAX(distr_M, 1) * sizeof(int));
 
   for (k = 0; k < n; k++) {
-    int kr = (k + distr_M - s - 1) / distr_M;
-    int kc = (k + distr_N - t - 1) / distr_N;
-
     if (phi1(k, distr_N) == t) {
       absmax = A[0][k];
-      int imax = 0;
+      int rs = 0;
 
       // printf("%d\n", kr);
       for (i = k; i < n; i++) {
-        if (phi0(i, distr_N) == s && phi1(kc, distr_M) == t &&
-            absmax < fabs(A[i][kc])) {
-          absmax = fabs(A[i][kc]);
+        if (phi0(i, distr_N) == s && absmax < fabs(A[i][k])) {
+          absmax = fabs(A[i][k]);
 
-          imax = i;
+          rs = i;
         }
       }
 
       double max = 0;
-      if (absmax > 0) {
-        printf("%d %d\n", imax, kc);
-        max = A[imax][kc];
+      if (absmax > EPS) {
+        printf("%d %d\n", rs, k);
+        max = A[rs][k];
       }
       printf("hello\n");
 
@@ -151,8 +147,8 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       for (i = 0; i < distr_M; ++i) {
         MPI_Isend(&max, 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
                   MPI_COMM_WORLD, &requests[2 * i]);
-        MPI_Isend(&imax, 1, MPI_INT, P(i, t, distr_M, distr_N), 0,
-                  MPI_COMM_WORLD, &requests[2 * i + 1]);
+        MPI_Isend(&rs, 1, MPI_INT, P(i, t, distr_M, distr_N), 0, MPI_COMM_WORLD,
+                  &requests[2 * i + 1]);
       }
 
       for (i = 0; i < distr_M; ++i) {
@@ -171,42 +167,39 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     if (phi1(k, distr_N) == t) {
       absmax = 0;
       unsigned smax = 0;
-      // n mit M ersetzen?
+
       for (i = 0; i < distr_M; i++) {
         if (fabs(Max[i]) > absmax) {
           absmax = fabs(Max[i]);
           smax = i;
         }
       }
-      // define EPS 1.0e-15?
-      if (absmax > 1.03e-15) {
+
+      if (absmax > EPS) {
         int imax = IMax[smax];
-        // n mit M ersetzen?
         r = imax * distr_M + smax;  // global index
-        pivot = Max[smax];
-        for (j = kr; j < nr; j++) {
-          A[j][kc] /= pivot;
-        }
-        if (s == smax) {
-          A[smax][kc] = pivot;
-        }
       } else {
         // MPI_Abort(MPI_COMM_WORLD, int singularmatrix);
       }
 
       /* Superstep (3) */
-      MPI_Request requests[distr_N - 1];
+      MPI_Request requests[distr_N];
 
       for (i = 0; i < distr_N; ++i) {
-        if (t != i)
+        if (t != i) {
           MPI_Isend(&r, 1, MPI_DOUBLE, P(s, i, distr_M, distr_N), 0,
                     MPI_COMM_WORLD, &requests[i]);
+          printf("Send to rank %d\n", P(s, i, distr_M, distr_N));
+        } else
+          requests[i] = MPI_REQUEST_NULL;
       }
 
-      MPI_Waitall(distr_N - 1, requests, MPI_STATUSES_IGNORE);
+      MPI_Waitall(distr_N, requests, MPI_STATUSES_IGNORE);
     }
 
-    if (s == phi0(k, distr_N)) {
+    if (s == phi0(k, distr_M)) {
+      printf("Rank %d waiting for receive from %d\n", P(s, t, distr_M, distr_N),
+             P(s, phi1(k, distr_N), distr_M, distr_N));
       MPI_Recv(&r, 1, MPI_DOUBLE, P(s, phi1(k, distr_N), distr_M, distr_N), 0,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
