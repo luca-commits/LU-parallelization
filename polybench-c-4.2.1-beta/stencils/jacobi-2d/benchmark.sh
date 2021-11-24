@@ -18,7 +18,7 @@ do
   do
     mkdir $ranks
     cd $ranks
-    bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output.txt" mpirun -n $ranks ../../../lu
+    bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output.txt" mpirun -n $ranks ../../../jacobi-2d
     cd ..
   done
 done
