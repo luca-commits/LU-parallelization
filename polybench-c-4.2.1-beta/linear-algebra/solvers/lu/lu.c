@@ -55,28 +55,36 @@ int largest_divisor(int n) {
 
 /* Array initialization. */
 static void init_array(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
+  // int i, j;
+
+  // for (i = 0; i < n; i++) {
+  //   for (j = 0; j <= i; j++) A[i][j] = (DATA_TYPE)(-j % n) / n + 1;
+  //   for (j = i + 1; j < n; j++) {
+  //     A[i][j] = 0;
+  //   }
+  //   A[i][i] = 1;
+  // }
+
+  // /* Make the matrix positive semi-definite. */
+  // /* not necessary for LU, but using same code as cholesky */
+  // int r, s, t;
+  // POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, N, N, n, n);
+  // for (r = 0; r < n; ++r)
+  //   for (s = 0; s < n; ++s) (POLYBENCH_ARRAY(B))[r][s] = 0;
+  // for (t = 0; t < n; ++t)
+  //   for (r = 0; r < n; ++r)
+  //     for (s = 0; s < n; ++s) (POLYBENCH_ARRAY(B))[r][s] += A[r][t] *
+  //     A[s][t];
+  // for (r = 0; r < n; ++r)
+  //   for (s = 0; s < n; ++s) A[r][s] = (POLYBENCH_ARRAY(B))[r][s];
+  // POLYBENCH_FREE_ARRAY(B);
+
   int i, j;
 
-  for (i = 0; i < n; i++) {
-    for (j = 0; j <= i; j++) A[i][j] = (DATA_TYPE)(-j % n) / n + 1;
-    for (j = i + 1; j < n; j++) {
-      A[i][j] = 0;
+  for (i = 0; i < n; i++)
+    for (j = 0; j < n; j++) {
+      A[i][j] = ((DATA_TYPE)i * (j + 2) + 2) / n;
     }
-    A[i][i] = 1;
-  }
-
-  /* Make the matrix positive semi-definite. */
-  /* not necessary for LU, but using same code as cholesky */
-  int r, s, t;
-  POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, N, N, n, n);
-  for (r = 0; r < n; ++r)
-    for (s = 0; s < n; ++s) (POLYBENCH_ARRAY(B))[r][s] = 0;
-  for (t = 0; t < n; ++t)
-    for (r = 0; r < n; ++r)
-      for (s = 0; s < n; ++s) (POLYBENCH_ARRAY(B))[r][s] += A[r][t] * A[s][t];
-  for (r = 0; r < n; ++r)
-    for (s = 0; s < n; ++s) A[r][s] = (POLYBENCH_ARRAY(B))[r][s];
-  POLYBENCH_FREE_ARRAY(B);
 }
 
 /* DCE code. Must scan the entire live-out data.
@@ -90,7 +98,7 @@ static void print_array(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n))
   POLYBENCH_DUMP_BEGIN("A");
   for (i = 0; i < n; i++)
     for (j = 0; j < n; j++) {
-      if ((i * n + j) % 20 == 0) fprintf(POLYBENCH_DUMP_TARGET, "\n");
+      if ((i * n + j) % n == 0) fprintf(POLYBENCH_DUMP_TARGET, "\n");
       fprintf(POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, A[i][j]);
     }
   POLYBENCH_DUMP_END("A");
@@ -108,12 +116,13 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
   unsigned s = p_id % distr_M;
   unsigned t = p_id / distr_M;
   unsigned nr = (n + distr_M - s - 1) / distr_M;
+  unsigned nc = (n + distr_N - t - 1) / distr_N;
   int i, j, k, r;
   DATA_TYPE absmax;
 
   unsigned pi_k_temp, pi_r_temp;
-  unsigned A_row_k_temp[n / distr_N], A_row_r_temp[n / distr_N];
-  unsigned counter = 0;  // used to see how many entries A_row_k_temp will have
+  double A_row_k_temp[nc];
+  double A_row_r_temp[nc];
 
   // find largest absolute value in column k
   DATA_TYPE* Max = (DATA_TYPE*)malloc(MAX(distr_M, 1) * sizeof(DATA_TYPE));
@@ -158,10 +167,11 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       MPI_Waitall(4 * distr_M, requests, MPI_STATUSES_IGNORE);
     }
 
-    printf("rank=%d s=%d t=%d\n", p_id, s, t);
+    // printf("k=%d rank=%d s=%d t=%d\n", k, p_id, s, t);
 
     // superstep 2 & 3
     if (phi1(k, distr_N) == t) {
+      // printf("rank %d entered\n", p_id);
       absmax = 0;
       unsigned smax = 0;
 
@@ -184,7 +194,8 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
 
       for (i = 0; i < distr_N; ++i) {
         if (t != i) {
-          printf("rank %d sends to %d\n", p_id, P(s, i, distr_M, distr_N));
+          // printf("k=%d: rank %d sends to %d\n", k, p_id,
+          //        P(s, i, distr_M, distr_N));
           MPI_Isend(&r, 1, MPI_DOUBLE, P(s, i, distr_M, distr_N), 0,
                     MPI_COMM_WORLD, &requests[i]);
         } else
@@ -194,74 +205,79 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       MPI_Waitall(distr_N, requests, MPI_STATUSES_IGNORE);
     }
 
-    if (s == phi0(k, distr_M) && t != phi1(k, distr_N)) {
-      printf("rank %d receives from %d\n", p_id,
-             P(s, phi1(k, distr_N), distr_M, distr_N));
+    if (t != phi1(k, distr_N)) {
+      // printf("k=%d: rank %d receives from %d\n", k, p_id,
+      //        P(s, phi1(k, distr_N), distr_M, distr_N));
       MPI_Recv(&r, 1, MPI_DOUBLE, P(s, phi1(k, distr_N), distr_M, distr_N), 0,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
-    // printf("rank=%d, r=%d, k=%d\n", p_id, r, k);
+    MPI_Barrier(MPI_COMM_WORLD);
+
+    printf("rank=%d, r=%d, k=%d\n", p_id, r, k);
 
     /* Superstep (4) & ... */
     if (phi0(k, distr_M) == s && r != k) {
-      // printf("Rank %d sending to %d\n", p_id,
-      //        P(phi0(r, distr_M), t, distr_M, distr_N));
+      printf("Rank %d sending to %d\n", p_id,
+             P(phi0(r, distr_M), t, distr_M, distr_N));
 
       /* Store pi(k) in pi(r) on P(r%M,t) */
       MPI_Send(&pi[k / distr_M], 1, MPI_DOUBLE,
                P(phi0(r, distr_M), t, distr_M, distr_N), k, MPI_COMM_WORLD);
+
+      i = 0;
       for (j = 0; j < n; ++j) {  // waistful looping... will correct later
         if (phi1(j, distr_N) == t) {
-          A_row_k_temp[counter] =
-              A[k][j]; /*counter was set to 0 at the beginning of the
-                         function, used to see what size the buffer will have
-                         (and doubles index here)
-                        */
-          counter++;
+          A_row_k_temp[i] = A[k][j]; /*counter was set to 0 at the beginning of
+                                       the function, used to see what size the
+                                       buffer will have (and doubles index here)
+                                      */
+          ++i;
         }
       }
       /*I'm not sure if reciever would get right write message without tag so
        * I just added one */
-      MPI_Send(&A_row_k_temp, counter, MPI_DOUBLE,
+      MPI_Send(&A_row_k_temp, nc, MPI_DOUBLE,
                P(phi0(r, distr_M), t, distr_M, distr_N), k + 1,
                MPI_COMM_WORLD);  // Probably should use ISend here (or
                                  // even use one sided communication)
     }
 
-    if (s == phi0(r, distr_M)) {
-      // printf("Rank %d receiving from %d\n", p_id,
-      //        P(phi0(k, distr_M), t, distr_M, distr_N));
+    if (s == phi0(r, distr_M) && r != k) {
+      printf("Rank %d receiving from %d\n", p_id,
+             P(phi0(k, distr_M), t, distr_M, distr_N));
 
       MPI_Recv(&pi_k_temp, 1, MPI_DOUBLE,
-               P(phi0(k, distr_M), t, distr_M, distr_N), MPI_ANY_TAG,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      MPI_Recv(&A_row_k_temp, counter, MPI_DOUBLE,
-               P(phi0(k, distr_M), t, distr_M, distr_N), MPI_ANY_TAG,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+               P(phi0(k, distr_M), t, distr_M, distr_N), k, MPI_COMM_WORLD,
+               MPI_STATUS_IGNORE);
+      MPI_Recv(&A_row_k_temp, nc, MPI_DOUBLE,
+               P(phi0(k, distr_M), t, distr_M, distr_N), k + 1, MPI_COMM_WORLD,
+               MPI_STATUS_IGNORE);
     }
 
-    // printf("rank %d arrived\n", P(s, t, distr_M, distr_N));
+    // // printf("rank %d arrived\n", P(s, t, distr_M, distr_N));
 
-    if (r % distr_M == s && r != k) {
+    if (phi0(r, distr_M) == s && r != k) {
       i = 0;
-      MPI_Send(&pi[r / distr_M], 1, MPI_DOUBLE, k % distr_M + t * distr_M,
-               k + 2, MPI_COMM_WORLD);
+      MPI_Send(&pi[r / distr_M], 1, MPI_DOUBLE,
+               P(phi0(k, distr_M), t, distr_M, distr_N), k + 2, MPI_COMM_WORLD);
       for (j = 0; j < n; ++j) {
-        if (j % distr_N == t) {
-          A_row_r_temp[i] = A[r][j];  // should be able to reuse counter (but
-                                      // need extra index variable i)
+        if (phi1(j, distr_N) == t) {
+          A_row_r_temp[i] = A[r][j];
+          i++;
         }
       }
-      MPI_Send(&A_row_r_temp, counter, MPI_DOUBLE, r % distr_M + t * distr_M,
-               k + 3, MPI_COMM_WORLD);
+      MPI_Send(&A_row_r_temp, nc, MPI_DOUBLE,
+               P(phi0(k, distr_M), t, distr_M, distr_N), k + 3, MPI_COMM_WORLD);
     }
 
-    if (p_id == k % distr_M + t * distr_M) {
-      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k + 2, MPI_COMM_WORLD,
+    if (s == phi0(k, distr_M) && r != k) {
+      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE,
+               P(phi0(r, distr_M), t, distr_M, distr_N), k + 2, MPI_COMM_WORLD,
                MPI_STATUS_IGNORE);
-      MPI_Recv(&A_row_r_temp, counter, MPI_DOUBLE, MPI_ANY_SOURCE, k + 3,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      MPI_Recv(&A_row_r_temp, nc, MPI_DOUBLE,
+               P(phi0(r, distr_M), t, distr_M, distr_N), k + 3, MPI_COMM_WORLD,
+               MPI_STATUS_IGNORE);
     }
 
     if (k % distr_M == s) {
@@ -282,39 +298,38 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       }
     }
 
-    // // algo 2.4 begin
+    // algo 2.4 begin
 
-    // // superstep 8
-    // int size;
-    // MPI_Comm_size(MPI_COMM_WORLD, &size);
+    // superstep 8
+    int size;
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    // if (k % distr_M == s && k % distr_N == t) {
-    //   for (i = 0; i < distr_M; ++i) {
-    //     MPI_Send(&A[k][k], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), k,
-    //              MPI_COMM_WORLD);
-    //   }
-    // }
+    if (phi0(k, distr_M) == s && phi1(k, distr_N) == t) {
+      for (i = 0; i < distr_M; ++i) {
+        MPI_Send(&A[k][k], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), k,
+                 MPI_COMM_WORLD);
+      }
+    }
 
-    // unsigned a_kk;
+    unsigned a_kk;
 
-    // if (phi1(k, distr_N) == t) {
-    //   for (i = 0; i < distr_N; ++i) {
-    //     if (p_id == P(i, t, distr_M, distr_N)) {
-    //       MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
-    //                MPI_STATUS_IGNORE);
-    //     }
-    //   }
-    // }
+    if (phi1(k, distr_N) == t) {
+      for (i = 0; i < distr_N; ++i) {
+        if (p_id == P(i, t, distr_M, distr_N)) {
+          MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
+                   MPI_STATUS_IGNORE);
+        }
+      }
+    }
 
-    // // superstep 9
-
-    // if (phi1(k, distr_N) == t) {
-    //   for (i = k; i < n; ++i) {
-    //     if (phi0(i, distr_M) == s) {
-    //       A[i][k] /= a_kk;
-    //     }
-    //   }
-    // }
+    // superstep 9
+    if (phi1(k, distr_N) == t) {
+      for (i = k; i < n; ++i) {
+        if (phi0(i, distr_M) == s) {
+          A[i][k] /= a_kk;
+        }
+      }
+    }
 
     // // superstep 10
     // if (phi1(k, distr_N) == t) {
@@ -329,7 +344,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     // }
 
     // unsigned a_ik;
-    // if (phi1(k, distr_N) != t) {
+    // if (phi1(k, distr_N) == t && phi0(i, distr_N) != s) {
     //   MPI_Recv(&a_ik, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
     //            MPI_STATUS_IGNORE);
     // }
@@ -379,6 +394,7 @@ int main(int argc, char** argv) {
 
   /* Initialize array(s). */
   init_array(n, POLYBENCH_ARRAY(A));
+  if (rank == 0) polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
   /* Start timer. */
   polybench_start_instruments;
@@ -404,7 +420,7 @@ int main(int argc, char** argv) {
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  if (rank == 0) polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
+  // if (rank == 0) polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
