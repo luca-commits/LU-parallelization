@@ -105,7 +105,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
                       unsigned distr_N) {
   unsigned s = p_id % distr_M;
   unsigned t = p_id / distr_M;
-  DATA_TYPE nr = (n + _PB_N - s - 1) / _PB_N;
+  unsigned nr = (n + distr_M - s - 1) / distr_M;
   int i, j, k, r;
   DATA_TYPE absmax;
   int dummy;
@@ -119,44 +119,54 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
   DATA_TYPE* Max = (DATA_TYPE*)malloc(MAX(distr_M, 1) * sizeof(DATA_TYPE));
   int* IMax = (int*)malloc(MAX(distr_M, 1) * sizeof(int));
 
-  for (k = 0; k < _PB_N; k++) {
+  for (k = 0; k < n; k++) {
     int kr = (k + distr_M - s - 1) / distr_M;
     int kc = (k + distr_N - t - 1) / distr_N;
 
     if (phi1(k, distr_N) == t) {
+      
+
       absmax = A[0][k];
-      int imax;
+      int imax = 0;
+
+      //printf("%d\n", kr);
       for (i = kr; i < nr; i++) {
         if (absmax < fabs(A[i][kc])) {
           absmax = fabs(A[i][kc]);
+
           imax = i;
         }
       }
 
+
       double max = 0;
       if (absmax > 0) {
+        printf("%d %d\n", imax, kc);
         max = A[imax][kc];
       }
+      printf("hello\n");
 
       // TODO change second argument -> count
 
-      MPI_Request requests[4 * distr_M];
+      // MPI_Request requests[4 * distr_M];
 
-      for (i = 0; i < distr_M; ++i) {
-        MPI_Isend(&max, 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
-                  MPI_COMM_WORLD, &requests[2 * i]);
-        MPI_Isend(&imax, 1, MPI_INT, P(i, t, distr_M, distr_N), 0,
-                  MPI_COMM_WORLD, &requests[2 * i + 1]);
-      }
+      // for (i = 0; i < distr_M; ++i) {
+      //   MPI_Isend(&max, 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
+      //             MPI_COMM_WORLD, &requests[2 * i]);
+      //   MPI_Isend(&imax, 1, MPI_INT, P(i, t, distr_M, distr_N), 0,
+      //             MPI_COMM_WORLD, &requests[2 * i + 1]);
+      // }
 
-      for (i = 0; i < distr_M; ++i) {
-        MPI_Irecv(&Max[i], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
-                  MPI_COMM_WORLD, &requests[2 * distr_M + 2 * i]);
-        MPI_Irecv(&IMax[i], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
-                  MPI_COMM_WORLD, &requests[2 * distr_M + 2 * i + 1]);
-      }
+      // for (i = 0; i < distr_M; ++i) {
+      //   // MPI_Irecv(&Max[i], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
+      //   //           MPI_COMM_WORLD, &requests[2 * distr_M + 2 * i]);
+      //   // MPI_Irecv(&IMax[i], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
+      //   //           MPI_COMM_WORLD, &requests[2 * distr_M + 2 * i + 1]);
 
-      MPI_Waitall(4 * distr_M, requests, MPI_STATUSES_IGNORE);
+      //   printf("%d\n", P(i, t, distr_M, distr_N));
+      // }
+
+      // MPI_Waitall(4 * distr_M, requests, MPI_STATUSES_IGNORE);
     }
 
     printf("finished superstep 1\n");
@@ -165,7 +175,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     // if (phi1(k, distr_N) == t) {
     //   absmax = 0;
     //   dummy = 0;
-    //   // _PB_N mit M ersetzen?
+    //   // n mit M ersetzen?
     //   for (i = 0; i < distr_M; i++) {
     //     if (fabs(Max[i]) > absmax) {
     //       absmax = fabs(Max[i]);
@@ -175,7 +185,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     //   // define EPS 1.0e-15?
     //   if (absmax > 1.03e-15) {
     //     int imax = IMax[dummy];
-    //     // _PB_N mit M ersetzen?
+    //     // n mit M ersetzen?
     //     r = imax * distr_M + dummy;  // global index
     //     pivot = Max[dummy];
     //     for (j = kr; j < nr; j++) {
@@ -304,7 +314,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     // // superstep 9
 
     // if (phi1(k, distr_N) == t) {
-    //   for (i = k; i < _PB_N; ++i) {
+    //   for (i = k; i < n; ++i) {
     //     if (phi0(i, distr_M) == s) {
     //       A[i][k] /= a_kk;
     //     }
@@ -313,7 +323,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
 
     // // superstep 10
     // if (phi1(k, distr_N) == t) {
-    //   for (i = k; i < _PB_N; ++i) {
+    //   for (i = k; i < n; ++i) {
     //     if (phi0(i, distr_N) == s) {
     //       for (j = 0; j < distr_N; ++j) {
     //         MPI_Send(&A[i][k], 1, MPI_DOUBLE, P(s, j, distr_M, distr_N), k,
@@ -330,7 +340,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     // }
 
     // if (phi0(k, distr_M) == s) {
-    //   for (j = k; j < _PB_N; ++j) {
+    //   for (j = k; j < n; ++j) {
     //     if (phi1(j, distr_N) == t) {
     //       for (i = 0; i < distr_M; ++i) {
     //         MPI_Send(&A[k][j], 1, MPI_DOUBLE, P(j, t, distr_M, distr_N), k,
@@ -347,9 +357,9 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     // }
 
     // // superstep 11
-    // for (i = k; i < _PB_N; ++i) {
+    // for (i = k; i < n; ++i) {
     //   if (phi0(i, distr_M) == s) {
-    //     for (j = 0; j < _PB_N; ++j) {
+    //     for (j = 0; j < n; ++j) {
     //       if (phi1(j, distr_N) == t) {
     //         A[i][j] -= a_ik * a_kj;
     //       }
@@ -399,7 +409,8 @@ int main(int argc, char** argv) {
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
+  if (rank == 0)
+    polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
