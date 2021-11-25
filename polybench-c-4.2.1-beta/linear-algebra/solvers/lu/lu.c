@@ -115,8 +115,8 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
                       unsigned distr_N) {
   unsigned s = p_id % distr_M;
   unsigned t = p_id / distr_M;
-  unsigned nr = (n + distr_M - s - 1) / distr_M;
-  unsigned nc = (n + distr_N - t - 1) / distr_N;
+  unsigned nr = (n + distr_M - s - 1) / distr_M;  // number of local rows
+  unsigned nc = (n + distr_N - t - 1) / distr_N;  // number of local columns
   int i, j, k, r;
   DATA_TYPE absmax;
 
@@ -280,21 +280,25 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
                MPI_STATUS_IGNORE);
     }
 
-    if (k % distr_M == s) {
+    if (phi0(k, distr_N) == s) {
       pi[k] = pi_r_temp;
       i = 0;
-      for (j = t; j < n; j += distr_N) {
-        A[k][j] = A_row_r_temp[i];
-        ++i;
+      for (j = 0; j < n; j++) {
+        if (phi1(j, distr_N) == t) {
+          A[k][j] = A_row_r_temp[i];
+          ++i;
+        }
       }
     }
 
-    if (r % distr_M == s) {
+    if (phi0(r, distr_N) == s) {
       pi[r] = pi_k_temp;
       i = 0;
-      for (j = t; j < n; j += distr_N) {
-        A[r][j] = A_row_k_temp[i];
-        ++i;
+      for (j = 0; j < n; j++) {
+        if (phi1(j, distr_N) == t) {
+          A[r][j] = A_row_k_temp[i];
+          ++i;
+        }
       }
     }
 
@@ -331,23 +335,23 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       }
     }
 
-    // // superstep 10
-    // if (phi1(k, distr_N) == t) {
-    //   for (i = k; i < n; ++i) {
-    //     if (phi0(i, distr_N) == s) {
-    //       for (j = 0; j < distr_N; ++j) {
-    //         MPI_Send(&A[i][k], 1, MPI_DOUBLE, P(s, j, distr_M, distr_N), k,
-    //                  MPI_COMM_WORLD);
-    //       }
-    //     }
-    //   }
-    // }
+    // superstep 10
+    if (phi1(k, distr_N) == t) {
+      for (i = k; i < n; ++i) {
+        if (phi0(i, distr_N) == s) {
+          for (j = 0; j < distr_N; ++j) {
+            MPI_Send(&A[i][k], 1, MPI_DOUBLE, P(s, j, distr_M, distr_N), k,
+                     MPI_COMM_WORLD);
+          }
+        }
+      }
+    }
 
-    // unsigned a_ik;
-    // if (phi1(k, distr_N) == t && phi0(i, distr_N) != s) {
-    //   MPI_Recv(&a_ik, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
-    //            MPI_STATUS_IGNORE);
-    // }
+    unsigned a_ik;
+    if (phi1(k, distr_N) == t && phi0(i, distr_N) != s) {
+      MPI_Recv(&a_ik, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
+               MPI_STATUS_IGNORE);
+    }
 
     // if (phi0(k, distr_M) == s) {
     //   for (j = k; j < n; ++j) {
