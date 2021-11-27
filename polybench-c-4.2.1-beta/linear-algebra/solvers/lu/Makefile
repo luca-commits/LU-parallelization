@@ -10,7 +10,7 @@ lu: lu.c lu.h
 
 
 debug: lu.c lu.h
-	${VERBOSE} ${CC} -g -o lu lu.c -I. -I../../../utilities ../../../utilities/polybench.c ${EXTRA_FLAGS} 
+	${VERBOSE} ${CC} -g -o lu lu.c ${DEBUG_FLAGS} -I. -I../../../utilities ../../../utilities/polybench.c ${EXTRA_FLAGS} 
 
 clean:
 	@ rm -f lu
