@@ -133,7 +133,6 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       absmax = A[0][k];
       int rs = 0;
 
-      // printf("%d\n", kr);
       for (i = k; i < n; i++) {
         if (phi0(i, distr_N) == s && absmax < fabs(A[i][k])) {
           absmax = fabs(A[i][k]);
@@ -167,11 +166,9 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       MPI_Waitall(4 * distr_M, requests, MPI_STATUSES_IGNORE);
     }
 
-    // printf("k=%d rank=%d s=%d t=%d\n", k, p_id, s, t);
 
     // superstep 2 & 3
     if (phi1(k, distr_N) == t) {
-      // printf("rank %d entered\n", p_id);
       absmax = 0;
       unsigned smax = 0;
 
@@ -194,8 +191,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
 
       for (i = 0; i < distr_N; ++i) {
         if (t != i) {
-          // printf("k=%d: rank %d sends to %d\n", k, p_id,
-          //        P(s, i, distr_M, distr_N));
+
           MPI_Isend(&r, 1, MPI_DOUBLE, P(s, i, distr_M, distr_N), 0,
                     MPI_COMM_WORLD, &requests[i]);
         } else
@@ -206,20 +202,18 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     }
 
     if (t != phi1(k, distr_N)) {
-      // printf("k=%d: rank %d receives from %d\n", k, p_id,
-      //        P(s, phi1(k, distr_N), distr_M, distr_N));
+
       MPI_Recv(&r, 1, MPI_DOUBLE, P(s, phi1(k, distr_N), distr_M, distr_N), 0,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     MPI_Barrier(MPI_COMM_WORLD);
 
-    printf("rank=%d, r=%d, k=%d\n", p_id, r, k);
+
 
     /* Superstep (4) & ... */
     if (phi0(k, distr_M) == s && r != k) {
-      printf("Rank %d sending to %d\n", p_id,
-             P(phi0(r, distr_M), t, distr_M, distr_N));
+
 
       /* Store pi(k) in pi(r) on P(r%M,t) */
       MPI_Send(&pi[k / distr_M], 1, MPI_DOUBLE,
@@ -241,8 +235,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     }
 
     if (s == phi0(r, distr_M) && r != k) {
-      printf("Rank %d receiving from %d\n", p_id,
-             P(phi0(k, distr_M), t, distr_M, distr_N));
+
 
       MPI_Recv(&pi_k_temp, 1, MPI_DOUBLE,
                P(phi0(k, distr_M), t, distr_M, distr_N), k, MPI_COMM_WORLD,
@@ -252,7 +245,6 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
                MPI_STATUS_IGNORE);
     }
 
-    // // printf("rank %d arrived\n", P(s, t, distr_M, distr_N));
 
     if (phi0(r, distr_M) == s && r != k) {
       i = 0;
@@ -303,7 +295,6 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
 
     if (phi0(k, distr_M) == s && phi1(k, distr_N) == t) {
       for (i = 0; i < distr_M; ++i) {
-        printf("A_kk = %f\n" , A[k][k]);
         MPI_Send(&A[k][k], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), k,
                  MPI_COMM_WORLD);
       }
@@ -334,19 +325,18 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
       }
     }
 
+
     // superstep 10
 
     //send every element of column k that P(s,t) owns, with row index greater than k,
     // to the processors P(s, *) in the same processor row
-    if (phi1(k, distr_N) == t) { //this processor owns the kth column
+    if (phi1(k, distr_N) == t) { //this processor owns the k-th column
       for (i = k; i < n; ++i) {
-        if (phi0(i, distr_M) == s) {//this processor owns ith element of kth column
+        if (phi0(i, distr_M) == s) {//this processor owns i-th element of kth column
           for (j = 0; j < distr_N; ++j) {
 
             MPI_Send(&A[i][k], 1, MPI_DOUBLE, s * distr_N + j, k,
                      MPI_COMM_WORLD);
-           printf("sending from: s == %d, t == %d \n",
-                   s, t);                 
           }
         }
       }
@@ -355,9 +345,9 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     unsigned a_ik[n - k];
     for(unsigned i = k; i < n; ++i){
       if(phi0(i, distr_M) == s){
-          printf("recieving from s == %d, t==%d\n", s, t);
           MPI_Recv(&a_ik[i], 1, MPI_DOUBLE, s * distr_N + phi1(k, distr_N), k, MPI_COMM_WORLD, 
                   MPI_STATUS_IGNORE);
+
       }
     }
 
@@ -374,14 +364,13 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
     }
 
     unsigned a_kj[n - k]; //we will recieve one element per column
-    for(unsigned j = k; j < n; ++j){}
+    for(unsigned j = k; j < n; ++j){
       if (phi1(j, distr_N) == t) {
-        MPI_Recv(&a_kj[j], 1, MPI_DOUBLE, t * distr_N + phi0(k, distr_M), k, MPI_COMM_WORLD,
+        MPI_Recv(&a_kj[j], 1, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t, k, MPI_COMM_WORLD,
                 MPI_STATUS_IGNORE);
+      }  
     }
-    printf("k == %d\n", k);
-
-    MPI_Barrier(MPI_COMM_WORLD);
+   
   
     // superstep 11
     for (i = k; i < n; ++i) {
@@ -393,6 +382,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n),
         }
       }
     }
+    
   }
 }
 
