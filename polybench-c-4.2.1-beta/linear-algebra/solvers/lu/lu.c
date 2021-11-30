@@ -404,11 +404,11 @@ int main(int argc, char** argv) {
 
   /* Variable declaration/allocation. */
   // POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
-  double* A = (double*)malloc(nr * nc * sizeof(double));
+  double* A = (double*)malloc(n * n * sizeof(double));
 
   /* Initialize array(s). */
-  init_array(n, nr, nc, A);
-  if (rank == 0) print_array(n, nc, A);
+  init_array(n, n, n, A);
+  if (rank == 0) print_array(n, n, A);
 
   /* Start timer. */
   polybench_start_instruments;
@@ -431,11 +431,11 @@ int main(int argc, char** argv) {
   // if (rank == 0) polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
   /* Write results to file */
-  MPI_File file;
+  // MPI_File file;
   MPI_File_open(MPI_COMM_WORLD, "lu.txt", MPI_MODE_WRONLY | MPI_MODE_CREATE,
                 MPI_INFO_NULL, &file);
 
-  // MPI_File_write_at();
+  MPI_File_write_at();
 
   MPI_File_close(&file);
 
