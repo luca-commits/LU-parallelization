@@ -33,9 +33,6 @@ unsigned phi0(unsigned i, unsigned distr_M) { return i % distr_M; }
 
 unsigned phi1(unsigned j, unsigned distr_N) { return j % distr_N; }
 
-unsigned P(unsigned s, unsigned t, unsigned distr_M, unsigned distr_N) {
-  return s % distr_M + t * distr_M;
-}
 
 unsigned idx(unsigned i, unsigned j, unsigned nc) { return i * nc + j; }
 
@@ -131,6 +128,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
   double A_row_k_temp[nc];
   double A_row_r_temp[nc];
 
+  //algorithm 2.5
+
   // find largest absolute value in column k
   DATA_TYPE* Max = (DATA_TYPE*)malloc(MAX(distr_M, 1) * sizeof(DATA_TYPE));
   int* IMax = (int*)malloc(MAX(distr_M, 1) * sizeof(int));
@@ -157,20 +156,24 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       MPI_Request requests[4 * distr_M];
 
       for (i = 0; i < distr_M; ++i) {
+        printf("sending index: %d.   p_id == %d\n" , i, p_id);
         MPI_Isend(&max, 1, MPI_DOUBLE, distr_M * i + t, 0,
                   MPI_COMM_WORLD, &requests[2 * i]);
         MPI_Isend(&rs, 1, MPI_INT, distr_M * i + t, 0, MPI_COMM_WORLD,
                   &requests[2 * i + 1]);
       }
-
+      printf("hellooooooo \n");
       for (i = 0; i < distr_M; ++i) {
-        MPI_Irecv(&Max[i], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
+        printf("recieving index: %d.   p_id == %d\n", i , p_id);
+        MPI_Irecv(&Max[i], 1, MPI_DOUBLE, i * distr_M + t, 0,
                   MPI_COMM_WORLD, &requests[2 * distr_M + 2 * i]);
-        MPI_Irecv(&IMax[i], 1, MPI_DOUBLE, P(i, t, distr_M, distr_N), 0,
+        MPI_Irecv(&IMax[i], 1, MPI_DOUBLE, i * distr_M + t, 0,
                   MPI_COMM_WORLD, &requests[2 * distr_M + 2 * i + 1]);
       }
-
+      
+      printf("waiting for all requests to complete.    p_id = %d \n", p_id);
       MPI_Waitall(4 * distr_M, requests, MPI_STATUSES_IGNORE);
+      printf("arrived at line 174.   p_id = %d \n", p_id);
     }
 
     // superstep 2 & 3
@@ -207,12 +210,14 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     }
 
     if (t != phi1(k, distr_N)) {
-      MPI_Recv(&r, 1, MPI_DOUBLE, P(s, phi1(k, distr_N), distr_M, distr_N),
-      0,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      printf("waiting to recieve at 210\n");
+      MPI_Recv(&r, 1, MPI_DOUBLE, s * distr_M + phi1(k, distr_N),
+      0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      printf("recieved at 210\n");
     }
-
+    printf("waiting to pass barrier\n");
     MPI_Barrier(MPI_COMM_WORLD);
+    printf("passed barrier\n");
 
     /* Superstep (4) & ... */
     if (phi0(k, distr_M) == s && r != k) {
@@ -239,6 +244,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       MPI_Recv(&pi_k_temp, 1, MPI_DOUBLE,
                phi0(k, distr_M) * distr_M + t, k, MPI_COMM_WORLD,
                MPI_STATUS_IGNORE);
+      printf("waiting to recieve at 243 \n");
       MPI_Recv(&A_row_k_temp, nc, MPI_DOUBLE,
                phi0(k, distr_M) * distr_M + t, k + 1,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -261,9 +267,11 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     }
 
     if (s == phi0(k, distr_M) && r != k) {
+      printf("waiting to recieve at 365 \n");
       MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE,
                phi0(r, distr_M) * distr_M + t, k + 2,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      printf("waiting to recieve at 368 \n");
       MPI_Recv(&A_row_r_temp, nc, MPI_DOUBLE,
                phi0(r, distr_M) * distr_M + t, k + 3,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -310,14 +318,16 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
 
     if (phi1(k, distr_N) == t) {
       for (i = 0; i < distr_N; ++i) {
-        if (p_id == P(i, t, distr_M, distr_N)) {
+        if (p_id == i * distr_M + t) {
+          printf("waiting to recieve at 315 \n");
           MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
                    MPI_STATUS_IGNORE);
+            
         }
       }
     }
 
-    printf("a_kk = %f, p_id: %d \n", a_kk, p_id);
+   // printf("a_kk = %f, p_id: %d \n", a_kk, p_id);
     // superstep 9
     if (phi1(k, distr_N) == t) {
       for (i = k; i < n; ++i) {
@@ -352,8 +362,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     unsigned a_ik[n - k];
     for (unsigned i = k; i < n; ++i) {
       if (phi0(i, distr_M) == s) {
+        printf("waiting to recieve at 356 \n");
         MPI_Recv(&a_ik[i], 1, MPI_DOUBLE, s * distr_N + phi1(k, distr_N), k,
                  MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        printf("recieved at 356\n");
       }
     }
 
@@ -371,8 +383,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     unsigned a_kj[n - k];  // we will recieve one element per column
     for (unsigned j = k; j < n; ++j) {
       if (phi1(j, distr_N) == t) {
+        printf("wanting to recieve at 375 \n");
         MPI_Recv(&a_kj[j], 1, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t, k,
                  MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        printf("recieved at 375 \n");
       }
     }
 
