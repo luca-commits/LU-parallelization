@@ -75,7 +75,7 @@ int main(int argc, char** argv) {
   MPI_Datatype cyclic_dist;
   int array_gsizes[2] = {n, n};
   int array_distribs[2] = {MPI_DISTRIBUTE_CYCLIC, MPI_DISTRIBUTE_CYCLIC};
-  int array_dargs[2] = {2, 2};
+  int array_dargs[2] = {1, 1};
   int array_psizes[2] = {distr_M, distr_N};
 
   MPI_Type_create_darray(size, rank, 2, array_gsizes, array_distribs,
@@ -89,7 +89,7 @@ int main(int argc, char** argv) {
                 MPI_INFO_NULL, &file);
 
   MPI_File_set_view(file, 0, MPI_DOUBLE, cyclic_dist, "native", MPI_INFO_NULL);
-  MPI_File_write_at_all(file, s * array_dargs[0] * n + array_dargs[1] * t, A,
+  MPI_File_write_at_all(file, 0, A,
                         nr * nc, MPI_DOUBLE, MPI_STATUS_IGNORE);
 
   printf("%d\n", nr * nc);
