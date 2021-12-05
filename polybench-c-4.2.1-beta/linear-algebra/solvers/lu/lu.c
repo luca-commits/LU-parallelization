@@ -189,7 +189,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
         int imax = IMax[smax];
         r = imax;  // global index
       } else {
-        // MPI_Abort(MPI_COMM_WORLD, int singularmatrix);
+         MPI_Abort(MPI_COMM_WORLD, 192);
       }
 
       /* Superstep (3) */
@@ -305,7 +305,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       }
     }
 
-    unsigned a_kk;
+    double a_kk;
 
     if (phi1(k, distr_N) == t) {
       for (i = 0; i < distr_N; ++i) {
@@ -322,8 +322,9 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
         if (phi0(i, distr_M) == s) {
           if (fabs(a_kk > EPS)) {
             A[idx(i, k, nc)] /= a_kk;
+            printf("a_kk = %f, p_id: %d", a_kk, p_id);
           } else {
-             MPI_Abort(MPI_COMM_WORLD, 0); //for some reason it aborts here
+             MPI_Abort(MPI_COMM_WORLD, 326); //for some reason it aborts here
           }
         }
       }
