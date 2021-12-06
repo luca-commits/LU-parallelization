@@ -44,6 +44,15 @@ unsigned j_loc(unsigned j, unsigned distr_N){
   return j/distr_N + j % distr_N;
 }
 
+unsigned i_glob(unsigned i, unsigned distr_M, unsigned s){
+  return i * distr_M + s;
+}
+
+unsigned j_glob(unsigned j, unsigned distr_N, unsigned t){
+  return j * distr_N + t;
+}
+
+
 // could be a macro for efficiency
 // source:
 // https://slaystudy.com/c-c-program-to-find-the-largest-divisor-of-a-number/
@@ -61,15 +70,23 @@ int largest_divisor(int n) {
 }
 
 /* Array initialization. */
-static void init_array(int n, int nr, int nc, unsigned distr_M, unsigned distr_N, double* A) {
-  int i, j;
+//check this one!!1!!1!!
+static void init_array(int n, int nr, int nc, unsigned distr_M, unsigned distr_N, double* A,
+                       unsigned s, unsigned t) {
 
-  for (i = 0; i < nr; i++) {
-    for (j = 0; j <= i; j++) A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] = (DATA_TYPE)(-j % n) / n + 1;
-    for (j = i + 1; j < nc; j++) {
-      A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] = 0;
+
+  for(unsigned i = 0; i < nc; ++i){
+    for(unsigned j = 0; j < nr; ++j){
+      if(j_glob(j, distr_N, t) < i_glob(i, distr_M, s)){
+        A[idx(i,j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
+      }
+      else if(i_glob(i, distr_M, s) == j_glob(j, distr_N, t)){
+        A[idx(i, j, nc)] = 1;
+      }
+      else{
+        A[idx(i, j, nc)] = 0;
+      }
     }
-    A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] = 1;
   }
 
   // /* Make the matrix positive semi-definite. */
@@ -92,6 +109,7 @@ static void init_array(int n, int nr, int nc, unsigned distr_M, unsigned distr_N
   //     A[idx(i_loc(i, distr_M), j_loc(j, distr_M), nc)] = ((DATA_TYPE)i * (j + 2) + 2) / n;
   //   }
 }
+
 
 /* DCE code. Must scan the entire live-out data.
    Can be used also to check the correctness of the output. */
@@ -259,11 +277,9 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     }
 
     if (s == phi0(k, distr_M) && r != k) {
-      printf("waiting to recieve at 365 \n");
       MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE,
                phi0(r, distr_M) * distr_M + t, k + 2,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      printf("waiting to recieve at 368 \n");
       MPI_Recv(&A_row_r_temp, nc, MPI_DOUBLE,
                phi0(r, distr_M) * distr_M + t, k + 3,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
@@ -325,7 +341,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
           if (fabs(a_kk > EPS)) {
             A[idx(i, k, nc)] /= a_kk;
           } else {
-             MPI_Abort(MPI_COMM_WORLD, 326); //for some reason it aborts here
+             MPI_Abort(MPI_COMM_WORLD, 344); //for some reason it aborts here
           }
         }
       }
@@ -415,7 +431,7 @@ int main(int argc, char** argv) {
   double* A = (double*)malloc(n * n * sizeof(double));
 
   /* Initialize array(s). */
-  init_array(n, nr, nc, distr_M, distr_N, A);
+  init_array(n, nr, nc, distr_M, distr_N, A, s, t);
   //if (rank == 0) print_array(n, nc, A, distr_M, distr_N);
 
   /* Start timer. */
