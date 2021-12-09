@@ -2,14 +2,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void init_array(unsigned n, unsigned nr, unsigned nc, double* A) {
-  unsigned i, j;
-  int rank;
-  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+unsigned i_glob(unsigned i, unsigned distr_M, unsigned s){
+  return i * distr_M + s;
+}
 
-  for (i = 0; i < nr; i++) {
-    for (j = 0; j < nc; j++) {
-      A[i * nc + j] = rank;
+unsigned j_glob(unsigned j, unsigned distr_N, unsigned t){
+  return j * distr_N + t;
+}
+
+static void init_array(int n, int nr, int nc, unsigned distr_M, unsigned distr_N, double* A,
+                       unsigned s, unsigned t) {
+
+
+  for(unsigned i = 0; i < nc; ++i){
+    for(unsigned j = 0; j < nr; ++j){
+      if(j_glob(j, distr_N, t) < i_glob(i, distr_M, s)){
+        A[idx(i,j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
+      }
+      else if(i_glob(i, distr_M, s) == j_glob(j, distr_N, t)){
+        A[idx(i, j, nc)] = 1;
+      }
+      else{
+        A[idx(i, j, nc)] = 0;
+      }
     }
   }
 }
@@ -38,6 +53,8 @@ int largest_divisor(int n) {
   // simply return 0
   return 0;
 }
+
+
 
 int main(int argc, char** argv) {
   int rank, size;
