@@ -1,0 +1,36 @@
+Sender: LSF System <lsfadmin@eu-a2p-227>
+Subject: Job 196112885: <./lu> in cluster <euler> Exited
+
+Job <./lu> was submitted from host <eu-login-01> by user <sklampt> in cluster <euler> at Fri Dec 10 10:19:51 2021
+Job was executed on host(s) <16*eu-a2p-227>, in queue <normal.4h>, as user <sklampt> in cluster <euler> at Fri Dec 10 10:20:01 2021
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu> was used as the working directory.
+Started at Fri Dec 10 10:20:01 2021
+Terminated at Fri Dec 10 10:20:03 2021
+Results reported at Fri Dec 10 10:20:03 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+./lu
+------------------------------------------------------------
+
+Exited with exit code 1.
+
+Resource usage summary:
+
+    CPU time :                                   0.29 sec.
+    Max Memory :                                 7 MB
+    Average Memory :                             -
+    Total Requested Memory :                     16384.00 MB
+    Delta Memory :                               16377.00 MB
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   2 sec.
+    Turnaround time :                            12 sec.
+
+The output (if any) follows:
+
+./lu: /cluster/apps/gcc/4.8.2/lib64/libgomp.so.1: version `GOMP_4.0' not found (required by ./lu)

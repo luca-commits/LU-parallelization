@@ -1,0 +1,42 @@
+Sender: LSF System <lsfadmin@eu-a2p-114>
+Subject: Job 195631611: <mpirun ./lu> in cluster <euler> Exited
+
+Job <mpirun ./lu> was submitted from host <eu-login-37> by user <sklampt> in cluster <euler> at Tue Dec  7 14:53:55 2021
+Job was executed on host(s) <16*eu-a2p-114>, in queue <normal.4h>, as user <sklampt> in cluster <euler> at Tue Dec  7 14:54:26 2021
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu> was used as the working directory.
+Started at Tue Dec  7 14:54:26 2021
+Terminated at Tue Dec  7 14:54:43 2021
+Results reported at Tue Dec  7 14:54:43 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun ./lu
+------------------------------------------------------------
+
+Exited with exit code 139.
+
+Resource usage summary:
+
+    CPU time :                                   235.00 sec.
+    Max Memory :                                 1014 MB
+    Average Memory :                             1014.00 MB
+    Total Requested Memory :                     16384.00 MB
+    Delta Memory :                               15370.00 MB
+    Max Swap :                                   -
+    Max Processes :                              19
+    Max Threads :                                24
+    Run time :                                   28 sec.
+    Turnaround time :                            48 sec.
+
+The output (if any) follows:
+
+-------------------------------------------------------
+Primary job  terminated normally, but 1 process returned
+a non-zero exit code. Per user-direction, the job has been aborted.
+-------------------------------------------------------
+--------------------------------------------------------------------------
+mpirun noticed that process rank 15 with PID 0 on node eu-a2p-114 exited on signal 11 (Segmentation fault).
+--------------------------------------------------------------------------
