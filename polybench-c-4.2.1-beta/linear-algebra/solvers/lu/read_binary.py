@@ -3,7 +3,7 @@ from functools import partial
 import numpy as np
 import sys
 
-np.set_printoptions(threshold=sys.maxsize)
+np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
 n = 40
 
@@ -16,5 +16,7 @@ for chunk, i in zip(iter(partial(f.read, 8), b''), range(n**2)):
 
 matrix = np.matrix(elements)
 matrix = matrix.reshape(n, n)
+
+print(matrix.shape)
 
 print(matrix)
