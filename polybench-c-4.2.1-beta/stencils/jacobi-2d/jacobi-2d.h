@@ -17,29 +17,34 @@
 
 # if !defined(TSTEPS) && !defined(N)
 /* Define sample dataset sizes. */
+/* Change TSTEPS/N from 20/30 to 1700/5000 */
 #  ifdef MINI_DATASET
-#   define TSTEPS 20
-#   define N 30
+#   define TSTEPS 1700
+#   define N 5000
 #  endif
 
+/* Change TSTEPS/N from 40/90 to 2000/6300 */
 #  ifdef SMALL_DATASET
-#   define TSTEPS 40
-#   define N 90
+#   define TSTEPS 2000
+#   define N 6300
 #  endif
 
+/* Change TSTEPS/N from 100/250 to 2500/7937 */
 #  ifdef MEDIUM_DATASET
-#   define TSTEPS 100
-#   define N 250
+#   define TSTEPS 2500
+#   define N 7937
 #  endif
 
+/* Change TSTEPS/N from 500/1300 to 3000/10000 */
 #  ifdef LARGE_DATASET
-#   define TSTEPS 500
-#   define N 1300
+#   define TSTEPS 3000
+#   define N 10000
 #  endif
 
+/* Change TSTEPS/N from 1000/2800 to 3500/12599 */
 #  ifdef EXTRALARGE_DATASET
-#   define TSTEPS 1000
-#   define N 2800
+#   define TSTEPS 3500
+#   define N 12599
 #  endif
 
 
