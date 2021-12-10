@@ -107,10 +107,10 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
     for (i = k + 1; i < _PB_N; i++) {
       A[i][k] /= A[k][k];
     }
-#pragma omp parallel for collapse(2) reduction(-:A[i][j])
+#pragma omp parallel for collapse(2)
     for (i = k + 1; i < _PB_N; i++) {
       for (j = k + 1; j < _PB_N; j++) {
-        A[i][j] -= A[i][k] * A[k][j];
+	A[i][j] -= A[i][k] * A[k][j];
       }
     }
   }
