@@ -81,12 +81,15 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
 
 #pragma scop
   // initialize permutation vector
+#pragma omp parallel for
   for (i = 0; i < _PB_N; i++) {
     p[i] = i;
   }
   // find largest absolute value in column k
+#pragma omp parallel for   
   for (k = 0; k < _PB_N; k++) {
     max = A[0][k];
+#pragma omp parallel for firstprivate(max)
     for (i = k; i < _PB_N; i++) {
       if (max < fabs(A[i][k])) {
         max = fabs(A[i][k]);
@@ -95,13 +98,16 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
     }
     // swap components k and r of the permutation vector
     swap(p[k], p[r]);
+#pragma omp parallel for
     for (j = 0; j < _PB_N; j++) {
       swap(A[k][j], A[r][j]);
     }
     // memory-efficient sequential LU decomposition
+#pragma omp parallel for
     for (i = k + 1; i < _PB_N; i++) {
       A[i][k] /= A[k][k];
     }
+#pragma omp parallel for collapse(2) reduction(-:A[i][j])
     for (i = k + 1; i < _PB_N; i++) {
       for (j = k + 1; j < _PB_N; j++) {
         A[i][j] -= A[i][k] * A[k][j];
