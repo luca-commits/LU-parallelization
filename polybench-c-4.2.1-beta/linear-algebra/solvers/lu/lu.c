@@ -359,9 +359,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       for (i = k; i < n; ++i) {
         if (phi0(i, distr_M) == s) {  // this processor owns i-th element of kth column
           for (j = 0; j < distr_N; ++j) {
-            assert(idx(i_loc(i, distr_M), j_loc(k, distr_N), nc) < nc * nc);
-            printf(" %f \n", A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)]);
-            assert(A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)] < 1000);
+            assert(A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)] < 10);
             MPI_Send(&A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)], 1,
                      MPI_DOUBLE, s * distr_N + j, k, MPI_COMM_WORLD);
           }
@@ -369,12 +367,13 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       }
     }
 
-    double a_ik;
+    double a_ik[n / distr_M];
     for (unsigned i = k; i < n; ++i) {
       if (phi0(i, distr_M) == s) {
-        MPI_Recv(&a_ik, 1, MPI_DOUBLE, s * distr_N + phi1(k, distr_N), k,
+        assert(i / distr_M < n / distr_M);
+        MPI_Recv(&a_ik[i / distr_M], 1, MPI_DOUBLE, s * distr_N + phi1(k, distr_N), k,
                  MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        assert(a_ik < 1000);
+
       }
     }
 
@@ -382,8 +381,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       for (j = k; j < n; ++j) {
         if (phi1(j, distr_N) == t) {
           for (i = 0; i < distr_M; ++i) {
-            assert(idx(i_loc(k, distr_M), j_loc(j, distr_N), nc) < nc * nc);
-            assert(A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)] < 1000);
+            assert(A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)] < 10);
             MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)], 1,
                      MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
           }
@@ -391,24 +389,33 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       }
     }
 
-
-    double a_kj;  // we will recieve one element per column
+    double a_kj[n / distr_N];  // we will recieve one element per column
     for (unsigned j = k; j < n; ++j) {
       if (phi1(j, distr_N) == t) {
-        MPI_Recv(&a_kj, 1, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t, k,
+        assert(j / distr_N < n / distr_N );
+        MPI_Recv(&a_kj[j / distr_N], 1, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t, k,
                  MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        assert(a_kj < 1000);
+        assert(a_kj[j / distr_N] < 10);
       }
     }
 
+    for(unsigned u = 0; u < n / distr_M; ++u){
+      printf("%f ", a_kj[u]);
+    }
 
-  
+    printf("\n");
+
     // superstep 11
     for (i = k; i < n; ++i) {
       if (phi0(i, distr_M) == s) {
         for (j = k; j < n; ++j) {
           if (phi1(j, distr_N) == t) { 
-            A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -= a_ik * a_kj;
+            assert(i / distr_M < n / distr_M);
+            assert(j / distr_N < n / distr_N);
+            assert(a_ik[i / distr_M] < 10);
+            printf("a_kj[j / distr_N] == %f \n", a_kj[j / distr_N]);
+            assert(a_kj[j / distr_N < 10]);
+            A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -= a_ik[i / distr_M] * a_kj[j / distr_N];
           }
         }
       }
