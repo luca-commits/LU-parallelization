@@ -133,7 +133,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
   for (k = 0; k < n; k++) {
     //if (k == 2) break;
     if (phi1(k, distr_N) == t) {
-      absmax = A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)];
+      absmax = A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)];// <-- kontrollieren ob dies stimmt
       int rs = k;
 
       for (i = k; i < n; i++) {
