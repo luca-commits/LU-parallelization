@@ -280,16 +280,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       }
     }
 
-    if (k == 29) {
-      // printf("rank=%d s=%d t=%d", p_id, s, t);
-      // print_array(nr, nc, A, distr_M, distr_N);
-
-      // while (1)
-      //   ;
-
-      break;
-    }
-
     // algo 2.4 begin
 
     // superstep 8
@@ -387,25 +377,12 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       }
     }
 
-    // if (p_id == 0) {
-    //   for (unsigned u = 0; u < n / distr_M; ++u) {
-    //     printf("%f ", a_kj[u]);
-    //   }
-
-    //   printf("\n");
-    // }
-
     // superstep 11
     for (i = k + 1; i < n; ++i) {
       if (phi0(i, distr_M) == s) {
         for (j = k + 1; j < n; ++j) {
           if (phi1(j, distr_N) == t) {
-            assert(i / distr_M < n / distr_M);
-            assert(j / distr_N < n / distr_N);
-            assert(a_ik[i / distr_M] < 10);
-             printf("a_kj[j / distr_N] == %f \n", a_kj[j / distr_N]);
-            assert(a_kj[j / distr_N] < 10);
-            A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -=
+             A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -=
                 a_ik[i / distr_M] * a_kj[j / distr_N];
             // A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -= 0;
           }
