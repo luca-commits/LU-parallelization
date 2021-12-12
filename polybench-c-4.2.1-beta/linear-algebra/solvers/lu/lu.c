@@ -89,16 +89,16 @@ static void print_array(int nr, int nc, double* A, unsigned distr_M,
 static void init_array(int n, int nr, int nc, unsigned distr_M,
                        unsigned distr_N, double* A, unsigned s, unsigned t,
                        unsigned p_id /* for debugging*/) {
-  printf("rank=%d s=%d t=%d\n", p_id, s, t);
+  //printf("rank=%d s=%d t=%d\n", p_id, s, t);
 
   for (unsigned i = 0; i < nc; ++i) {
     for (unsigned j = 0; j < nr; ++j) {
       if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
         A[idx(i, j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
       } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
-        A[idx(i, j, nc)] = 1;
+        A[idx(i, j, nc)] = 1; 
       } else {
-        A[idx(i, j, nc)] = 0;
+        A[idx(i, j, nc)] = 0; 
       }
     }
   }
@@ -114,7 +114,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
   unsigned t = p_id % distr_M;  // have to check these ones out!!!!!!
   unsigned s = p_id / distr_M;
   // unsigned nr = (n + distr_M - s - 1) / distr_M;  // number of local rows
-  unsigned nr = (n + distr_M - s - 1) / distr_M;
   unsigned nc = (n + distr_N - t - 1) / distr_N;  // number of local columns
   int i, j, k, r;
   DATA_TYPE absmax;
@@ -131,6 +130,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
   int* IMax = (int*)malloc(MAX(distr_M, 1) * sizeof(int));
 
   for (k = 0; k < n; k++) {
+    if(k > 3) return;
     if (phi1(k, distr_N) == t) {
       absmax = A[idx(i_loc(0, distr_M), j_loc(k, distr_N), nc)];
       int rs = 0;
@@ -205,7 +205,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
-    printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
+   // printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
 
     /* Superstep (4) & ... */
     if (phi0(k, distr_M) == s && r != k) {
@@ -279,30 +279,16 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       }
     }
 
-    if (k == 29) {
-      // printf("rank=%d s=%d t=%d", p_id, s, t);
-      // print_array(nr, nc, A, distr_M, distr_N);
-
-      // while (1)
-      //   ;
-
-      break;
-    }
-
     // algo 2.4 begin
 
     // superstep 8
     int size;
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    MPI_Barrier(MPI_COMM_WORLD);
-
     if (phi0(k, distr_M) == s && phi1(k, distr_N) == t) {
-      // printf("the local a_kk before sending is: %f \n" , A[idx(i_loc(k,
-      // distr_M), j_loc(k, distr_N), nc)]);
       for (i = 0; i < distr_M; ++i) {
         MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)], 1,
-                 MPI_DOUBLE, i * distr_M + t, k, MPI_COMM_WORLD);
+                 MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
       }
     }
 
@@ -311,11 +297,13 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     if (phi1(k, distr_N) == t) {
       for (i = 0; i < distr_N; ++i) {
         if (p_id == i * distr_M + t) {
-          MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
-                   MPI_STATUS_IGNORE);
+          MPI_Recv(&a_kk, 1, MPI_DOUBLE, phi0(k, distr_M) * distr_N + phi1(k, distr_N),
+                   k, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
         }
       }
     }
+  
+
 
     // superstep 9
     if (phi1(k, distr_N) == t) {
@@ -323,12 +311,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
         if (phi0(i, distr_M) == s) {
           if (fabs(a_kk) > EPS) {
             A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)] /= a_kk;
-          } else {
-            printf(
-                "rank %d: ABORT on k=%d because pivoting on zero element "
-                "a_kk=%f\n ",
-                p_id, k, a_kk);
-            MPI_Abort(MPI_COMM_WORLD, 345);  // for some reason it aborts here
+          }
+          else{
+            printf("a_kk is : %f \n", a_kk);
+            MPI_Abort(MPI_COMM_WORLD, 325);  
           }
         }
       }
@@ -337,15 +323,11 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     // superstep 10
 
     // send every element of column k that P(s,t) owns, with row index
-    // greater
-    // than k,
-    // to the processors P(s, *) in the same processor row
+    // greater than k, to the processors P(s, *) in the same processor row
     if (phi1(k, distr_N) == t) {  // this processor owns the k-th column
       for (i = k; i < n; ++i) {
-        if (phi0(i, distr_M) ==
-            s) {  // this processor owns i-th element of kth column
+        if (phi0(i, distr_M) == s) {  // this processor owns i-th element of kth column
           for (j = 0; j < distr_N; ++j) {
-            assert(A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)] < 10);
             MPI_Send(&A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)], 1,
                      MPI_DOUBLE, s * distr_N + j, k, MPI_COMM_WORLD);
           }
@@ -356,7 +338,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     double a_ik[n / distr_M];
     for (unsigned i = k; i < n; ++i) {
       if (phi0(i, distr_M) == s) {
-        assert(i / distr_M < n / distr_M);
         MPI_Recv(&a_ik[i / distr_M], 1, MPI_DOUBLE,
                  s * distr_N + phi1(k, distr_N), k, MPI_COMM_WORLD,
                  MPI_STATUS_IGNORE);
@@ -367,7 +348,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       for (j = k; j < n; ++j) {
         if (phi1(j, distr_N) == t) {
           for (i = 0; i < distr_M; ++i) {
-            assert(A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)] < 10);
             MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)], 1,
                      MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
           }
@@ -378,36 +358,19 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     double a_kj[n / distr_N];  // we will recieve one element per column
     for (unsigned j = k; j < n; ++j) {
       if (phi1(j, distr_N) == t) {
-        assert(j / distr_N < n / distr_N);
         MPI_Recv(&a_kj[j / distr_N], 1, MPI_DOUBLE,
                  phi0(k, distr_M) * distr_N + t, k, MPI_COMM_WORLD,
                  MPI_STATUS_IGNORE);
-        assert(a_kj[j / distr_N] < 10);
       }
     }
 
-    if (p_id == 0) {
-      for (unsigned u = 0; u < n / distr_M; ++u) {
-        printf("%f ", a_kj[u]);
-      }
-
-      printf("\n");
-    }
-
-    // superstep 11
+    //superstep 11
     for (i = k; i < n; ++i) {
       if (phi0(i, distr_M) == s) {
         for (j = k; j < n; ++j) {
           if (phi1(j, distr_N) == t) {
-            assert(i / distr_M < n / distr_M);
-            assert(j / distr_N < n / distr_N);
-            assert(a_ik[i / distr_M] < 10);
-            // printf("a_kj[j / distr_N] == %f \n", a_kj[j / distr_N]);
-            assert(a_kj[j / distr_N] < 10);
-            A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -=
-                a_ik[i / distr_M] * a_kj[j / distr_N];
-            // A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -= 0;
-          }
+            A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -= a_ik[i / distr_M] * a_kj[j / distr_N];
+           }
         }
       }
     }
