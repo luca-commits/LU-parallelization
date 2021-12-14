@@ -450,7 +450,7 @@ int main(int argc, char** argv) {
   }
 
   /* Run kernel. */
-  // kernel_lu(n, A, rank, pi, distr_M, distr_N);
+  kernel_lu(n, A, rank, pi, distr_M, distr_N);
 
   /* Stop and print timer. */
   polybench_stop_instruments;
