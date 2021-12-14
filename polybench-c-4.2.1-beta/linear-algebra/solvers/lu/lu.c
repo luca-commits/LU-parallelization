@@ -408,8 +408,26 @@ int main(int argc, char** argv) {
   distr_M = largest_divisor(size);
   distr_N = size / distr_M;
 
-  unsigned t = rank % distr_M;
-  unsigned s = rank / distr_M;
+  int dims[2] = {distr_M, distr_N};
+  int periods[2] = {0, 1};
+  MPI_Comm comm_cart;
+  MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 0, &comm_cart);
+
+  int coords[2];
+  MPI_Cart_coords(comm_cart, rank, 2, coords);
+  unsigned s = coords[0];
+  unsigned t = coords[1];
+
+  printf("rank %d: s=%d t=%d\n", rank, s, t);
+
+  MPI_Comm comm_row;
+  int remain_dims_row[2] = {0, 1};
+  MPI_Cart_sub(comm_cart, remain_dims_row, &comm_row);
+
+  MPI_Comm comm_col;
+  int remain_dims_col[2] = {1, 0};
+  MPI_Cart_sub(comm_cart, remain_dims_col, &comm_col);
+
   unsigned nr = (n + distr_M - s - 1) / distr_M;  // number of local rows
   unsigned nc = (n + distr_N - t - 1) / distr_N;  // number of local columns
 
@@ -461,8 +479,29 @@ int main(int argc, char** argv) {
   MPI_File_set_view(file, 0, MPI_DOUBLE, cyclic_dist, "native", MPI_INFO_NULL);
   MPI_File_write_at_all(file, 0, A, nr * nc, MPI_DOUBLE, MPI_STATUS_IGNORE);
 
-  // if (rank == 2)
-  //   MPI_File_write(file, A, nr * nc, MPI_DOUBLE, MPI_STATUS_IGNORE);
+  MPI_File_close(&file);
+
+  MPI_File_open(MPI_COMM_WORLD, "pi.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
+                MPI_INFO_NULL, &file);
+
+  if (rank == 0) {
+    unsigned* pi_full = (unsigned*)malloc(sizeof(unsigned) * n);
+
+    for (i = 0; i < n; ++i) {
+      if (phi0(i, distr_M) != s)
+        MPI_Recv(&pi_full[i], 1, MPI_INT, phi0(i, distr_M) * distr_N, i,
+                 MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      else
+        pi_full[i] = pi[i_loc(i, distr_M)];
+    }
+
+    MPI_File_write(file, pi, n, MPI_INT, MPI_STATUS_IGNORE);
+
+  } else if (t == 0) {
+    for (i = 0; i < nr; ++i) {
+      MPI_Send(&pi[i], 1, MPI_INT, 0, i_glob(i, distr_M, s), MPI_COMM_WORLD);
+    }
+  }
 
   MPI_File_close(&file);
 
