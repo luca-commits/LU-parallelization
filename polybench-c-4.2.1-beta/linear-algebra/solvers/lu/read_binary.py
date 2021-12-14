@@ -8,27 +8,36 @@ np.set_printoptions(threshold=np.inf, linewidth=np.inf)
 
 n = 40
 
-f = open('lu_init.out', encoding='latin1')
+initilal_matrix_file = open('lu_init.out', encoding='latin1')
 
-elements = []
+init_elems = []
 
-for chunk, i in zip(iter(partial(f.read, 8), b''), range(n**2)):
-    elements.append(struct.unpack('d', bytes(chunk, encoding='latin1')))
+for chunk, i in zip(iter(partial(initial_matrix_file.read, 8), b''), range(n**2)):
+    init_elements.append(struct.unpack('d', bytes(chunk, encoding='latin1')))
 
-matrix_init = np.matrix(elements)
-matrix_init = matrix.reshape(n, n)
+init_matrix = np.matrix(init_elements)
+init_matrix = init_matrix.reshape(n, n)
 
 
-f = open('lu.out', encoding='latin1')
+final_matrix_file = open('lu.out', encoding='latin1')
 
-elements = []
+final_elems = []
 
-for chunk, i in zip(iter(partial(f.read, 8), b''), range(n**2)):
-    elements.append(struct.unpack('d', bytes(chunk, encoding='latin1')))
+for chunk, i in zip(iter(partial(final_matrix_file.read, 8), b''), range(n**2)):
+    final_elements.append(struct.unpack('d', bytes(chunk, encoding='latin1')))
 
-matrix = np.matrix(elements)
-matrix = matrix.reshape(n, n)
+final_matrix = np.matrix(final_elements)
+final_matrix = matrix.reshape(n, n)
 
+#pi_file= open('lu.out', encoding='latin1')
+#
+#pi_elems = []
+#
+#for chunk, i in zip(iter(partial(pi_file.read, 8), b''), range(n**2)):
+#    pi_elems.append(struct.unpack('d', bytes(chunk, encoding='latin1')))
+#
+#pi_vector = np.matrix(pi_elems)
+#pi_vector = pi_vector.reshape(n, n)
 print(np.linalg.norm(matrix))
 
 
