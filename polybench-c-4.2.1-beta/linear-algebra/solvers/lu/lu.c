@@ -66,39 +66,39 @@ int largest_divisor(int n) {
 
 /* DCE code. Must scan the entire live-out data.
    Can be used also to check the correctness of the output. */
-// static void print_array(int nr, int nc, double* A, unsigned distr_M,
-//                         unsigned distr_N) {
-//   int i, j;
+static void print_array(int nr, int nc, double* A, unsigned distr_M,
+                        unsigned distr_N) {
+  int i, j;
 
-//   POLYBENCH_DUMP_START;
-//   POLYBENCH_DUMP_BEGIN("A");
-//   fprintf(POLYBENCH_DUMP_TARGET, "\n");
-//   for (i = 0; i < nr; i++) {
-//     for (j = 0; j < nc; j++) {
-//       fprintf(POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, A[idx(i, j, nc)]);
-//     }
+  POLYBENCH_DUMP_START;
+  POLYBENCH_DUMP_BEGIN("A");
+  fprintf(POLYBENCH_DUMP_TARGET, "\n");
+  for (i = 0; i < nr; i++) {
+    for (j = 0; j < nc; j++) {
+      fprintf(POLYBENCH_DUMP_TARGET, DATA_PRINTF_MODIFIER, A[idx(i, j, nc)]);
+    }
 
-//     fprintf(POLYBENCH_DUMP_TARGET, "\n");
-//   }
-//   POLYBENCH_DUMP_END("A");
-//   POLYBENCH_DUMP_FINISH;
-// }
+    fprintf(POLYBENCH_DUMP_TARGET, "\n");
+  }
+  POLYBENCH_DUMP_END("A");
+  POLYBENCH_DUMP_FINISH;
+}
 
 /* Array initialization. */
 // check this one!!1!!1!!
 static void init_array(int n, int nr, int nc, unsigned distr_M,
                        unsigned distr_N, double* A, unsigned s, unsigned t,
                        unsigned p_id /* for debugging*/) {
-  //printf("rank=%d s=%d t=%d\n", p_id, s, t);
+  // printf("rank=%d s=%d t=%d\n", p_id, s, t);
 
   for (unsigned i = 0; i < nc; ++i) {
     for (unsigned j = 0; j < nr; ++j) {
       if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
         A[idx(i, j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
       } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
-        A[idx(i, j, nc)] = 1; 
+        A[idx(i, j, nc)] = 1;
       } else {
-        A[idx(i, j, nc)] = 0; 
+        A[idx(i, j, nc)] = 0;
       }
     }
   }
@@ -114,7 +114,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
   unsigned t = p_id % distr_M;  // have to check these ones out!!!!!!
   unsigned s = p_id / distr_M;
   // unsigned nr = (n + distr_M - s - 1) / distr_M;  // number of local rows
-  //unsigned nr = (n + distr_M - s - 1) / distr_M;
+  unsigned nr = (n + distr_M - s - 1) / distr_M;
   unsigned nc = (n + distr_N - t - 1) / distr_N;  // number of local columns
   int i, j, k, r;
   DATA_TYPE absmax;
@@ -131,11 +131,11 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
   int* IMax = (int*)malloc(MAX(distr_M, 1) * sizeof(int));
 
   for (k = 0; k < n; k++) {
-    //if (k == 2) break;
+    // if (k == 2) break;
     if (phi1(k, distr_N) == t) {
-      absmax = 0;
-      //A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)];// <-- kontrollieren ob dies stimmt
-      int rs = 0;
+      absmax = A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
+                     nc)];  // <-- kontrollieren ob dies stimmt
+      int rs = k;
 
       for (i = k; i < n; i++) {
         if (phi0(i, distr_N) == s &&
@@ -199,7 +199,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
           requests[i] = MPI_REQUEST_NULL;
       }
 
-
       MPI_Waitall(distr_N, requests, MPI_STATUSES_IGNORE);
     }
 
@@ -208,13 +207,13 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
-    //printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
+    printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
 
     /* Superstep (4) & ... */
     if (phi0(k, distr_M) == s && r != k) {
       /* Store pi(k) in pi(r) on P(r%M,t) */
-      MPI_Send(&pi[k / distr_M], 1, MPI_DOUBLE, distr_M * phi0(r, distr_M) + t,
-               k, MPI_COMM_WORLD);
+      MPI_Send(&pi[i_loc(k, distr_M)], 1, MPI_DOUBLE,
+               distr_M * phi0(r, distr_M) + t, k, MPI_COMM_WORLD);
 
       i = 0;
       for (j = 0; j < n; ++j) {  // waistful looping... will correct later
@@ -241,8 +240,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
 
     if (phi0(r, distr_M) == s && r != k) {
       i = 0;
-      MPI_Send(&pi[r / distr_M], 1, MPI_DOUBLE, distr_M * phi0(k, distr_M) + t,
-               k + 2, MPI_COMM_WORLD);
+      MPI_Send(&pi[i_loc(r, distr_M)], 1, MPI_DOUBLE,
+               distr_M * phi0(k, distr_M) + t, r, MPI_COMM_WORLD);
       for (j = 0; j < n; ++j) {
         if (phi1(j, distr_N) == t) {
           A_row_r_temp[i] = A[idx(i_loc(r, distr_M), j_loc(j, distr_N), nc)];
@@ -254,15 +253,14 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     }
 
     if (s == phi0(k, distr_M) && r != k) {
-      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, phi0(r, distr_M) * distr_M + t, k + 2,
+      MPI_Recv(&pi_r_temp, 1, MPI_DOUBLE, phi0(r, distr_M) * distr_M + t, r,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
       MPI_Recv(&A_row_r_temp, nc, MPI_DOUBLE, phi0(r, distr_M) * distr_M + t,
                k + 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     if (phi0(k, distr_N) == s && r != k) {
-      if(p_id == 0) printf("pi[k] == %d\n", pi[k]);
-      pi[k] = pi_r_temp;
+      pi[i_loc(k, distr_M)] = pi_r_temp;
       i = 0;
       for (j = 0; j < n; j++) {
         if (phi1(j, distr_N) == t) {
@@ -273,7 +271,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     }
 
     if (phi0(r, distr_N) == s && r != k) {
-      pi[r] = pi_k_temp;
+      pi[i_loc(r, distr_M)] = pi_k_temp;
       i = 0;
       for (j = 0; j < n; j++) {
         if (phi1(j, distr_N) == t) {
@@ -282,6 +280,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
         }
       }
     }
+
     // algo 2.4 begin
 
     // superstep 8
@@ -338,6 +337,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
         if (phi0(i, distr_M) ==
             s) {  // this processor owns i-th element of kth column
           for (j = 0; j < distr_N; ++j) {
+            assert(A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)] < 10);
             MPI_Send(&A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)], 1,
                      MPI_DOUBLE, s * distr_N + j, k, MPI_COMM_WORLD);
           }
@@ -348,6 +348,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     double a_ik[n / distr_M];
     for (unsigned i = k + 1; i < n; ++i) {
       if (phi0(i, distr_M) == s) {
+        assert(i / distr_M < n / distr_M);
         MPI_Recv(&a_ik[i / distr_M], 1, MPI_DOUBLE,
                  s * distr_N + phi1(k, distr_N), k, MPI_COMM_WORLD,
                  MPI_STATUS_IGNORE);
@@ -358,6 +359,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       for (j = k + 1; j < n; ++j) {
         if (phi1(j, distr_N) == t) {
           for (i = 0; i < distr_M; ++i) {
+            assert(A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)] < 10);
             MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)], 1,
                      MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
           }
@@ -368,9 +370,11 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
     double a_kj[n / distr_N];  // we will recieve one element per column
     for (unsigned j = k + 1; j < n; ++j) {
       if (phi1(j, distr_N) == t) {
+        assert(j / distr_N < n / distr_N);
         MPI_Recv(&a_kj[j / distr_N], 1, MPI_DOUBLE,
                  phi0(k, distr_M) * distr_N + t, k, MPI_COMM_WORLD,
                  MPI_STATUS_IGNORE);
+        assert(a_kj[j / distr_N] < 10);
       }
     }
 
@@ -379,18 +383,15 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       if (phi0(i, distr_M) == s) {
         for (j = k + 1; j < n; ++j) {
           if (phi1(j, distr_N) == t) {
-             A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -=
+            A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -=
                 a_ik[i / distr_M] * a_kj[j / distr_N];
             // A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -= 0;
           }
         }
       }
     }
-
-    MPI_Barrier(MPI_COMM_WORLD);
   }
 }
-
 
 int main(int argc, char** argv) {
   int rank, size;
@@ -442,10 +443,10 @@ int main(int argc, char** argv) {
   /* Start timer. */
   polybench_start_instruments;
 
-  unsigned* pi = malloc(sizeof(unsigned) * n);
+  unsigned* pi = malloc(sizeof(unsigned) * nr);
   unsigned i;
-  for (i = 0; i < n; ++i) {
-    pi[i] = i;
+  for (i = 0; i < nr; ++i) {
+    pi[i] = i_glob(i, distr_M, s);
   }
 
   /* Run kernel. */
@@ -508,6 +509,8 @@ int main(int argc, char** argv) {
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
 
+  // while (1)
+  //   ;
   MPI_Finalize();
 
   return 0;
