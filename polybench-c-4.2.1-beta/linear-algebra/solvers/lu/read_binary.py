@@ -4,42 +4,32 @@ import numpy as np
 import scipy.linalg
 import sys
 
-np.set_printoptions(threshold=np.inf, linewidth=np.inf)
+np.set_printoptions(threshold=np.inf, linewidth=np.inf, precision=2)
 
 n = 40
 
-initilal_matrix_file = open('lu_init.out', encoding='latin1')
+init_matrix = np.fromfile('lu_init.out', dtype=np.float64, count=n**2).reshape(n, n)
 
-init_elems = []
+lu_matrix = np.fromfile('lu.out', dtype=np.float64, count=n**2).reshape(n, n)
 
-for chunk, i in zip(iter(partial(initial_matrix_file.read, 8), b''), range(n**2)):
-    init_elements.append(struct.unpack('d', bytes(chunk, encoding='latin1')))
+l_matrix = np.tril(lu_matrix, k=-1) + np.eye(n, n)
+u_matrix = np.triu(lu_matrix)
 
-init_matrix = np.matrix(init_elements)
-init_matrix = init_matrix.reshape(n, n)
+pi_elems = np.fromfile('pi.out', dtype=np.int32, count=n)
+p_matrix = np.zeros((n, n))
 
+for i in range(n):
+    p_matrix[i, pi_elems[i]] = 1
 
-final_matrix_file = open('lu.out', encoding='latin1')
+a_matrix = np.matmul(p_matrix, np.matmul(l_matrix, u_matrix))
 
-final_elems = []
+print("Initial matrix:")
+print(init_matrix)
+print("Output matrix:")
+print(a_matrix)
+print("Difference:")
+print(init_matrix - a_matrix)
 
-for chunk, i in zip(iter(partial(final_matrix_file.read, 8), b''), range(n**2)):
-    final_elements.append(struct.unpack('d', bytes(chunk, encoding='latin1')))
+err = np.linalg.norm(a_matrix - init_matrix)
 
-final_matrix = np.matrix(final_elements)
-final_matrix = matrix.reshape(n, n)
-
-#pi_file= open('lu.out', encoding='latin1')
-#
-#pi_elems = []
-#
-#for chunk, i in zip(iter(partial(pi_file.read, 8), b''), range(n**2)):
-#    pi_elems.append(struct.unpack('d', bytes(chunk, encoding='latin1')))
-#
-#pi_vector = np.matrix(pi_elems)
-#pi_vector = pi_vector.reshape(n, n)
-print(np.linalg.norm(matrix))
-
-
-
-print(matrix)
+print(f"Mean squared error: {err}")
