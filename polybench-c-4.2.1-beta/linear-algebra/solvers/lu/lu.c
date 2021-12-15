@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 
 /* Include MPI header. */
@@ -93,13 +94,14 @@ static void init_array(int n, int nr, int nc, unsigned distr_M,
 
   for (unsigned i = 0; i < nc; ++i) {
     for (unsigned j = 0; j < nr; ++j) {
-      if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
-        A[idx(i, j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
-      } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
-        A[idx(i, j, nc)] = 1;
-      } else {
-        A[idx(i, j, nc)] = 0;
-      }
+      // if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
+      //   A[idx(i, j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
+      // } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
+      //   A[idx(i, j, nc)] = 1;
+      // } else {
+      //   A[idx(i, j, nc)] = 0;
+      // }
+      A[idx(i, j, nc)] = (double)(rand()) / RAND_MAX * 2;
     }
   }
 }
@@ -131,14 +133,13 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
   int* IMax = (int*)malloc(MAX(distr_M, 1) * sizeof(int));
 
   for (k = 0; k < n; k++) {
-    // if (k == 2) break;
     if (phi1(k, distr_N) == t) {
-      absmax = A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
-                     nc)];  // <-- kontrollieren ob dies stimmt
+      absmax = fabs(A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
+                          nc)]);  // <-- kontrollieren ob dies stimmt
       int rs = k;
 
       for (i = k; i < n; i++) {
-        if (phi0(i, distr_N) == s &&
+        if (phi0(i, distr_M) == s &&
             absmax < fabs(A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)])) {
           absmax = fabs(A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)]);
           rs = i;
@@ -185,7 +186,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
         int imax = IMax[smax];
         r = imax;  // global index
       } else {
-        printf("rank %d: ABORT because of pivoting on zero element\n", p_id);
+        printf(
+            "rank %d: ABORT because all elements in column are == 0 "
+            "(absmax=%f)\n",
+            p_id, absmax);
         MPI_Abort(MPI_COMM_WORLD, 192);
       }
       /* Superstep (3) */
@@ -309,6 +313,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       }
     }
 
+    // if (k == 1) break;
+
     // superstep 9
     if (phi1(k, distr_N) == t) {
       for (i = k + 1; i < n; ++i) {
@@ -337,7 +343,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
         if (phi0(i, distr_M) ==
             s) {  // this processor owns i-th element of kth column
           for (j = 0; j < distr_N; ++j) {
-            assert(A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)] < 10);
             MPI_Send(&A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)], 1,
                      MPI_DOUBLE, s * distr_N + j, k, MPI_COMM_WORLD);
           }
@@ -359,7 +364,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
       for (j = k + 1; j < n; ++j) {
         if (phi1(j, distr_N) == t) {
           for (i = 0; i < distr_M; ++i) {
-            assert(A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)] < 10);
             MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)], 1,
                      MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
           }
@@ -374,7 +378,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
         MPI_Recv(&a_kj[j / distr_N], 1, MPI_DOUBLE,
                  phi0(k, distr_M) * distr_N + t, k, MPI_COMM_WORLD,
                  MPI_STATUS_IGNORE);
-        assert(a_kj[j / distr_N] < 10);
       }
     }
 
@@ -390,6 +393,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned* pi,
         }
       }
     }
+
+    // if (k == 3) break;
   }
 }
 
@@ -401,7 +406,8 @@ int main(int argc, char** argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   /* Retrieve problem size. */
-  int n = N;
+  // int n = N;
+  int n = 16;
 
   unsigned distr_M,
       distr_N;  // M and N of the cyclic distr., need to be computed yet
@@ -437,8 +443,31 @@ int main(int argc, char** argv) {
   double* A = (double*)malloc(nr * nc * sizeof(double));
 
   /* Initialize array(s). */
+  srand((rank + 1) * time(NULL));
   init_array(n, nr, nc, distr_M, distr_N, A, s, t, rank);
   // if (rank == 0) print_array(nr, nc, A, distr_M, distr_N);
+
+  // /* Write results to file */
+  MPI_Datatype cyclic_dist;
+  int array_gsizes[2] = {n, n};
+  int array_distribs[2] = {MPI_DISTRIBUTE_CYCLIC, MPI_DISTRIBUTE_CYCLIC};
+  int array_dargs[2] = {1, 1};
+  int array_psizes[2] = {distr_M, distr_N};
+
+  MPI_Type_create_darray(size, rank, 2, array_gsizes, array_distribs,
+                         array_dargs, array_psizes, MPI_ORDER_C, MPI_DOUBLE,
+                         &cyclic_dist);
+
+  MPI_Type_commit(&cyclic_dist);
+
+  MPI_File file;
+  MPI_File_open(MPI_COMM_WORLD, "lu_init.out",
+                MPI_MODE_WRONLY | MPI_MODE_CREATE, MPI_INFO_NULL, &file);
+
+  MPI_File_set_view(file, 0, MPI_DOUBLE, cyclic_dist, "native", MPI_INFO_NULL);
+  MPI_File_write_at_all(file, 0, A, nr * nc, MPI_DOUBLE, MPI_STATUS_IGNORE);
+
+  MPI_File_close(&file);
 
   /* Start timer. */
   polybench_start_instruments;
@@ -461,19 +490,6 @@ int main(int argc, char** argv) {
   // if (rank == 0) polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
   // /* Write results to file */
-  MPI_Datatype cyclic_dist;
-  int array_gsizes[2] = {n, n};
-  int array_distribs[2] = {MPI_DISTRIBUTE_CYCLIC, MPI_DISTRIBUTE_CYCLIC};
-  int array_dargs[2] = {1, 1};
-  int array_psizes[2] = {distr_M, distr_N};
-
-  MPI_Type_create_darray(size, rank, 2, array_gsizes, array_distribs,
-                         array_dargs, array_psizes, MPI_ORDER_C, MPI_DOUBLE,
-                         &cyclic_dist);
-
-  MPI_Type_commit(&cyclic_dist);
-
-  MPI_File file;
   MPI_File_open(MPI_COMM_WORLD, "lu.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
                 MPI_INFO_NULL, &file);
 
@@ -492,12 +508,6 @@ int main(int argc, char** argv) {
       else
         pi_full[i] = pi[i_loc(i, distr_M)];
     }
-
-    for (i = 0; i < n; ++i) {
-      printf("%d ", pi_full[i]);
-    }
-
-    printf("\n");
 
     MPI_File file_pi;
     MPI_File_open(MPI_COMM_SELF, "pi.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,

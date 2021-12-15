@@ -6,9 +6,11 @@ import sys
 
 np.set_printoptions(threshold=np.inf, linewidth=np.inf, precision=2)
 
-n = 40
+n = 16
 
 init_matrix = np.fromfile('lu_init.out', dtype=np.float64, count=n**2).reshape(n, n)
+
+print(scipy.linalg.lu(init_matrix))
 
 lu_matrix = np.fromfile('lu.out', dtype=np.float64, count=n**2).reshape(n, n)
 
@@ -27,10 +29,8 @@ print("Initial matrix:")
 print(init_matrix)
 print("P matrix:")
 print(p_matrix)
-print("L matrix:")
-print(l_matrix)
-print("U matrix:")
-print(u_matrix)
+print("LU matrix:")
+print(lu_matrix)
 print("Output matrix:")
 print(a_matrix)
 print("Difference:")
