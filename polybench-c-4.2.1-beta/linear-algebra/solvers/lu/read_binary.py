@@ -21,10 +21,16 @@ p_matrix = np.zeros((n, n))
 for i in range(n):
     p_matrix[i, pi_elems[i]] = 1
 
-a_matrix = np.matmul(p_matrix, np.matmul(l_matrix, u_matrix))
+a_matrix = np.matmul(p_matrix.T, np.matmul(l_matrix, u_matrix))
 
 print("Initial matrix:")
 print(init_matrix)
+print("P matrix:")
+print(p_matrix)
+print("L matrix:")
+print(l_matrix)
+print("U matrix:")
+print(u_matrix)
 print("Output matrix:")
 print(a_matrix)
 print("Difference:")
