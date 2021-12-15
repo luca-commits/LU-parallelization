@@ -443,7 +443,7 @@ int main(int argc, char** argv) {
   /* Start timer. */
   polybench_start_instruments;
 
-  unsigned* pi = malloc(sizeof(unsigned) * nr);
+  int* pi = malloc(sizeof(int) * nr);
   unsigned i;
   for (i = 0; i < nr; ++i) {
     pi[i] = i_glob(i, distr_M, s);
@@ -482,9 +482,6 @@ int main(int argc, char** argv) {
 
   MPI_File_close(&file);
 
-  MPI_File_open(MPI_COMM_WORLD, "pi.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
-                MPI_INFO_NULL, &file);
-
   if (rank == 0) {
     unsigned* pi_full = (unsigned*)malloc(sizeof(unsigned) * n);
 
@@ -496,15 +493,24 @@ int main(int argc, char** argv) {
         pi_full[i] = pi[i_loc(i, distr_M)];
     }
 
-    MPI_File_write(file, pi, n, MPI_INT, MPI_STATUS_IGNORE);
+    for (i = 0; i < n; ++i) {
+      printf("%d ", pi_full[i]);
+    }
 
+    printf("\n");
+
+    MPI_File file_pi;
+    MPI_File_open(MPI_COMM_SELF, "pi.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
+                  MPI_INFO_NULL, &file_pi);
+
+    MPI_File_write(file_pi, pi_full, n, MPI_INT, MPI_STATUS_IGNORE);
+
+    MPI_File_close(&file_pi);
   } else if (t == 0) {
     for (i = 0; i < nr; ++i) {
       MPI_Send(&pi[i], 1, MPI_INT, 0, i_glob(i, distr_M, s), MPI_COMM_WORLD);
     }
   }
-
-  MPI_File_close(&file);
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
