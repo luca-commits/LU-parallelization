@@ -443,7 +443,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       }
     }
 
-    if (k == 0) break;
+    // if (k == 0) break;
   }
 }
 
