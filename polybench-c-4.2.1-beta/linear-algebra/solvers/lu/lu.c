@@ -212,7 +212,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
 
     /* Superstep (4) & ... */
-    printf("rank %d: phi0(k=%d, distr_M=%d)=%d, s=%d\n", k, distr_M,
+    printf("rank %d: phi0(k=%d, distr_M=%d)=%d, s=%d\n", p_id, k, distr_M,
            phi0(k, distr_M), s);
     if (phi0(k, distr_M) == s && r != k) {
       printf("rank %d: sending row k to rank %d\n", p_id,
