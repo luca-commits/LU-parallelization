@@ -290,6 +290,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       }
     }
 
+    printf("rank %d: finished superstep 7\n", p_id);
+
     // algo 2.4 begin
 
     // superstep 8
