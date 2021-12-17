@@ -120,7 +120,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
   int i, j, k, r;
   DATA_TYPE absmax;
 
-  unsigned pi_k_temp, pi_r_temp;
+  int pi_k_temp, pi_r_temp;
   double A_row_k_temp[nc];
   double A_row_r_temp[nc];
 
@@ -128,8 +128,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
   // algorithm 2.5
 
   // find largest absolute value in column k
-  DATA_TYPE* Max = (DATA_TYPE*)malloc(MAX(distr_M, 1) * sizeof(DATA_TYPE));
-  int* IMax = (int*)malloc(MAX(distr_M, 1) * sizeof(int));
+  double* Max = (double*)malloc(distr_M * sizeof(double));
+  int* IMax = (int*)malloc(distr_M * sizeof(int));
 
   for (k = 0; k < n; k++) {
     if (phi1(k, distr_N) == t) {
@@ -137,11 +137,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                           nc)]);  // <-- kontrollieren ob dies stimmt
       int rs = k;
 
-      for (i = k; i < n; i++) {
-        if (phi0(i, distr_M) == s &&
-            absmax < fabs(A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)])) {
-          absmax = fabs(A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)]);
-          rs = i;
+      for (i = i_loc(k, distr_M); i < nr; i++) {
+        if (absmax < fabs(A[idx(i, j_loc(k, distr_N), nc)])) {
+          absmax = fabs(A[idx(i, j_loc(k, distr_N), nc)]);
+          rs = i_glob(i, distr_M, s);
         }
       }
 
@@ -153,8 +152,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       MPI_Request requests[4 * distr_M];
 
       for (i = 0; i < distr_M; ++i) {
-        printf("Line 155 Rank %d sends to %d, i=%d, distr_N=%d, t=%d\n", p_id,
-               i * distr_N + t, i, distr_N, t);
+        printf(
+            "Line 155 Rank %d sends to %d, i=%d, distr_N=%d, t=%d, max=%f, "
+            "rs=%d\n",
+            p_id, i * distr_N + t, i, distr_N, t, max, rs);
         MPI_Isend(&max, 1, MPI_DOUBLE, i * distr_N + t, 0, MPI_COMM_WORLD,
                   &requests[2 * i]);
         MPI_Isend(&rs, 1, MPI_INT, i * distr_N + t, 1, MPI_COMM_WORLD,
@@ -162,7 +163,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       }
 
       for (i = 0; i < distr_M; ++i) {
-        printf("%d %p %p %p %d\n", i, &A, &Max[0], &IMax[0], 1);
         MPI_Irecv(&Max[i], 1, MPI_DOUBLE, i * distr_N + t, 0, MPI_COMM_WORLD,
                   &requests[2 * distr_M + 2 * i]);
         MPI_Irecv(&IMax[i], 1, MPI_INT, i * distr_N + t, 1, MPI_COMM_WORLD,
@@ -170,6 +170,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       }
 
       MPI_Waitall(4 * distr_M, requests, MPI_STATUSES_IGNORE);
+
+      printf("%p %f %d\n", &A, Max[0], IMax[0]);
     }
 
     // superstep 2 & 3
@@ -183,6 +185,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
           smax = i;
         }
       }
+
+      printf("rank %d: smax=%d\n", p_id, smax);
 
       if (absmax > EPS) {
         int imax = IMax[smax];
@@ -200,7 +204,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       for (i = 0; i < distr_N; ++i) {
         if (t != i) {
           printf("L199 Rank %d sends to rank %d\n", p_id, distr_N * s + i);
-          MPI_Isend(&r, 1, MPI_DOUBLE, distr_N * s + i, 0, MPI_COMM_WORLD,
+          MPI_Isend(&r, 1, MPI_INT, distr_N * s + i, 0, MPI_COMM_WORLD,
                     &requests[i]);
         } else
           requests[i] = MPI_REQUEST_NULL;
@@ -210,9 +214,11 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     }
 
     if (t != phi1(k, distr_N)) {
-      MPI_Recv(&r, 1, MPI_DOUBLE, s * distr_N + phi1(k, distr_N), 0,
+      MPI_Recv(&r, 1, MPI_INT, s * distr_N + phi1(k, distr_N), 0,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
+
+    MPI_Barrier(MPI_COMM_WORLD);
 
     printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
 
@@ -223,10 +229,11 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                distr_N * phi0(r, distr_M) + t, k, MPI_COMM_WORLD);
 
       i = 0;
-      for (j = 0; j < n; ++j) {  // waistful looping... will correct later
+      for (j = 0; j < nc; ++j) {  // waistful looping... will correct later
         A_row_k_temp[j] = A[idx(i_loc(k, distr_M), j, nc)];
       }
-      /*I'm not sure if reciever would get right write message without tag so
+      /*I'm not sure if reciever would get right write message without tag
+      so
        * I just added one */
       MPI_Send(A_row_k_temp, nc, MPI_DOUBLE, distr_M * phi0(r, distr_M) + t,
                k + 1,
@@ -260,15 +267,15 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                k + 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
-    if (phi0(k, distr_N) == s && r != k) {
+    if (phi0(k, distr_M) == s && r != k) {
       pi[i_loc(k, distr_M)] = pi_r_temp;
       i = 0;
-      for (j = 0; j < n; j++) {
+      for (j = 0; j < nc; j++) {
         A[idx(i_loc(k, distr_M), j, nc)] = A_row_r_temp[j];
       }
     }
 
-    if (phi0(r, distr_N) == s && r != k) {
+    if (phi0(r, distr_M) == s && r != k) {
       pi[i_loc(r, distr_M)] = pi_k_temp;
       i = 0;
       for (j = 0; j < nc; j++) {
@@ -304,7 +311,22 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       }
     }
 
-    if (k == 3) break;
+    // if (k == 3) break;
+
+    // // superstep 9
+    // if (phi1(k, distr_N) == t) {
+    //   for (i = i_loc(k + 1, distr_M); i < nr; ++i) {
+    //     if (fabs(a_kk) > EPS) {
+    //       A[idx(i, j_loc(k, distr_N), nc)] /= a_kk;
+    //     } else {
+    //       printf(
+    //           "rank %d: ABORT on k=%d because pivoting on zero element "
+    //           "a_kk=%f\n ",
+    //           p_id, k, a_kk);
+    //       MPI_Abort(MPI_COMM_WORLD, 345);  // for some reason it aborts here
+    //     }
+    //   }
+    // }
 
     // superstep 9
     if (phi1(k, distr_N) == t) {
@@ -317,7 +339,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                 "rank %d: ABORT on k=%d because pivoting on zero element "
                 "a_kk=%f\n ",
                 p_id, k, a_kk);
-            MPI_Abort(MPI_COMM_WORLD, 345);  // for some reason it aborts here
+            MPI_Abort(MPI_COMM_WORLD, 345);
           }
         }
       }
@@ -329,6 +351,38 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     // greater
     // than k,
     // to the processors P(s, *) in the same processor row
+    // if (phi1(k, distr_N) == t) {  // this processor owns the k-th column
+    //   for (i = i_loc(k + 1, distr_M); i < nr; ++i) {
+    //     for (j = 0; j < distr_N; ++j) {
+    //       MPI_Send(&A[idx(i, j_loc(k, distr_N), nc)], 1, MPI_DOUBLE,
+    //                s * distr_N + j, k, MPI_COMM_WORLD);
+    //     }
+    //   }
+    // }
+
+    // double a_ik[nr];
+    // for (unsigned i = i_loc(k + 1, distr_M); i < nr; ++i) {
+    //   if (phi0(i, distr_M) == s) {
+    //     MPI_Recv(&a_ik[i], 1, MPI_DOUBLE, s * distr_N + phi1(k, distr_N), k,
+    //              MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    //   }
+    // }
+
+    // if (phi0(k, distr_M) == s) {
+    //   for (j = j_loc(k + 1, distr_N); j < nc; ++j) {
+    //     for (i = 0; i < distr_M; ++i) {
+    //       MPI_Send(&A[idx(i_loc(k, distr_M), j, nc)], 1, MPI_DOUBLE,
+    //                i * distr_N + t, k, MPI_COMM_WORLD);
+    //     }
+    //   }
+    // }
+
+    // double a_kj[nc];  // we will recieve one element per column
+    // for (unsigned j = j_loc(k + 1, distr_N); j < nc; ++j) {
+    //   MPI_Recv(&a_kj[j], 1, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t, k,
+    //            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    // }
+
     if (phi1(k, distr_N) == t) {  // this processor owns the k-th column
       for (i = k + 1; i < n; ++i) {
         if (phi0(i, distr_M) ==
@@ -344,7 +398,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     double a_ik[n / distr_M];
     for (unsigned i = k + 1; i < n; ++i) {
       if (phi0(i, distr_M) == s) {
-        assert(i / distr_M < n / distr_M);
         MPI_Recv(&a_ik[i / distr_M], 1, MPI_DOUBLE,
                  s * distr_N + phi1(k, distr_N), k, MPI_COMM_WORLD,
                  MPI_STATUS_IGNORE);
@@ -365,14 +418,19 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     double a_kj[n / distr_N];  // we will recieve one element per column
     for (unsigned j = k + 1; j < n; ++j) {
       if (phi1(j, distr_N) == t) {
-        assert(j / distr_N < n / distr_N);
         MPI_Recv(&a_kj[j / distr_N], 1, MPI_DOUBLE,
                  phi0(k, distr_M) * distr_N + t, k, MPI_COMM_WORLD,
                  MPI_STATUS_IGNORE);
       }
     }
 
-    // superstep 11
+    // // superstep 11
+    // for (i = i_loc(k + 1, distr_M); i < nr; ++i) {
+    //   for (j = j_loc(k + 1, distr_N); j < nc; ++j) {
+    //     A[idx(i, j, nc)] -= a_ik[i] * a_kj[j];
+    //   }
+    // }
+
     for (i = k + 1; i < n; ++i) {
       if (phi0(i, distr_M) == s) {
         for (j = k + 1; j < n; ++j) {
