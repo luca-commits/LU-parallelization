@@ -211,9 +211,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
     printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
 
-    /* Superstep (4) & ... */
-    printf("rank %d: phi0(k=%d, distr_M=%d)=%d, s=%d\n", p_id, k, distr_M,
-           phi0(k, distr_M), s);
     if (phi0(k, distr_M) == s && r != k) {
       printf("rank %d: sending row k to rank %d\n", p_id,
              distr_N * phi0(r, distr_M) + t);
@@ -316,6 +313,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                MPI_STATUS_IGNORE);
     }
 
+    printf("rank %d: finished superstep 8\n", p_id);
+
     // if (k == 0) break;
 
     // // superstep 9
@@ -349,6 +348,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         }
       }
     }
+
+    printf("rank %d: finished superstep 9\n", p_id);
 
     // superstep 10
 
@@ -429,6 +430,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       }
     }
 
+    printf("rank %d: finished superstep 10\n", p_id);
+
     // // superstep 11
     // for (i = i_loc(k + 1, distr_M); i < nr; ++i) {
     //   for (j = j_loc(k + 1, distr_N); j < nc; ++j) {
@@ -446,6 +449,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         }
       }
     }
+    printf("rank %d: finished superstep 11\n", p_id);
 
     // if (k == 0) break;
   }
