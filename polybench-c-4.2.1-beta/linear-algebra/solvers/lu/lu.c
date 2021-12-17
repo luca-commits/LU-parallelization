@@ -454,8 +454,8 @@ int main(int argc, char** argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   /* Retrieve problem size. */
-  // int n = N;
-  int n = 16;
+  int n = N;
+  // int n = 16;
 
   unsigned distr_M,
       distr_N;  // M and N of the cyclic distr., need to be computed yet

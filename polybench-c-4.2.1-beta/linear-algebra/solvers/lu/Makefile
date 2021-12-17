@@ -1,9 +1,9 @@
 include ../../../config.mk
 
-EXTRA_FLAGS=-Wall -DMINI_DATASET -std=c99
+EXTRA_FLAGS=-Wall -DMINI_DATASET -std=c99 -check-pointers=rw
 
 
-CC=mpicc
+CC=mpiicc
 
 lu: lu.c lu.h
 	${VERBOSE} ${CC} -o lu lu.c ${CFLAGS} -I. -I../../../utilities ../../../utilities/polybench.c ${EXTRA_FLAGS}
