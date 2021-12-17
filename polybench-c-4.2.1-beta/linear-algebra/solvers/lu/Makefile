@@ -1,6 +1,6 @@
 include ../../../config.mk
 
-EXTRA_FLAGS=-Wall -DMINI_DATASET -std=c99 -check-pointers=rw
+EXTRA_FLAGS=-Wall -DMINI_DATASET -std=c99 -DPOLYBENCH_TIME
 
 
 CC=mpiicc
