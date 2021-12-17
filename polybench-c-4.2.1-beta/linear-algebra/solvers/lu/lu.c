@@ -297,18 +297,22 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
     MPI_Barrier(MPI_COMM_WORLD);
 
+    double a_kk;
+
     if (phi0(k, distr_M) == s && phi1(k, distr_N) == t) {
       // printf("the local a_kk before sending is: %f \n" , A[idx(i_loc(k,
       // distr_M), j_loc(k, distr_N), nc)]);
       for (i = 0; i < distr_M; ++i) {
-        MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)], 1,
-                 MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
+        if (p_id != i * distr_N + t) {
+          MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)], 1,
+                   MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
+        } else {
+        a_kk = A[idx(i_loc(k, distr_M), j_loc(k, distr_N);
+        }
       }
     }
 
-    double a_kk;
-
-    if (phi1(k, distr_N) == t) {
+    if (phi0(k, distr_M) != s && phi1(k, distr_N) == t) {
       MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
                MPI_STATUS_IGNORE);
     }
