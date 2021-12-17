@@ -6,7 +6,7 @@ import sys
 
 np.set_printoptions(threshold=np.inf, linewidth=np.inf, precision=2)
 
-n = 40
+n = 16
 
 init_matrix = np.fromfile('lu_init.out', dtype=np.float64, count=n**2).reshape(n, n)
 

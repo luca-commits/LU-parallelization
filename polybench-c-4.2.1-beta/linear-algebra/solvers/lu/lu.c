@@ -94,14 +94,14 @@ static void init_array(int n, int nr, int nc, unsigned distr_M,
 
   for (unsigned i = 0; i < nr; ++i) {
     for (unsigned j = 0; j < nc; ++j) {
-      if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
-        A[idx(i, j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
-      } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
-        A[idx(i, j, nc)] = 1;
-      } else {
-        A[idx(i, j, nc)] = 0;
-      }
-      // A[idx(i, j, nc)] = (double)(rand()) / RAND_MAX * 2.;
+      // if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
+      //   A[idx(i, j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
+      // } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
+      //   A[idx(i, j, nc)] = 1;
+      // } else {
+      //   A[idx(i, j, nc)] = 0;
+      // }
+      A[idx(i, j, nc)] = (double)(rand()) / RAND_MAX * 2.;
     }
   }
 }
@@ -209,12 +209,12 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
-    MPI_Barrier(MPI_COMM_WORLD);
-
     printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
 
     /* Superstep (4) & ... */
     if (phi0(k, distr_M) == s && r != k) {
+      printf("rank %d: sending row k to rank %d\n", p_id,
+             distr_N * phi0(r, distr_M) + t);
       /* Store pi(k) in pi(r) on P(r%M,t) */
       MPI_Send(&pi[i_loc(k, distr_M)], 1, MPI_INT,
                distr_N * phi0(r, distr_M) + t, k, MPI_COMM_WORLD);
@@ -226,24 +226,32 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       /*I'm not sure if reciever would get right write message without tag
       so
        * I just added one */
-      MPI_Send(A_row_k_temp, nc, MPI_DOUBLE, distr_M * phi0(r, distr_M) + t,
+      MPI_Send(A_row_k_temp, nc, MPI_DOUBLE, distr_N * phi0(r, distr_M) + t,
                k + 1,
                MPI_COMM_WORLD);  // Probably should use ISend here (or
                                  // even use one sided communication)
     }
 
     if (s == phi0(r, distr_M) && r != k) {
+      printf(
+          "Rank %d, k=%d: Is awaiting receive A_rows and pi in row k from rank "
+          "%d\n",
+          p_id, k, phi0(k, distr_M) * distr_N + t);
       MPI_Recv(&pi_k_temp, 1, MPI_INT, phi0(k, distr_M) * distr_N + t, k,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
       MPI_Recv(A_row_k_temp, nc, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t,
                k + 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+      printf("Rank %d, k=%d: Received A_rows and pi in row k\n", p_id, k);
     }
 
     if (phi0(r, distr_M) == s && r != k) {
+      printf("rank %d: sending row r to rank %d\n", p_id,
+             distr_N * phi0(k, distr_M) + t);
       i = 0;
       MPI_Send(&pi[i_loc(r, distr_M)], 1, MPI_INT,
-               distr_M * phi0(k, distr_M) + t, r, MPI_COMM_WORLD);
+               distr_N * phi0(k, distr_M) + t, r, MPI_COMM_WORLD);
       for (j = 0; j < nc; ++j) {
         A_row_r_temp[j] = A[idx(i_loc(r, distr_M), j, nc)];
       }
@@ -252,10 +260,16 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     }
 
     if (s == phi0(k, distr_M) && r != k) {
+      printf(
+          "Rank %d, k=%d: Is awaiting receive A_rows and pi in row r from rank "
+          "%d\n",
+          p_id, k, phi0(r, distr_M) * distr_N + t);
       MPI_Recv(&pi_r_temp, 1, MPI_INT, phi0(r, distr_M) * distr_N + t, r,
                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
       MPI_Recv(A_row_r_temp, nc, MPI_DOUBLE, phi0(r, distr_M) * distr_N + t,
                k + 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+      printf("Rank %d, k=%d: Received A_rows and pi in row r\n", p_id, k);
     }
 
     if (phi0(k, distr_M) == s && r != k) {
@@ -441,8 +455,8 @@ int main(int argc, char** argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   /* Retrieve problem size. */
-  int n = N;
-  // int n = 16;
+  // int n = N;
+  int n = 16;
 
   unsigned distr_M,
       distr_N;  // M and N of the cyclic distr., need to be computed yet
@@ -534,29 +548,29 @@ int main(int argc, char** argv) {
 
   MPI_File_close(&file);
 
-  if (rank == 0) {
-    unsigned* pi_full = (unsigned*)malloc(sizeof(unsigned) * n);
+  // if (rank == 0) {
+  //   unsigned* pi_full = (unsigned*)malloc(sizeof(unsigned) * n);
 
-    for (i = 0; i < n; ++i) {
-      if (phi0(i, distr_M) != s)
-        MPI_Recv(&pi_full[i], 1, MPI_INT, phi0(i, distr_M) * distr_N, i,
-                 MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      else
-        pi_full[i] = pi[i_loc(i, distr_M)];
-    }
+  //   for (i = 0; i < n; ++i) {
+  //     if (phi0(i, distr_M) != s)
+  //       MPI_Recv(&pi_full[i], 1, MPI_INT, phi0(i, distr_M) * distr_N, i,
+  //                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  //     else
+  //       pi_full[i] = pi[i_loc(i, distr_M)];
+  //   }
 
-    MPI_File file_pi;
-    MPI_File_open(MPI_COMM_SELF, "pi.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
-                  MPI_INFO_NULL, &file_pi);
+  //   MPI_File file_pi;
+  //   MPI_File_open(MPI_COMM_SELF, "pi.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
+  //                 MPI_INFO_NULL, &file_pi);
 
-    MPI_File_write(file_pi, pi_full, n, MPI_INT, MPI_STATUS_IGNORE);
+  //   MPI_File_write(file_pi, pi_full, n, MPI_INT, MPI_STATUS_IGNORE);
 
-    MPI_File_close(&file_pi);
-  } else if (t == 0) {
-    for (i = 0; i < nr; ++i) {
-      MPI_Send(&pi[i], 1, MPI_INT, 0, i_glob(i, distr_M, s), MPI_COMM_WORLD);
-    }
-  }
+  //   MPI_File_close(&file_pi);
+  // } else if (t == 0) {
+  //   for (i = 0; i < nr; ++i) {
+  //     MPI_Send(&pi[i], 1, MPI_INT, 0, i_glob(i, distr_M, s), MPI_COMM_WORLD);
+  //   }
+  // }
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
