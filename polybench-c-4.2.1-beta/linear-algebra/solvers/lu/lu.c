@@ -258,7 +258,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         a_kk = A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)];
       }
 
-      MPI_Bcast(&a_kk, 1, MPI_DOUBLE, phi0(k, distr_N), comm_col);
+      MPI_Bcast(&a_kk, 1, MPI_DOUBLE, phi0(k, distr_M), comm_col);
     }
 
     // superstep 9
