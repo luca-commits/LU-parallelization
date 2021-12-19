@@ -289,44 +289,23 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       pi[i_loc(k, distr_M)] = pi_temp;
 
     } else if (phi0(k, distr_M) == s && r != k) {
-      for (j = 0; j < nc; ++j) {  // waistful looping... will correct later
-        A_row_k_temp[j] = A[idx(i_loc(k, distr_M), j, nc)];
-      }
-
       // Sendrecv here
-      MPI_Sendrecv(A_row_k_temp, nc, MPI_DOUBLE, distr_N * phi0(r, distr_M) + t,
-                   0, A_row_r_temp, nc, MPI_DOUBLE,
-                   distr_N * phi0(r, distr_M) + t, 1, MPI_COMM_WORLD,
-                   MPI_STATUS_IGNORE);
-      MPI_Sendrecv(&pi[i_loc(k, distr_M)], 1, MPI_INT,
-                   distr_N * phi0(r, distr_M) + t, 2, &pi_r_temp, 1, MPI_INT,
-                   distr_N * phi0(r, distr_M) + t, 3, MPI_COMM_WORLD,
-                   MPI_STATUS_IGNORE);
-
-      pi[i_loc(k, distr_M)] = pi_r_temp;
-      for (j = 0; j < nc; j++) {
-        A[idx(i_loc(k, distr_M), j, nc)] = A_row_r_temp[j];
-      }
+      MPI_Sendrecv_replace(&A[idx(i_loc(k, distr_M), 0, nc)], nc, MPI_DOUBLE,
+                           distr_N * phi0(r, distr_M) + t, 0,
+                           distr_N * phi0(r, distr_M) + t, 1, MPI_COMM_WORLD,
+                           MPI_STATUS_IGNORE);
+      MPI_Sendrecv_replace(
+          &pi[i_loc(k, distr_M)], 1, MPI_INT, distr_N * phi0(r, distr_M) + t, 2,
+          distr_N * phi0(r, distr_M) + t, 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     } else if (phi1(r, distr_M) == s && r != k) {
-      for (j = 0; j < nc; ++j) {
-        A_row_r_temp[j] = A[idx(i_loc(r, distr_M), j, nc)];
-      }
-
       // Sendrecv here
-      MPI_Sendrecv(A_row_r_temp, nc, MPI_DOUBLE, distr_N * phi0(k, distr_M) + t,
-                   1, A_row_k_temp, nc, MPI_DOUBLE,
-                   distr_N * phi0(k, distr_M) + t, 0, MPI_COMM_WORLD,
-                   MPI_STATUS_IGNORE);
-      MPI_Sendrecv(&pi[i_loc(r, distr_M)], 1, MPI_INT,
-                   distr_N * phi0(k, distr_M) + t, 3, &pi_k_temp, 1, MPI_INT,
-                   distr_N * phi0(k, distr_M) + t, 2, MPI_COMM_WORLD,
-                   MPI_STATUS_IGNORE);
-
-      pi[i_loc(r, distr_M)] = pi_k_temp;
-      i = 0;
-      for (j = 0; j < nc; j++) {
-        A[idx(i_loc(r, distr_M), j, nc)] = A_row_k_temp[j];
-      }
+      MPI_Sendrecv_replace(&A[idx(i_loc(r, distr_M), 0, nc)], nc, MPI_DOUBLE,
+                           distr_N * phi0(k, distr_M) + t, 1,
+                           distr_N * phi0(k, distr_M) + t, 0, MPI_COMM_WORLD,
+                           MPI_STATUS_IGNORE);
+      MPI_Sendrecv_replace(
+          &pi[i_loc(r, distr_M)], 1, MPI_INT, distr_N * phi0(k, distr_M) + t, 3,
+          distr_N * phi0(k, distr_M) + t, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
 
     // if (k == 1) break;
