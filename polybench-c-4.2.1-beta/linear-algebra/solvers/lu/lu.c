@@ -204,11 +204,14 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       double a_temp;
       int pi_temp;
 
-      for (j = 0; j < nc; ++j) {  // waistful looping... will correct later
-        a_temp = A[idx(i_loc(k, distr_M), j, nc)];
-        A[idx(i_loc(k, distr_M), j, nc)] = A[idx(i_loc(r, distr_M), j, nc)];
-        A[idx(i_loc(r, distr_M), j, nc)] = a_temp;
-      }
+      // for (j = 0; j < nc; ++j) {  // waistful looping... will correct later
+      //   a_temp = A[idx(i_loc(k, distr_M), j, nc)];
+      //   A[idx(i_loc(k, distr_M), j, nc)] = A[idx(i_loc(r, distr_M), j, nc)];
+      //   A[idx(i_loc(r, distr_M), j, nc)] = a_temp;
+      // }
+
+      cblas_dswap(nc, &A[idx(i_loc(k, distr_M), 0, nc)], 1,
+                  &A[idx(i_loc(r, distr_M), 0, nc)], 1);
 
       pi_temp = pi[i_loc(r, distr_M)];
       pi[i_loc(r, distr_M)] = pi[i_loc(k, distr_M)];
@@ -291,7 +294,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
     MPI_Bcast(a_kj, nc, MPI_DOUBLE, phi0(k, distr_M), comm_col);
 
-    // // superstep 11
+    // superstep 11
     // for (i = i_loc(k + 1, distr_M); i < nr; ++i) {
     //   for (j = j_loc(k + 1, distr_N); j < nc; ++j) {
     //     A[idx(i, j, nc)] -= a_ik[i] * a_kj[j];
