@@ -193,24 +193,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
             p_id, absmax);
         MPI_Abort(MPI_COMM_WORLD, 192);
       }
-      /* Superstep (3) */
-      MPI_Request requests[distr_N];
-
-      for (i = 0; i < distr_N; ++i) {
-        if (t != i) {
-          MPI_Isend(&r, 1, MPI_INT, distr_N * s + i, 0, MPI_COMM_WORLD,
-                    &requests[i]);
-        } else
-          requests[i] = MPI_REQUEST_NULL;
-      }
-
-      MPI_Waitall(distr_N, requests, MPI_STATUSES_IGNORE);
     }
 
-    if (t != phi1(k, distr_N)) {
-      MPI_Recv(&r, 1, MPI_INT, s * distr_N + phi1(k, distr_N), 0,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }
+    /* Superstep (3) */
+    MPI_Bcast(&r, 1, MPI_INT, phi1(k, distr_N), comm_row);
 
     printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
 
@@ -284,23 +270,24 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     double a_ik[nr];
 
     if (phi1(k, distr_N) == t) {
-      for (i = 0; i < nr; ++i) {
-        a_ik[i] = A[idx(i, j_loc(k, distr_N), nc)];
-      }
+      // for (i = 0; i < nr; ++i) {
+      //   a_ik[i] = A[idx(i, j_loc(k, distr_N), nc)];
+      // }
+
+      cblas_dcopy(nr, &A[idx(0, j_loc(k, distr_N), nc)], nc, a_ik, 1);
     }
 
     MPI_Bcast(a_ik, nr, MPI_DOUBLE, phi1(k, distr_N), comm_row);
 
     double a_kj[nc];
 
-    // if (phi0(k, distr_M) == s) {
-    //   for (j = 0; j < nc; ++j) {
-    //     a_kj[j] = A[idx(i_loc(k, distr_M), j, nc)];
-    //   }
-    // }
+    if (phi0(k, distr_M) == s) {
+      // for (j = 0; j < nc; ++j) {
+      //   a_kj[j] = A[idx(i_loc(k, distr_M), j, nc)];
+      // }
 
-    if (phi0(k, distr_M) == s)
       cblas_dcopy(nc, &A[idx(i_loc(k, distr_M), 0, nc)], 1, a_kj, 1);
+    }
 
     MPI_Bcast(a_kj, nc, MPI_DOUBLE, phi0(k, distr_M), comm_col);
 
