@@ -86,10 +86,10 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
     p[i] = i;
   }
   // find largest absolute value in column k
-#pragma omp parallel for lastprivate(max)
+#pragma omp parallel for 
   for (k = 0; k < _PB_N; k++) {
     max = A[0][k];
-#pragma omp parallel for private(r) lastprivate(max)
+#pragma omp parallel for 
     for (i = k; i < _PB_N; i++) {
       if (max < fabs(A[i][k])) {
         max = fabs(A[i][k]);
