@@ -121,6 +121,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
   unsigned nr = (n + distr_M - s - 1) / distr_M;
   unsigned nc = (n + distr_N - t - 1) / distr_N;  // number of local columns
   int i, j, k, r;
+  int start_i, start_j;
   DATA_TYPE absmax;
 
   int pi_k_temp, pi_r_temp;
@@ -252,20 +253,23 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       MPI_Bcast(&a_kk, 1, MPI_DOUBLE, phi0(k, distr_M), comm_col);
     }
 
-    // superstep 9
+    // // superstep 9
     if (phi1(k, distr_N) == t) {
-      for (i = k + 1; i < n; ++i) {
-        if (phi0(i, distr_M) == s) {
-          if (fabs(a_kk) > EPS) {
-            A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)] /= a_kk;
-          } else {
-            printf(
-                "rank %d: ABORT on k=%d because pivoting on zero element "
-                "a_kk=%f\n ",
-                p_id, k, a_kk);
-            MPI_Abort(MPI_COMM_WORLD, 345);
-          }
-        }
+      if ((k + 1) % distr_M < s + 1)
+        start_i = i_loc(k + 1, distr_M);
+      else
+        start_i = i_loc(k + 1, distr_M) + 1;
+
+      if (fabs(a_kk) < EPS) {
+        printf(
+            "rank %d: ABORT on k=%d because pivoting on zero element "
+            "a_kk=%f\n ",
+            p_id, k, a_kk);
+        MPI_Abort(MPI_COMM_WORLD, 345);
+      }
+
+      for (i = start_i; i < nr; ++i) {
+        A[idx(i, j_loc(k, distr_N), nc)] /= a_kk;
       }
     }
     // superstep 10
@@ -294,25 +298,24 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
     MPI_Bcast(a_kj, nc, MPI_DOUBLE, phi0(k, distr_M), comm_col);
 
-    // superstep 11
-    // for (i = i_loc(k + 1, distr_M); i < nr; ++i) {
-    //   for (j = j_loc(k + 1, distr_N); j < nc; ++j) {
-    //     A[idx(i, j, nc)] -= a_ik[i] * a_kj[j];
-    //   }
-    // }
+    int start_i, start_j;
 
-    for (i = k + 1; i < n; ++i) {
-      if (phi0(i, distr_M) == s) {
-        for (j = k + 1; j < n; ++j) {
-          if (phi1(j, distr_N) == t) {
-            A[idx(i_loc(i, distr_M), j_loc(j, distr_N), nc)] -=
-                a_ik[i_loc(i, distr_M)] * a_kj[j_loc(j, distr_N)];
-          }
-        }
+    if ((k + 1) % distr_M < s + 1)
+      start_i = i_loc(k + 1, distr_M);
+    else
+      start_i = i_loc(k + 1, distr_M) + 1;
+
+    if ((k + 1) % distr_N < t + 1)
+      start_j = j_loc(k + 1, distr_N);
+    else
+      start_j = j_loc(k + 1, distr_N) + 1;
+
+    // superstep 11
+    for (i = start_i; i < nr; ++i) {
+      for (j = start_j; j < nc; ++j) {
+        A[idx(i, j, nc)] -= a_ik[i] * a_kj[j];
       }
     }
-
-    // if (k == 0) break;
   }
 }
 
