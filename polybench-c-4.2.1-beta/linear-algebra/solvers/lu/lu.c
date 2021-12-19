@@ -11,6 +11,8 @@
 
 #include <assert.h>
 #include <math.h>
+#include <mkl.h>
+#include <mkl_spblas.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -291,11 +293,14 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
     double a_kj[nc];
 
-    if (phi0(k, distr_M) == s) {
-      for (j = 0; j < nc; ++j) {
-        a_kj[j] = A[idx(i_loc(k, distr_M), j, nc)];
-      }
-    }
+    // if (phi0(k, distr_M) == s) {
+    //   for (j = 0; j < nc; ++j) {
+    //     a_kj[j] = A[idx(i_loc(k, distr_M), j, nc)];
+    //   }
+    // }
+
+    if (phi0(k, distr_M) == s)
+      cblas_dcopy(nc, &A[idx(i_loc(k, distr_M), 0, nc)], 1, a_kj, 1);
 
     MPI_Bcast(a_kj, nc, MPI_DOUBLE, phi0(k, distr_M), comm_col);
 
