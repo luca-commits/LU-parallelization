@@ -267,12 +267,16 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         MPI_Abort(MPI_COMM_WORLD, 345);
       }
 
-      for (i = start_i; i < nr; ++i) {
-        A[idx(i, j_loc(k, distr_N), nc)] /= a_kk;
-      }
-    }
-    // superstep 10
+      // for (i = start_i; i < nr; ++i) {
+      //   A[idx(i, j_loc(k, distr_N), nc)] /= a_kk;
+      // }
 
+      cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, nr - start_i, 1, 1,
+                  0, NULL, 1, NULL, 1, 1. / a_kk,
+                  &A[idx(start_i, j_loc(k, distr_N), nc)], nc);
+    }
+
+    // superstep 10
     double a_ik[nr];
 
     if (phi1(k, distr_N) == t) {
@@ -309,12 +313,16 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     else
       start_j = j_loc(k + 1, distr_N) + 1;
 
-    // superstep 11
-    for (i = start_i; i < nr; ++i) {
-      for (j = start_j; j < nc; ++j) {
-        A[idx(i, j, nc)] -= a_ik[i] * a_kj[j];
-      }
-    }
+    // // // superstep 11
+    // for (i = start_i; i < nr; ++i) {
+    //   for (j = start_j; j < nc; ++j) {
+    //     A[idx(i, j, nc)] -= a_ik[i] * a_kj[j];
+    //   }
+    // }
+
+    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, nr - start_i,
+                nc - start_j, 1, -1., &a_ik[start_i], 1, &a_kj[start_j], 1, 1.,
+                &A[idx(start_i, start_j, nc)], nc);
   }
 }
 
