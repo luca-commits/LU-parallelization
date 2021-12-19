@@ -12,7 +12,6 @@
 #include <assert.h>
 #include <math.h>
 #include <mkl.h>
-#include <mkl_spblas.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -199,7 +198,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     /* Superstep (3) */
     MPI_Bcast(&r, 1, MPI_INT, phi1(k, distr_N), comm_row);
 
-    printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
+    // printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
 
     if (phi0(k, distr_M) == s && phi0(r, distr_M) == s && r != k) {
       double a_temp;
