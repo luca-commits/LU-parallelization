@@ -94,14 +94,14 @@ static void init_array(int n, int nr, int nc, unsigned distr_M,
 
   for (unsigned i = 0; i < nr; ++i) {
     for (unsigned j = 0; j < nc; ++j) {
-      if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
-        A[idx(i, j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
-      } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
-        A[idx(i, j, nc)] = 1;
-      } else {
-        A[idx(i, j, nc)] = 0;
-      }
-      // A[idx(i, j, nc)] = (double)(rand()) / RAND_MAX * 2.;
+      // if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
+      //   A[idx(i, j, nc)] = (double)(-j_glob(j, distr_N, t) % n) / n + 1;
+      // } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
+      //   A[idx(i, j, nc)] = 1;
+      // } else {
+      //   A[idx(i, j, nc)] = 0;
+      // }
+      A[idx(i, j, nc)] = (double)(rand()) / RAND_MAX * 2.;
     }
   }
 }
