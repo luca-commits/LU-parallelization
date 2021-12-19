@@ -113,7 +113,8 @@ static void init_array(int n, int nr, int nc, unsigned distr_M,
 */
 static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                       unsigned* pi, const unsigned distr_M,
-                      const unsigned distr_N) {
+                      const unsigned distr_N, MPI_Comm comm_row,
+                      MPI_Comm comm_col) {
   // unsigned nr = (n + distr_M - s - 1) / distr_M;  // number of local rows
   unsigned nr = (n + distr_M - s - 1) / distr_M;
   unsigned nc = (n + distr_N - t - 1) / distr_N;  // number of local columns
@@ -287,16 +288,11 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       }
     }
 
-    printf("rank %d: finished superstep 7\n", p_id);
+    // if (k == 1) break;
 
     // algo 2.4 begin
 
     // superstep 8
-    int size;
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-
-    MPI_Barrier(MPI_COMM_WORLD);
-
     double a_kk;
 
     if (phi0(k, distr_M) == s && phi1(k, distr_N) == t) {
@@ -316,8 +312,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
                MPI_STATUS_IGNORE);
     }
-
-    printf("rank %d: finished superstep 8\n", p_id);
 
     // if (k == 0) break;
 
@@ -352,9 +346,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         }
       }
     }
-
-    printf("rank %d: finished superstep 9\n", p_id);
-
     // superstep 10
 
     // send every element of column k that P(s,t) owns, with row index
@@ -393,48 +384,66 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     //            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     // }
 
-    if (phi1(k, distr_N) == t) {  // this processor owns the k-th column
-      for (i = k + 1; i < n; ++i) {
-        if (phi0(i, distr_M) ==
-            s) {  // this processor owns i-th element of kth column
-          for (j = 0; j < distr_N; ++j) {
-            MPI_Send(&A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)], 1,
-                     MPI_DOUBLE, s * distr_N + j, k, MPI_COMM_WORLD);
-          }
-        }
-      }
-    }
+    // if (phi1(k, distr_N) == t) {  // this processor owns the k-th column
+    //   for (i = k + 1; i < n; ++i) {
+    //     if (phi0(i, distr_M) ==
+    //         s) {  // this processor owns i-th element of kth column
+    //       for (j = 0; j < distr_N; ++j) {
+    //         MPI_Send(&A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)], 1,
+    //                  MPI_DOUBLE, s * distr_N + j, k, MPI_COMM_WORLD);
+    //       }
+    //     }
+    //   }
+    // }
+
+    // double a_ik[nr];
+    // for (unsigned i = k + 1; i < n; ++i) {
+    //   if (phi0(i, distr_M) == s) {
+    //     MPI_Recv(&a_ik[i_loc(i, distr_M)], 1, MPI_DOUBLE,
+    //              s * distr_N + phi1(k, distr_N), k, MPI_COMM_WORLD,
+    //              MPI_STATUS_IGNORE);
+    //   }
+    // }
 
     double a_ik[nr];
-    for (unsigned i = k + 1; i < n; ++i) {
-      if (phi0(i, distr_M) == s) {
-        MPI_Recv(&a_ik[i_loc(i, distr_M)], 1, MPI_DOUBLE,
-                 s * distr_N + phi1(k, distr_N), k, MPI_COMM_WORLD,
-                 MPI_STATUS_IGNORE);
+
+    if (phi1(k, distr_N) == t) {
+      for (i = 0; i < nr; ++i) {
+        a_ik[i] = A[idx(i, j_loc(k, distr_N), nc)];
       }
     }
+
+    MPI_Bcast(a_ik, nr, MPI_DOUBLE, phi1(k, distr_N), comm_row);
+
+    // if (phi0(k, distr_M) == s) {
+    //   for (j = k + 1; j < n; ++j) {
+    //     if (phi1(j, distr_N) == t) {
+    //       for (i = 0; i < distr_M; ++i) {
+    //         MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)], 1,
+    //                  MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
+    //       }
+    //     }
+    //   }
+    // }
+
+    // double a_kj[nc];  // we will recieve one element per column
+    // for (unsigned j = k + 1; j < n; ++j) {
+    //   if (phi1(j, distr_N) == t) {
+    //     MPI_Recv(&a_kj[j_loc(j, distr_N)], 1, MPI_DOUBLE,
+    //              phi0(k, distr_M) * distr_N + t, k, MPI_COMM_WORLD,
+    //              MPI_STATUS_IGNORE);
+    //   }
+    // }
+
+    double a_kj[nc];
 
     if (phi0(k, distr_M) == s) {
-      for (j = k + 1; j < n; ++j) {
-        if (phi1(j, distr_N) == t) {
-          for (i = 0; i < distr_M; ++i) {
-            MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)], 1,
-                     MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
-          }
-        }
+      for (j = 0; j < nc; ++j) {
+        a_kj[j] = A[idx(i_loc(k, distr_M), j, nc)];
       }
     }
 
-    double a_kj[nc];  // we will recieve one element per column
-    for (unsigned j = k + 1; j < n; ++j) {
-      if (phi1(j, distr_N) == t) {
-        MPI_Recv(&a_kj[j_loc(j, distr_N)], 1, MPI_DOUBLE,
-                 phi0(k, distr_M) * distr_N + t, k, MPI_COMM_WORLD,
-                 MPI_STATUS_IGNORE);
-      }
-    }
-
-    printf("rank %d: finished superstep 10\n", p_id);
+    MPI_Bcast(a_kj, nc, MPI_DOUBLE, phi0(k, distr_M), comm_col);
 
     // // superstep 11
     // for (i = i_loc(k + 1, distr_M); i < nr; ++i) {
@@ -453,7 +462,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         }
       }
     }
-    printf("rank %d: finished superstep 11\n", p_id);
 
     // if (k == 0) break;
   }
@@ -499,6 +507,14 @@ int main(int argc, char** argv) {
   unsigned nr = (n + distr_M - s - 1) / distr_M;  // number of local rows
   unsigned nc = (n + distr_N - t - 1) / distr_N;  // number of local columns
 
+  int rank_row, rank_col;
+  MPI_Comm_rank(comm_row, &rank_row);
+  MPI_Comm_rank(comm_col, &rank_col);
+
+  if (rank_row != t || rank_col != s) {
+    MPI_Abort(MPI_COMM_WORLD, -1);
+  }
+
   /* Variable declaration/allocation. */
   // POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
   double* A = (double*)malloc(nr * nc * sizeof(double));
@@ -541,7 +557,7 @@ int main(int argc, char** argv) {
   polybench_start_instruments;
 
   /* Run kernel. */
-  kernel_lu(n, A, rank, s, t, pi, distr_M, distr_N);
+  kernel_lu(n, A, rank, s, t, pi, distr_M, distr_N, comm_row, comm_col);
 
   /* Stop and print timer. */
   polybench_stop_instruments;
@@ -560,29 +576,29 @@ int main(int argc, char** argv) {
 
   MPI_File_close(&file);
 
-  // if (rank == 0) {
-  //   unsigned* pi_full = (unsigned*)malloc(sizeof(unsigned) * n);
+  if (rank == 0) {
+    unsigned* pi_full = (unsigned*)malloc(sizeof(unsigned) * n);
 
-  //   for (i = 0; i < n; ++i) {
-  //     if (phi0(i, distr_M) != s)
-  //       MPI_Recv(&pi_full[i], 1, MPI_INT, phi0(i, distr_M) * distr_N, i,
-  //                MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-  //     else
-  //       pi_full[i] = pi[i_loc(i, distr_M)];
-  //   }
+    for (i = 0; i < n; ++i) {
+      if (phi0(i, distr_M) != s)
+        MPI_Recv(&pi_full[i], 1, MPI_INT, phi0(i, distr_M) * distr_N, i,
+                 MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      else
+        pi_full[i] = pi[i_loc(i, distr_M)];
+    }
 
-  //   MPI_File file_pi;
-  //   MPI_File_open(MPI_COMM_SELF, "pi.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
-  //                 MPI_INFO_NULL, &file_pi);
+    MPI_File file_pi;
+    MPI_File_open(MPI_COMM_SELF, "pi.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
+                  MPI_INFO_NULL, &file_pi);
 
-  //   MPI_File_write(file_pi, pi_full, n, MPI_INT, MPI_STATUS_IGNORE);
+    MPI_File_write(file_pi, pi_full, n, MPI_INT, MPI_STATUS_IGNORE);
 
-  //   MPI_File_close(&file_pi);
-  // } else if (t == 0) {
-  //   for (i = 0; i < nr; ++i) {
-  //     MPI_Send(&pi[i], 1, MPI_INT, 0, i_glob(i, distr_M, s), MPI_COMM_WORLD);
-  //   }
-  // }
+    MPI_File_close(&file_pi);
+  } else if (t == 0) {
+    for (i = 0; i < nr; ++i) {
+      MPI_Send(&pi[i], 1, MPI_INT, 0, i_glob(i, distr_M, s), MPI_COMM_WORLD);
+    }
+  }
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
