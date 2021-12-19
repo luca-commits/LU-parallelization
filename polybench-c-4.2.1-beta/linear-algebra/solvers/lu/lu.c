@@ -253,24 +253,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     // superstep 8
     double a_kk;
 
-    // if (phi0(k, distr_M) == s && phi1(k, distr_N) == t) {
-    //   // printf("the local a_kk before sending is: %f \n" , A[idx(i_loc(k,
-    //   // distr_M), j_loc(k, distr_N), nc)]);
-    //   for (i = 0; i < distr_M; ++i) {
-    //     if (p_id != i * distr_N + t) {
-    //       MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)], 1,
-    //                MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
-    //     } else {
-    //       a_kk = A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)];
-    //     }
-    //   }
-    // }
-
-    // if (phi0(k, distr_M) != s && phi1(k, distr_N) == t) {
-    //   MPI_Recv(&a_kk, 1, MPI_DOUBLE, MPI_ANY_SOURCE, k, MPI_COMM_WORLD,
-    //            MPI_STATUS_IGNORE);
-    // }
-
     if (phi1(k, distr_N) == t) {
       if (phi0(k, distr_M) == s) {
         a_kk = A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)];
@@ -278,23 +260,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
       MPI_Bcast(&a_kk, 1, MPI_DOUBLE, phi0(k, distr_N), comm_col);
     }
-
-    // if (k == 0) break;
-
-    // // superstep 9
-    // if (phi1(k, distr_N) == t) {
-    //   for (i = i_loc(k + 1, distr_M); i < nr; ++i) {
-    //     if (fabs(a_kk) > EPS) {
-    //       A[idx(i, j_loc(k, distr_N), nc)] /= a_kk;
-    //     } else {
-    //       printf(
-    //           "rank %d: ABORT on k=%d because pivoting on zero element "
-    //           "a_kk=%f\n ",
-    //           p_id, k, a_kk);
-    //       MPI_Abort(MPI_COMM_WORLD, 345);  // for some reason it aborts here
-    //     }
-    //   }
-    // }
 
     // superstep 9
     if (phi1(k, distr_N) == t) {
@@ -314,63 +279,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     }
     // superstep 10
 
-    // send every element of column k that P(s,t) owns, with row index
-    // greater
-    // than k,
-    // to the processors P(s, *) in the same processor row
-    // if (phi1(k, distr_N) == t) {  // this processor owns the k-th column
-    //   for (i = i_loc(k + 1, distr_M); i < nr; ++i) {
-    //     for (j = 0; j < distr_N; ++j) {
-    //       MPI_Send(&A[idx(i, j_loc(k, distr_N), nc)], 1, MPI_DOUBLE,
-    //                s * distr_N + j, k, MPI_COMM_WORLD);
-    //     }
-    //   }
-    // }
-
-    // double a_ik[nr];
-    // for (unsigned i = i_loc(k + 1, distr_M); i < nr; ++i) {
-    //   if (phi0(i, distr_M) == s) {
-    //     MPI_Recv(&a_ik[i], 1, MPI_DOUBLE, s * distr_N + phi1(k, distr_N), k,
-    //              MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    //   }
-    // }
-
-    // if (phi0(k, distr_M) == s) {
-    //   for (j = j_loc(k + 1, distr_N); j < nc; ++j) {
-    //     for (i = 0; i < distr_M; ++i) {
-    //       MPI_Send(&A[idx(i_loc(k, distr_M), j, nc)], 1, MPI_DOUBLE,
-    //                i * distr_N + t, k, MPI_COMM_WORLD);
-    //     }
-    //   }
-    // }
-
-    // double a_kj[nc];  // we will recieve one element per column
-    // for (unsigned j = j_loc(k + 1, distr_N); j < nc; ++j) {
-    //   MPI_Recv(&a_kj[j], 1, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t, k,
-    //            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    // }
-
-    // if (phi1(k, distr_N) == t) {  // this processor owns the k-th column
-    //   for (i = k + 1; i < n; ++i) {
-    //     if (phi0(i, distr_M) ==
-    //         s) {  // this processor owns i-th element of kth column
-    //       for (j = 0; j < distr_N; ++j) {
-    //         MPI_Send(&A[idx(i_loc(i, distr_M), j_loc(k, distr_N), nc)], 1,
-    //                  MPI_DOUBLE, s * distr_N + j, k, MPI_COMM_WORLD);
-    //       }
-    //     }
-    //   }
-    // }
-
-    // double a_ik[nr];
-    // for (unsigned i = k + 1; i < n; ++i) {
-    //   if (phi0(i, distr_M) == s) {
-    //     MPI_Recv(&a_ik[i_loc(i, distr_M)], 1, MPI_DOUBLE,
-    //              s * distr_N + phi1(k, distr_N), k, MPI_COMM_WORLD,
-    //              MPI_STATUS_IGNORE);
-    //   }
-    // }
-
     double a_ik[nr];
 
     if (phi1(k, distr_N) == t) {
@@ -380,26 +288,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     }
 
     MPI_Bcast(a_ik, nr, MPI_DOUBLE, phi1(k, distr_N), comm_row);
-
-    // if (phi0(k, distr_M) == s) {
-    //   for (j = k + 1; j < n; ++j) {
-    //     if (phi1(j, distr_N) == t) {
-    //       for (i = 0; i < distr_M; ++i) {
-    //         MPI_Send(&A[idx(i_loc(k, distr_M), j_loc(j, distr_N), nc)], 1,
-    //                  MPI_DOUBLE, i * distr_N + t, k, MPI_COMM_WORLD);
-    //       }
-    //     }
-    //   }
-    // }
-
-    // double a_kj[nc];  // we will recieve one element per column
-    // for (unsigned j = k + 1; j < n; ++j) {
-    //   if (phi1(j, distr_N) == t) {
-    //     MPI_Recv(&a_kj[j_loc(j, distr_N)], 1, MPI_DOUBLE,
-    //              phi0(k, distr_M) * distr_N + t, k, MPI_COMM_WORLD,
-    //              MPI_STATUS_IGNORE);
-    //   }
-    // }
 
     double a_kj[nc];
 
