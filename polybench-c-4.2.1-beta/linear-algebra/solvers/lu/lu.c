@@ -212,75 +212,116 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
     printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
 
-    if (phi0(k, distr_M) == s && r != k) {
-      printf("rank %d: sending row k to rank %d\n", p_id,
-             distr_N * phi0(r, distr_M) + t);
-      /* Store pi(k) in pi(r) on P(r%M,t) */
-      MPI_Send(&pi[i_loc(k, distr_M)], 1, MPI_INT,
-               distr_N * phi0(r, distr_M) + t, k, MPI_COMM_WORLD);
+    // if (phi0(k, distr_M) == s && r != k) {
+    //   printf("rank %d: sending row k to rank %d\n", p_id,
+    //          distr_N * phi0(r, distr_M) + t);
+    //   /* Store pi(k) in pi(r) on P(r%M,t) */
+    //   MPI_Send(&pi[i_loc(k, distr_M)], 1, MPI_INT,
+    //            distr_N * phi0(r, distr_M) + t, k, MPI_COMM_WORLD);
 
-      i = 0;
+    //   i = 0;
+    //   for (j = 0; j < nc; ++j) {  // waistful looping... will correct later
+    //     A_row_k_temp[j] = A[idx(i_loc(k, distr_M), j, nc)];
+    //   }
+    //   /*I'm not sure if reciever would get right write message without tag
+    //   so
+    //    * I just added one */
+    //   MPI_Send(A_row_k_temp, nc, MPI_DOUBLE, distr_N * phi0(r, distr_M) + t,
+    //            k + 1,
+    //            MPI_COMM_WORLD);  // Probably should use ISend here (or
+    //                              // even use one sided communication)
+    // }
+
+    // if (s == phi0(r, distr_M) && r != k) {
+    //   printf(
+    //       "Rank %d, k=%d: Is awaiting receive A_rows and pi in row k from
+    //       rank "
+    //       "%d\n",
+    //       p_id, k, phi0(k, distr_M) * distr_N + t);
+    //   MPI_Recv(&pi_k_temp, 1, MPI_INT, phi0(k, distr_M) * distr_N + t, k,
+    //            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+    //   MPI_Recv(A_row_k_temp, nc, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t,
+    //            k + 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+    //   printf("Rank %d, k=%d: Received A_rows and pi in row k\n", p_id, k);
+    // }
+
+    // if (phi0(r, distr_M) == s && r != k) {
+    //   printf("rank %d: sending row r to rank %d\n", p_id,
+    //          distr_N * phi0(k, distr_M) + t);
+    //   i = 0;
+    //   MPI_Send(&pi[i_loc(r, distr_M)], 1, MPI_INT,
+    //            distr_N * phi0(k, distr_M) + t, r, MPI_COMM_WORLD);
+    //   for (j = 0; j < nc; ++j) {
+    //     A_row_r_temp[j] = A[idx(i_loc(r, distr_M), j, nc)];
+    //   }
+    //   MPI_Send(A_row_r_temp, nc, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t,
+    //            k + 3, MPI_COMM_WORLD);
+    // }
+
+    // if (s == phi0(k, distr_M) && r != k) {
+    //   printf(
+    //       "Rank %d, k=%d: Is awaiting receive A_rows and pi in row r from
+    //       rank "
+    //       "%d\n",
+    //       p_id, k, phi0(r, distr_M) * distr_N + t);
+    //   MPI_Recv(&pi_r_temp, 1, MPI_INT, phi0(r, distr_M) * distr_N + t, r,
+    //            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    //   MPI_Recv(A_row_r_temp, nc, MPI_DOUBLE, phi0(r, distr_M) * distr_N + t,
+    //            k + 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+    //   printf("Rank %d, k=%d: Received A_rows and pi in row r\n", p_id, k);
+    // }
+
+    if (phi0(k, distr_M) == s && phi0(r, distr_M) == s && r != k) {
+      double a_temp;
+      int pi_temp;
+
+      for (j = 0; j < nc; ++j) {  // waistful looping... will correct later
+        a_temp = A[idx(i_loc(k, distr_M), j, nc)];
+        A[idx(i_loc(k, distr_M), j, nc)] = A[idx(i_loc(r, distr_M), j, nc)];
+        A[idx(i_loc(r, distr_M), j, nc)] = a_temp;
+      }
+
+      pi_temp = pi[i_loc(r, distr_M)];
+      pi[i_loc(r, distr_M)] = pi[i_loc(k, distr_M)];
+      pi[i_loc(k, distr_M)] = pi_temp;
+
+    } else if (phi0(k, distr_M) == s && r != k) {
       for (j = 0; j < nc; ++j) {  // waistful looping... will correct later
         A_row_k_temp[j] = A[idx(i_loc(k, distr_M), j, nc)];
       }
-      /*I'm not sure if reciever would get right write message without tag
-      so
-       * I just added one */
-      MPI_Send(A_row_k_temp, nc, MPI_DOUBLE, distr_N * phi0(r, distr_M) + t,
-               k + 1,
-               MPI_COMM_WORLD);  // Probably should use ISend here (or
-                                 // even use one sided communication)
-    }
 
-    if (s == phi0(r, distr_M) && r != k) {
-      printf(
-          "Rank %d, k=%d: Is awaiting receive A_rows and pi in row k from rank "
-          "%d\n",
-          p_id, k, phi0(k, distr_M) * distr_N + t);
-      MPI_Recv(&pi_k_temp, 1, MPI_INT, phi0(k, distr_M) * distr_N + t, k,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+      // Sendrecv here
+      MPI_Sendrecv(A_row_k_temp, nc, MPI_DOUBLE, distr_N * phi0(r, distr_M) + t,
+                   0, A_row_r_temp, nc, MPI_DOUBLE,
+                   distr_N * phi0(r, distr_M) + t, 1, MPI_COMM_WORLD,
+                   MPI_STATUS_IGNORE);
+      MPI_Sendrecv(&pi[i_loc(k, distr_M)], 1, MPI_INT,
+                   distr_N * phi0(r, distr_M) + t, 2, &pi_r_temp, 1, MPI_INT,
+                   distr_N * phi0(r, distr_M) + t, 3, MPI_COMM_WORLD,
+                   MPI_STATUS_IGNORE);
 
-      MPI_Recv(A_row_k_temp, nc, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t,
-               k + 1, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-      printf("Rank %d, k=%d: Received A_rows and pi in row k\n", p_id, k);
-    }
-
-    if (phi0(r, distr_M) == s && r != k) {
-      printf("rank %d: sending row r to rank %d\n", p_id,
-             distr_N * phi0(k, distr_M) + t);
-      i = 0;
-      MPI_Send(&pi[i_loc(r, distr_M)], 1, MPI_INT,
-               distr_N * phi0(k, distr_M) + t, r, MPI_COMM_WORLD);
-      for (j = 0; j < nc; ++j) {
-        A_row_r_temp[j] = A[idx(i_loc(r, distr_M), j, nc)];
-      }
-      MPI_Send(A_row_r_temp, nc, MPI_DOUBLE, phi0(k, distr_M) * distr_N + t,
-               k + 3, MPI_COMM_WORLD);
-    }
-
-    if (s == phi0(k, distr_M) && r != k) {
-      printf(
-          "Rank %d, k=%d: Is awaiting receive A_rows and pi in row r from rank "
-          "%d\n",
-          p_id, k, phi0(r, distr_M) * distr_N + t);
-      MPI_Recv(&pi_r_temp, 1, MPI_INT, phi0(r, distr_M) * distr_N + t, r,
-               MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-      MPI_Recv(A_row_r_temp, nc, MPI_DOUBLE, phi0(r, distr_M) * distr_N + t,
-               k + 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-      printf("Rank %d, k=%d: Received A_rows and pi in row r\n", p_id, k);
-    }
-
-    if (phi0(k, distr_M) == s && r != k) {
       pi[i_loc(k, distr_M)] = pi_r_temp;
-      i = 0;
       for (j = 0; j < nc; j++) {
         A[idx(i_loc(k, distr_M), j, nc)] = A_row_r_temp[j];
       }
-    }
+    } else if (phi1(r, distr_M) == s && r != k) {
+      for (j = 0; j < nc; ++j) {
+        A_row_r_temp[j] = A[idx(i_loc(r, distr_M), j, nc)];
+      }
 
-    if (phi0(r, distr_M) == s && r != k) {
+      // Sendrecv here
+      MPI_Sendrecv(A_row_r_temp, nc, MPI_DOUBLE, distr_N * phi0(k, distr_M) + t,
+                   1, A_row_k_temp, nc, MPI_DOUBLE,
+                   distr_N * phi0(k, distr_M) + t, 0, MPI_COMM_WORLD,
+                   MPI_STATUS_IGNORE);
+      MPI_Sendrecv(&pi[i_loc(r, distr_M)], 1, MPI_INT,
+                   distr_N * phi0(k, distr_M) + t, 3, &pi_k_temp, 1, MPI_INT,
+                   distr_N * phi0(k, distr_M) + t, 2, MPI_COMM_WORLD,
+                   MPI_STATUS_IGNORE);
+
       pi[i_loc(r, distr_M)] = pi_k_temp;
       i = 0;
       for (j = 0; j < nc; j++) {
