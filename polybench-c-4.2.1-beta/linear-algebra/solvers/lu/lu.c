@@ -463,7 +463,9 @@ int main(int argc, char** argv) {
   polybench_start_instruments;
 
   /* Run kernel. */
+  MPI_Pcontrol(2, "Kernel");
   kernel_lu(n, A, rank, s, t, pi, distr_M, distr_N, comm_row, comm_col);
+  MPI_Pcontrol(-2, "Kernel");
 
   /* Stop and print timer. */
   polybench_stop_instruments;
