@@ -351,8 +351,8 @@ int main(int argc, char** argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   /* Retrieve problem size. */
-  // int n = N;
-  int n = 16;
+  int n = N;
+  // int n = 16;
 
   // int dims[2];
 
@@ -364,8 +364,13 @@ int main(int argc, char** argv) {
   unsigned distr_M,
       distr_N;  // M and N of the cyclic distr., need to be computed yet
 
-  distr_M = largest_divisor(size);
-  distr_N = size / distr_M;
+  if (size != 1) {
+    distr_M = largest_divisor(size);
+    distr_N = size / distr_M;
+  } else {
+    distr_M = 1;
+    distr_N = 1;
+  }
 
   int dims[2] = {distr_M, distr_N};
 
