@@ -136,39 +136,53 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
   for (k = 0; k < n; k++) {
     if (phi1(k, distr_N) == t) {
-      absmax = fabs(A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
-                          nc)]);  // <-- kontrollieren ob dies stimmt
-      int rs = k;
+      int rs;
 
-      for (i = i_loc(k, distr_M); i < nr; i++) {
-        if (absmax < fabs(A[idx(i, j_loc(k, distr_N), nc)])) {
-          absmax = fabs(A[idx(i, j_loc(k, distr_N), nc)]);
-          rs = i_glob(i, distr_M, s);
-        }
-      }
+      // absmax = fabs(A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
+      //                     nc)]);  // <-- kontrollieren ob dies stimmt
+      // rs = k;
+
+      // for (i = i_loc(k, distr_M); i < nr; i++) {
+      //   if (absmax < fabs(A[idx(i, j_loc(k, distr_N), nc)])) {
+      //     absmax = fabs(A[idx(i, j_loc(k, distr_N), nc)]);
+      //     rs = i_glob(i, distr_M, s);
+      //   }
+      // }
+
+      int absmax_idx =
+          (cblas_idamax(nr - i_loc(k, distr_M),
+                        &A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)],
+                        nc)) +
+          i_loc(k, distr_M);
+
+      if (absmax_idx == i_loc(k, distr_M))
+        rs = k;
+      else
+        rs = i_glob(absmax_idx, distr_M, s);
+
+      absmax = fabs(A[idx(absmax_idx, j_loc(k, distr_N), nc)]);
 
       double max = 0;
       if (absmax > EPS) {
         max = A[idx(i_loc(rs, distr_M), j_loc(k, distr_N), nc)];
       }
 
-      MPI_Request requests[4 * distr_M];
+      MPI_Request requests[2];
+
+      int recvcounts[distr_M];
+      int recvdispls[distr_M];
 
       for (i = 0; i < distr_M; ++i) {
-        MPI_Isend(&max, 1, MPI_DOUBLE, i * distr_N + t, 0, MPI_COMM_WORLD,
-                  &requests[2 * i]);
-        MPI_Isend(&rs, 1, MPI_INT, i * distr_N + t, 1, MPI_COMM_WORLD,
-                  &requests[2 * i + 1]);
+        recvcounts[i] = 1;
+        recvdispls[i] = i;
       }
 
-      for (i = 0; i < distr_M; ++i) {
-        MPI_Irecv(&Max[i], 1, MPI_DOUBLE, i * distr_N + t, 0, MPI_COMM_WORLD,
-                  &requests[2 * distr_M + 2 * i]);
-        MPI_Irecv(&IMax[i], 1, MPI_INT, i * distr_N + t, 1, MPI_COMM_WORLD,
-                  &requests[2 * distr_M + 2 * i + 1]);
-      }
+      MPI_Iallgatherv(&max, 1, MPI_DOUBLE, Max, recvcounts, recvdispls,
+                      MPI_DOUBLE, comm_col, &requests[0]);
+      MPI_Iallgatherv(&rs, 1, MPI_INT, IMax, recvcounts, recvdispls, MPI_INT,
+                      comm_col, &requests[1]);
 
-      MPI_Waitall(4 * distr_M, requests, MPI_STATUSES_IGNORE);
+      MPI_Waitall(2, requests, MPI_STATUSES_IGNORE);
     }
 
     // superstep 2 & 3
@@ -176,12 +190,15 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       absmax = 0;
       unsigned smax = 0;
 
-      for (i = 0; i < distr_M; i++) {
-        if (fabs(Max[i]) > absmax) {
-          absmax = fabs(Max[i]);
-          smax = i;
-        }
-      }
+      // for (i = 0; i < distr_M; i++) {
+      //   if (fabs(Max[i]) > absmax) {
+      //     absmax = fabs(Max[i]);
+      //     smax = i;
+      //   }
+      // }
+
+      smax = cblas_idamax(distr_M, Max, 1);
+      absmax = fabs(Max[smax]);
 
       if (absmax > EPS) {
         int imax = IMax[smax];
@@ -337,6 +354,13 @@ int main(int argc, char** argv) {
   // int n = N;
   int n = 16;
 
+  // int dims[2];
+
+  // MPI_Dims_create(size, 2, dims);
+
+  // unsigned distr_M = dims[0];
+  // unsigned distr_N = dims[1];
+
   unsigned distr_M,
       distr_N;  // M and N of the cyclic distr., need to be computed yet
 
@@ -344,6 +368,7 @@ int main(int argc, char** argv) {
   distr_N = size / distr_M;
 
   int dims[2] = {distr_M, distr_N};
+
   int periods[2] = {0, 1};
   MPI_Comm comm_cart;
   MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 0, &comm_cart);
