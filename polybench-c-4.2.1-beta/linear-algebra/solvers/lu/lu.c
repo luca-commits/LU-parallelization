@@ -431,6 +431,7 @@ int main(int argc, char** argv) {
   init_array(n, nr, nc, distr_M, distr_N, A, s, t, rank);
   // if (rank == 0) print_array(nr, nc, A, distr_M, distr_N);
 
+#ifdef WRITE_TO_DISK
   // /* Write results to file */
   MPI_Datatype cyclic_dist;
   int array_gsizes[2] = {n, n};
@@ -452,6 +453,7 @@ int main(int argc, char** argv) {
   MPI_File_write_at_all(file, 0, A, nr * nc, MPI_DOUBLE, MPI_STATUS_IGNORE);
 
   MPI_File_close(&file);
+#endif
 
   int* pi = malloc(sizeof(int) * nr);
   unsigned i;
@@ -475,6 +477,7 @@ int main(int argc, char** argv) {
      by the function call in argument. */
   // if (rank == 0) polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
+#ifdef WRITE_TO_DISK
   // /* Write results to file */
   MPI_File_open(MPI_COMM_WORLD, "lu.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
                 MPI_INFO_NULL, &file);
@@ -507,7 +510,7 @@ int main(int argc, char** argv) {
       MPI_Send(&pi[i], 1, MPI_INT, 0, i_glob(i, distr_M, s), MPI_COMM_WORLD);
     }
   }
-
+#endif
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
 
