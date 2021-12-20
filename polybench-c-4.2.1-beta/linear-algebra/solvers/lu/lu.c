@@ -135,6 +135,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
   int* IMax = (int*)malloc(distr_M * sizeof(int));
 
   for (k = 0; k < n; k++) {
+    MPI_Pcontrol(1, "Superstep (0)-(1)");
     if (phi1(k, distr_N) == t) {
       int rs;
 
@@ -184,7 +185,9 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
       MPI_Waitall(2, requests, MPI_STATUSES_IGNORE);
     }
+    MPI_Pcontrol(-1, "Superstep (0)-(1)");
 
+    MPI_Pcontrol(1, "Superstep (2)");
     // superstep 2 & 3
     if (phi1(k, distr_N) == t) {
       absmax = 0;
@@ -211,12 +214,15 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         MPI_Abort(MPI_COMM_WORLD, 192);
       }
     }
+    MPI_Pcontrol(-1, "Superstep (2)");
 
     /* Superstep (3) */
+    MPI_Pcontrol(1, "Superstep (3)");
     MPI_Bcast(&r, 1, MPI_INT, phi1(k, distr_N), comm_row);
+    MPI_Pcontrol(-1, "Superstep (3)");
 
-    // printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
-
+    /* Superstep (4)-(7) */
+    MPI_Pcontrol(1, "Superstep (4)-(7)");
     if (phi0(k, distr_M) == s && phi0(r, distr_M) == s && r != k) {
       double a_temp;
       int pi_temp;
@@ -253,12 +259,14 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
           &pi[i_loc(r, distr_M)], 1, MPI_INT, distr_N * phi0(k, distr_M) + t, 3,
           distr_N * phi0(k, distr_M) + t, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
+    MPI_Pcontrol(-1, "Superstep (4)-(7)");
 
     // if (k == 1) break;
 
     // algo 2.4 begin
 
     // superstep 8
+    MPI_Pcontrol(1, "Superstep (8)");
     double a_kk;
 
     if (phi1(k, distr_N) == t) {
@@ -268,8 +276,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
       MPI_Bcast(&a_kk, 1, MPI_DOUBLE, phi0(k, distr_M), comm_col);
     }
+    MPI_Pcontrol(-1, "Superstep (8)");
 
-    // // superstep 9
+    // superstep 9
+    MPI_Pcontrol(1, "Superstep (9)");
     if (phi1(k, distr_N) == t) {
       if ((k + 1) % distr_M < s + 1)
         start_i = i_loc(k + 1, distr_M);
@@ -292,8 +302,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                   0, NULL, 1, NULL, 1, 1. / a_kk,
                   &A[idx(start_i, j_loc(k, distr_N), nc)], nc);
     }
+    MPI_Pcontrol(-1, "Superstep (9)");
 
     // superstep 10
+    MPI_Pcontrol(1, "Superstep (10)");
     double a_ik[nr];
 
     if (phi1(k, distr_N) == t) {
@@ -318,6 +330,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
     MPI_Bcast(a_kj, nc, MPI_DOUBLE, phi0(k, distr_M), comm_col);
 
+    MPI_Pcontrol(-1, "Superstep (10)");
+
+    // superstep 11
+    MPI_Pcontrol(1, "Superstep (11)");
     int start_i, start_j;
 
     if ((k + 1) % distr_M < s + 1)
@@ -330,7 +346,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     else
       start_j = j_loc(k + 1, distr_N) + 1;
 
-    // // // superstep 11
     // for (i = start_i; i < nr; ++i) {
     //   for (j = start_j; j < nc; ++j) {
     //     A[idx(i, j, nc)] -= a_ik[i] * a_kj[j];
@@ -340,6 +355,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, nr - start_i,
                 nc - start_j, 1, -1., &a_ik[start_i], 1, &a_kj[start_j], 1, 1.,
                 &A[idx(start_i, start_j, nc)], nc);
+
+    MPI_Pcontrol(-1, "Superstep (11)");
   }
 }
 
