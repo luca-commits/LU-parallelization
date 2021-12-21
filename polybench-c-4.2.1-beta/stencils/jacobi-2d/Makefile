@@ -1,7 +1,6 @@
 include ../../config.mk
 
-EXTRA_FLAGS=-Wall -DPOLYBENCH_TIME -std=c99 -lm -DEXTRALARGE_DATASET
-CC=mpicc
+EXTRA_FLAGS=-Wall -DPOLYBENCH_TIME -std=c99 -lm -D SMALL_DATASET
 
 jacobi-2d: jacobi-2d.c jacobi-2d.h
 	${VERBOSE} ${CC} -o jacobi-2d jacobi-2d.c ${CFLAGS} -I. -I../../utilities ../../utilities/polybench.c ${EXTRA_FLAGS}
