@@ -86,10 +86,10 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
     p[i] = i;
   }
   // find largest absolute value in column k
-#pragma omp parallel for lastprivate(max) 
+#pragma omp parallel for lastprivate(max)
   for (k = 0; k < _PB_N; k++) {
     max = A[0][k];
-#pragma omp parallel for private(r) lastprivate(max)
+#pragma omp parallel for lastprivate(r) lastprivate(max)
     for (i = k; i < _PB_N; i++) {
       if (max < fabs(A[i][k])) {
         max = fabs(A[i][k]);
@@ -98,7 +98,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
     }
     // swap components k and r of the permutation vector
     swap(p[k], p[r]);
-#pragma omp parallel for
+#pragma omp parallel for shared(A)
     for (j = 0; j < _PB_N; j++) {
       swap(A[k][j], A[r][j]);
     }
@@ -107,10 +107,10 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
     for (i = k + 1; i < _PB_N; i++) {
       A[i][k] /= A[k][k];
     }
-#pragma omp parallel for collapse(2)
+#pragma omp parallel for collapse(2) shared(A)
     for (i = k + 1; i < _PB_N; i++) {
       for (j = k + 1; j < _PB_N; j++) {
-	A[i][j] -= A[i][k] * A[k][j];
+        A[i][j] -= A[i][k] * A[k][j];
       }
     }
   }
@@ -119,7 +119,8 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
 
 int main(int argc, char** argv) {
   /* Retrieve problem size. */
-  int n = N;
+  // int n = N;
+  int n = 16;
 
   /* Variable declaration/allocation. */
   POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
