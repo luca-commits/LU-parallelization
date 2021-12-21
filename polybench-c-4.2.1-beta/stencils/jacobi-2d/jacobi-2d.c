@@ -287,10 +287,8 @@ int main(int argc, char** argv) {
          neighbours[2], neighbours[3]);
 
   /* Retrieve problem size. */
-  // int n = N;
-  int n = 16;
-  // int tsteps = TSTEPS;
-  int tsteps = 1;
+  int n = N;
+  int tsteps = TSTEPS;
 
   /* Calculate problem size of local domain for every rank */
   int nx_local = n / dims[0];
