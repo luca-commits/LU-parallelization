@@ -62,9 +62,8 @@ static void print_array(int nx, int ny, double* A)
 }
 
 static void exchange_cells(double* A, int nx_local, int ny_local,
-                           int* neighbours, MPI_Comm* comm_cart,
-                           MPI_Datatype* column_vec) {
-  MPI_Request requests[8];
+                           int* neighbours, MPI_Request* requests,
+                           MPI_Comm* comm_cart, MPI_Datatype* column_vec) {
   for (int i = 0; i < 8; i++) requests[i] = MPI_REQUEST_NULL;
 
   /* Communication with top neighbour */
@@ -110,9 +109,6 @@ static void exchange_cells(double* A, int nx_local, int ny_local,
     requests[6] = MPI_REQUEST_NULL;
     requests[7] = MPI_REQUEST_NULL;
   }
-
-  /* Wait for all communication to finish */
-  MPI_Waitall(8, requests, MPI_STATUSES_IGNORE);
 }
 
 /* Main computational kernel. The whole function will be timed,
@@ -121,21 +117,24 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
                              double* B, int* neighbours, MPI_Comm* comm_cart,
                              MPI_Datatype* column_vec) {
   int t, i, j;
+  MPI_Request requests[8];
 
   /* Define bounds for iteration bounds, depending on location of processor in
    * the cartesian grid */
-  int x_bound_low = 1;
-  int x_bound_high = nx_local + 1;
-  int y_bound_low = 1;
-  int y_bound_high = ny_local + 1;
+  int x_bound_low = 2;
+  int x_bound_high = nx_local;
+  int y_bound_low = 2;
+  int y_bound_high = ny_local;
 
-  if (neighbours[0] == MPI_PROC_NULL) y_bound_low += 1;
-  if (neighbours[1] == MPI_PROC_NULL) y_bound_high -= 1;
-  if (neighbours[2] == MPI_PROC_NULL) x_bound_low += 1;
-  if (neighbours[3] == MPI_PROC_NULL) x_bound_high -= 1;
+  // if (neighbours[0] == MPI_PROC_NULL) y_bound_low += 1;
+  // if (neighbours[1] == MPI_PROC_NULL) y_bound_high -= 1;
+  // if (neighbours[2] == MPI_PROC_NULL) x_bound_low += 1;
+  // if (neighbours[3] == MPI_PROC_NULL) x_bound_high -= 1;
 
   for (t = 0; t < _PB_TSTEPS; t++) {
-    exchange_cells(A, nx_local, ny_local, neighbours, comm_cart, column_vec);
+    exchange_cells(A, nx_local, ny_local, neighbours, requests, comm_cart,
+                   column_vec);
+
     // /* TODO: Implement SIMD instructions */
     for (i = y_bound_low; i < y_bound_high; i++)
       for (j = x_bound_low; j < x_bound_high; j++)
@@ -145,8 +144,57 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
              A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
              A[(nx_local + 2) * (i - 1) + j]);
 
-    exchange_cells(B, nx_local, ny_local, neighbours, comm_cart, column_vec);
+    /* Wait for all communication to finish */
+    MPI_Waitall(8, requests, MPI_STATUSES_IGNORE);
 
+    if (neighbours[0] != MPI_PROC_NULL) {
+      j = 1;
+      for (i = y_bound_low; i < y_bound_high; i++) {
+        B[(nx_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
+             A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
+             A[(nx_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    if (neighbours[1] != MPI_PROC_NULL) {
+      j = nx_local;
+      for (i = y_bound_low; i < y_bound_high; i++) {
+        B[(nx_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
+             A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
+             A[(nx_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    if (neighbours[2] != MPI_PROC_NULL) {
+      i = 1;
+      for (j = y_bound_low; j < y_bound_high; j++) {
+        B[(nx_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
+             A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
+             A[(nx_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    if (neighbours[3] != MPI_PROC_NULL) {
+      i = ny_local;
+      for (j = x_bound_low; j < x_bound_high; j++) {
+        B[(nx_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
+             A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
+             A[(nx_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    exchange_cells(B, nx_local, ny_local, neighbours, requests, comm_cart,
+                   column_vec);
+
+    // /* TODO: Implement SIMD instructions */
     for (i = y_bound_low; i < y_bound_high; i++)
       for (j = x_bound_low; j < x_bound_high; j++)
         A[(nx_local + 2) * i + j] =
@@ -154,6 +202,53 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
             (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
              B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
              B[(nx_local + 2) * (i - 1) + j]);
+
+    /* Wait for all communication to finish */
+    MPI_Waitall(8, requests, MPI_STATUSES_IGNORE);
+
+    if (neighbours[0] != MPI_PROC_NULL) {
+      j = 1;
+      for (i = y_bound_low; i < y_bound_high; i++) {
+        A[(nx_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
+             B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
+             B[(nx_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    if (neighbours[1] != MPI_PROC_NULL) {
+      j = nx_local;
+      for (i = y_bound_low; i < y_bound_high; i++) {
+        A[(nx_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
+             B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
+             B[(nx_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    if (neighbours[2] != MPI_PROC_NULL) {
+      i = 1;
+      for (j = y_bound_low; j < y_bound_high; j++) {
+        A[(nx_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
+             B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
+             B[(nx_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    if (neighbours[3] != MPI_PROC_NULL) {
+      i = ny_local;
+      for (j = x_bound_low; j < x_bound_high; j++) {
+        A[(nx_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
+             B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
+             B[(nx_local + 2) * (i - 1) + j]);
+      }
+    }
   }
 }
 
