@@ -33,13 +33,14 @@ static double frobenius_norm(int nx, int ny, double* A) {
 }
 
 /* Array initialization. */
-static void init_array(int n, double* A, double* B) {
+static void init_array(int n, int nx, int ny, double* A, double* B, int s,
+                       int t) {
   int i, j;
 
-  for (i = 0; i < n; i++)
-    for (j = 0; j < n; j++) {
-      A[n * i + j] = ((DATA_TYPE)i * (j + 2) + 2) / n;
-      B[n * i + j] = ((DATA_TYPE)i * (j + 3) + 3) / n;
+  for (i = 0; i < nx; i++)
+    for (j = 0; j < ny; j++) {
+      A[ny * i + j] = ((DATA_TYPE)(i * s) * (j * t + 2) + 2) / n;
+      B[ny * i + j] = ((DATA_TYPE)(i * s) * (j * t + 3) + 3) / n;
     }
 }
 
@@ -136,8 +137,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
                    column_vec);
 
     // /* TODO: Implement SIMD instructions */
-    for (i = y_bound_low; i < y_bound_high; i++)
-      for (j = x_bound_low; j < x_bound_high; j++)
+    for (i = x_bound_low; i < x_bound_high; i++)
+      for (j = y_bound_low; j < y_bound_high; j++)
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
@@ -149,7 +150,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[0] != MPI_PROC_NULL) {
       j = 1;
-      for (i = y_bound_low; i < y_bound_high; i++) {
+      for (i = x_bound_low; i < x_bound_high; i++) {
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
@@ -159,8 +160,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
     }
 
     if (neighbours[1] != MPI_PROC_NULL) {
-      j = nx_local;
-      for (i = y_bound_low; i < y_bound_high; i++) {
+      j = ny_local;
+      for (i = x_bound_low; i < x_bound_high; i++) {
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
@@ -171,7 +172,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[2] != MPI_PROC_NULL) {
       i = 1;
-      for (j = y_bound_low; j < y_bound_high; j++) {
+      for (j = x_bound_low; j < x_bound_high; j++) {
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
@@ -181,8 +182,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
     }
 
     if (neighbours[3] != MPI_PROC_NULL) {
-      i = ny_local;
-      for (j = x_bound_low; j < x_bound_high; j++) {
+      i = nx_local;
+      for (j = y_bound_low; j < y_bound_high; j++) {
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
@@ -195,8 +196,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
                    column_vec);
 
     // /* TODO: Implement SIMD instructions */
-    for (i = y_bound_low; i < y_bound_high; i++)
-      for (j = x_bound_low; j < x_bound_high; j++)
+    for (i = x_bound_low; i < x_bound_high; i++)
+      for (j = y_bound_low; j < y_bound_high; j++)
         A[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
@@ -208,7 +209,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[0] != MPI_PROC_NULL) {
       j = 1;
-      for (i = y_bound_low; i < y_bound_high; i++) {
+      for (i = x_bound_low; i < x_bound_high; i++) {
         A[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
@@ -218,8 +219,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
     }
 
     if (neighbours[1] != MPI_PROC_NULL) {
-      j = nx_local;
-      for (i = y_bound_low; i < y_bound_high; i++) {
+      j = ny_local;
+      for (i = x_bound_low; i < x_bound_high; i++) {
         A[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
@@ -240,8 +241,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
     }
 
     if (neighbours[3] != MPI_PROC_NULL) {
-      i = ny_local;
-      for (j = x_bound_low; j < x_bound_high; j++) {
+      i = nx_local;
+      for (j = y_bound_low; j < y_bound_high; j++) {
         A[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
@@ -264,8 +265,8 @@ int main(int argc, char** argv) {
   int periods[2] = {0, 0};
   MPI_Dims_create(size, 2, dims_temp);
 
-  int dims[2] = {dims_temp[1],
-                 dims_temp[0]};  // definition: dims[0] as no of ranks in
+  int dims[2] = {dims_temp[0],
+                 dims_temp[1]};  // definition: dims[0] as no of ranks in
                                  // "x-direction" (to the right), dims[1] as no
                                  // of ranks in "y-direction" (to the bottom)
 
@@ -273,6 +274,9 @@ int main(int argc, char** argv) {
 
   MPI_Comm comm_cart;
   MPI_Cart_create(MPI_COMM_WORLD, 2, dims_temp, periods, 0, &comm_cart);
+
+  int coords[2];
+  MPI_Cart_coords(comm_cart, rank, 2, coords);
 
   /* Find neighbours of each rank */
   int neighbours[4];  // top, bottom, left, right
@@ -283,147 +287,34 @@ int main(int argc, char** argv) {
          neighbours[2], neighbours[3]);
 
   /* Retrieve problem size. */
-  int n = N;
-  int tsteps = TSTEPS;
+  // int n = N;
+  int n = 16;
+  // int tsteps = TSTEPS;
+  int tsteps = 1;
 
   /* Calculate problem size of local domain for every rank */
   int nx_local = n / dims[0];
-  if (neighbours[3] == MPI_PROC_NULL) nx_local += n % dims[0];
+  if (neighbours[1] == MPI_PROC_NULL) nx_local += n % dims[0];
 
   int ny_local = n / dims[1];
-  if (neighbours[1] == MPI_PROC_NULL) ny_local += n % dims[1];
+  if (neighbours[3] == MPI_PROC_NULL) ny_local += n % dims[1];
 
   /* Define a data type for sending columns of local domains */
   MPI_Datatype column_vec;
-  MPI_Type_vector(ny_local, 1, nx_local + 2, MPI_DOUBLE, &column_vec);
+  MPI_Type_vector(nx_local, 1, ny_local + 2, MPI_DOUBLE, &column_vec);
   MPI_Type_commit(&column_vec);
-
-  /* Segregate matrix and send to other ranks */
-  MPI_Pcontrol(1, "Set up MPI");
-  int sendcounts[size];
-  int senddispls[size];
-  MPI_Datatype blocktypes[size];
-  int recvcounts[size];
-  int recvdispls[size];
-  MPI_Datatype recvtypes[size];
-
-  /* Define a data type for each rank's subdomain */
-  MPI_Datatype blocktype;
-  MPI_Type_vector(ny_local, nx_local, nx_local + 2, MPI_DOUBLE, &blocktype);
-  MPI_Type_commit(&blocktype);
-
-  for (int proc = 0; proc < size; proc++) {
-    recvcounts[proc] = 0;
-    recvdispls[proc] = (nx_local + 3) * sizeof(double);
-    recvtypes[proc] = blocktype;
-
-    sendcounts[proc] = 0;
-    senddispls[proc] = (nx_local + 3) * sizeof(double);
-  }
-  recvcounts[0] = 1;
-
-  double* A;
-  double* B;
-
-  if (rank == 0) {
-    /* Variable declaration/allocation. */
-    // POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
-    // POLYBENCH_2D_ARRAY_DECL(B, DATA_TYPE, N, N, n, n);
-
-    A = (double*)malloc(n * n * sizeof(double));
-    B = (double*)malloc(n * n * sizeof(double));
-
-    /* Initialize array(s). */
-    init_array(n, A, B);
-
-    // print_array(n, n, A);
-
-    /* TODO: Define a data type for sending parts of the matrix back and forth
-     */
-    int subsizes[2];
-    int starts[2] = {0, 0};
-    const int globalsizes[2] = {n, n};
-
-    /*initialize dimensions of the submatrices for the "interior"
-     * submatrices; for subsizes we need to reverse the order of our defined
-     dimensions!!!
-     */
-    subsizes[1] = nx_local;
-    subsizes[0] = ny_local;
-
-    printf("%d x %d\n", subsizes[0], subsizes[1]);
-    for (int i = 0; i < dims[0] - 1; i++) {
-      for (int j = 0; j < dims[1] - 1; j++) {
-        MPI_Type_create_subarray(2, globalsizes, subsizes, starts, MPI_ORDER_C,
-                                 MPI_DOUBLE, &blocktypes[dims[0] * i + j]);
-        MPI_Type_commit(&blocktypes[dims[0] * i + j]);
-
-        printf("interior %d\n", dims[0] * i + j);
-      }
-    }
-
-    /*initialize dimensions for the last row */
-    subsizes[0] = ny_local + n % dims[1];
-    subsizes[1] = nx_local;
-    for (int j = 0; j < dims[0] - 1; ++j) {
-      MPI_Type_create_subarray(2, globalsizes, subsizes, starts, MPI_ORDER_C,
-                               MPI_DOUBLE,
-                               &blocktypes[dims[0] * (dims[1] - 1) + j]);
-      MPI_Type_commit(&blocktypes[dims[0] * (dims[1] - 1) + j]);
-      printf("last row %d\n", dims[0] * (dims[1] - 1) + j);
-    }
-
-    /* Initialize the dimensions for the last column */
-    subsizes[1] = nx_local + n % dims[0];
-    subsizes[0] = ny_local;
-    for (int i = 0; i < dims[1] - 1; ++i) {
-      MPI_Type_create_subarray(2, globalsizes, subsizes, starts, MPI_ORDER_C,
-                               MPI_DOUBLE, &blocktypes[dims[0] * (i + 1) - 1]);
-      printf("last column %d\n", dims[0] * (i + 1) - 1);
-      MPI_Type_commit(&blocktypes[dims[0] * (i + 1) - 1]);
-    }
-
-    /*initialize dimensions for the lower-right corner submatrix*/
-    subsizes[1] = nx_local + n % dims[0];
-    subsizes[0] = ny_local + n % dims[1];
-    MPI_Type_create_subarray(2, globalsizes, subsizes, starts, MPI_ORDER_C,
-                             MPI_DOUBLE, &blocktypes[dims[0] * dims[1] - 1]);
-    printf("corner %d\n", dims[0] * dims[1] - 1);
-    MPI_Type_commit(&blocktypes[dims[0] * dims[1] - 1]);
-
-    /* now figure out the displacement and type of each processor's data */
-    for (int proc = 0; proc < size; proc++) {
-      int coords[2];
-
-      MPI_Cart_coords(comm_cart, proc, 2, coords);
-
-      sendcounts[proc] = 1;
-
-      if (proc == 0)
-        senddispls[proc] = 0;
-      else {
-        double displ = nx_local;
-
-        if (proc % dims[0] == 0) displ += n % dims[0] + n * (ny_local - 1);
-
-        senddispls[proc] = senddispls[proc - 1] + displ * sizeof(double);
-      }
-    }
-  }
-  MPI_Pcontrol(-1, "Set up MPI");
 
   double* A_local =
       (double*)malloc((nx_local + 2) * (ny_local + 2) * sizeof(double));
   double* B_local =
       (double*)malloc((nx_local + 2) * (ny_local + 2) * sizeof(double));
 
-  /* Send the segregated domain to all other ranks */
-  MPI_Pcontrol(1, "Scatter Matrix");
-  MPI_Alltoallw(A, sendcounts, senddispls, blocktypes, A_local, recvcounts,
-                recvdispls, recvtypes, MPI_COMM_WORLD);
-  MPI_Alltoallw(B, sendcounts, senddispls, blocktypes, B_local, recvcounts,
-                recvdispls, recvtypes, MPI_COMM_WORLD);
-  MPI_Pcontrol(-1, "Scatter Matrix");
+  printf("malloced\n");
+
+  /* Initialize array(s). */
+  init_array(n, nx_local, ny_local, A_local, B_local, coords[0], coords[1]);
+
+  printf("finished init\n");
 
   // if (rank == 1) {
   //   print_array(nx_local + 2, ny_local + 2, A_local);
@@ -453,12 +344,6 @@ int main(int argc, char** argv) {
   //   print_array(nx_local + 2, ny_local + 2, B_local);
   // }
 
-  MPI_Pcontrol(1, "Reassembly");
-  /* TODO: Put submatrices back together */
-  MPI_Alltoallw(A_local, recvcounts, recvdispls, recvtypes, A, sendcounts,
-                senddispls, blocktypes, comm_cart);
-  MPI_Pcontrol(-1, "Reassembly");
-
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
   // polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
@@ -466,11 +351,6 @@ int main(int argc, char** argv) {
   // if (rank == 0) print_array(n, n, A);
 
   /* Be clean. */
-  if (rank == 0) {
-    free(A);
-    free(B);
-  }
-
   free(A_local);
   free(B_local);
 
