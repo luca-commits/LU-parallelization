@@ -1,5 +1,6 @@
 include ../../config.mk
 
+CC=mpicc
 EXTRA_FLAGS=-Wall -DPOLYBENCH_TIME -std=c99 -lm -D SMALL_DATASET
 
 jacobi-2d: jacobi-2d.c jacobi-2d.h
