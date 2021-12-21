@@ -86,7 +86,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
     p[i] = i;
   }
   // find largest absolute value in column k
-#pragma omp parallel for lastprivate(max)
+  //#pragma omp parallel for lastprivate(max)
   for (k = 0; k < _PB_N; k++) {
     max = A[0][k];
 #pragma omp parallel for lastprivate(r) lastprivate(max)
@@ -119,8 +119,7 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
 
 int main(int argc, char** argv) {
   /* Retrieve problem size. */
-  // int n = N;
-  int n = 16;
+  int n = N;
 
   /* Variable declaration/allocation. */
   POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
@@ -140,7 +139,7 @@ int main(int argc, char** argv) {
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
-  polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
+  // polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
