@@ -19,17 +19,20 @@ parser.add_argument(
 args = parser.parse_args()
 
 df = pd.read_csv(Path(args.input), delimiter=',')
-df = df.pivot(index=['n', 'p'], columns='name', values='value')
-df['serial time'] = df['time'].iloc[0]
+df = df.pivot(index=['p'], columns='name', values='value')
+df['speed-up'] = df['time'].iloc[0] / df['time']
+df['optimum'] = df.index
+print(df)
 
 df.plot(
-    y=['time', 'serial time'],
+    #x='p',
+    y=['speed-up', 'optimum'],
     kind='line',
     ## update title
-    title='Weak scaling - Jacobi 2d, naive',
-    #logy=True,
+    title='Speedup - LU with PRP, OpenMP',
+    logy=True,
     #ylabel="Speed-up",
-    #logx=False,
+    logx=False,
     xlabel="#processors",
     legend=True,
 )
