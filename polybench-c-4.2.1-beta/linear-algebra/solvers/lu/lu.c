@@ -135,53 +135,73 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
   int* IMax = (int*)malloc(distr_M * sizeof(int));
 
   for (k = 0; k < n; k++) {
+    MPI_Pcontrol(1, "Superstep (0)-(1)");
     if (phi1(k, distr_N) == t) {
-      absmax = fabs(A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
-                          nc)]);  // <-- kontrollieren ob dies stimmt
-      int rs = k;
+      int rs;
 
-      for (i = i_loc(k, distr_M); i < nr; i++) {
-        if (absmax < fabs(A[idx(i, j_loc(k, distr_N), nc)])) {
-          absmax = fabs(A[idx(i, j_loc(k, distr_N), nc)]);
-          rs = i_glob(i, distr_M, s);
-        }
-      }
+      // absmax = fabs(A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
+      //                     nc)]);  // <-- kontrollieren ob dies stimmt
+      // rs = k;
+
+      // for (i = i_loc(k, distr_M); i < nr; i++) {
+      //   if (absmax < fabs(A[idx(i, j_loc(k, distr_N), nc)])) {
+      //     absmax = fabs(A[idx(i, j_loc(k, distr_N), nc)]);
+      //     rs = i_glob(i, distr_M, s);
+      //   }
+      // }
+
+      int absmax_idx =
+          (cblas_idamax(nr - i_loc(k, distr_M),
+                        &A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)],
+                        nc)) +
+          i_loc(k, distr_M);
+
+      if (absmax_idx == i_loc(k, distr_M))
+        rs = k;
+      else
+        rs = i_glob(absmax_idx, distr_M, s);
+
+      absmax = fabs(A[idx(absmax_idx, j_loc(k, distr_N), nc)]);
 
       double max = 0;
       if (absmax > EPS) {
         max = A[idx(i_loc(rs, distr_M), j_loc(k, distr_N), nc)];
       }
 
-      MPI_Request requests[4 * distr_M];
+      MPI_Request requests[2];
+
+      int recvcounts[distr_M];
+      int recvdispls[distr_M];
 
       for (i = 0; i < distr_M; ++i) {
-        MPI_Isend(&max, 1, MPI_DOUBLE, i * distr_N + t, 0, MPI_COMM_WORLD,
-                  &requests[2 * i]);
-        MPI_Isend(&rs, 1, MPI_INT, i * distr_N + t, 1, MPI_COMM_WORLD,
-                  &requests[2 * i + 1]);
+        recvcounts[i] = 1;
+        recvdispls[i] = i;
       }
 
-      for (i = 0; i < distr_M; ++i) {
-        MPI_Irecv(&Max[i], 1, MPI_DOUBLE, i * distr_N + t, 0, MPI_COMM_WORLD,
-                  &requests[2 * distr_M + 2 * i]);
-        MPI_Irecv(&IMax[i], 1, MPI_INT, i * distr_N + t, 1, MPI_COMM_WORLD,
-                  &requests[2 * distr_M + 2 * i + 1]);
-      }
+      MPI_Iallgatherv(&max, 1, MPI_DOUBLE, Max, recvcounts, recvdispls,
+                      MPI_DOUBLE, comm_col, &requests[0]);
+      MPI_Iallgatherv(&rs, 1, MPI_INT, IMax, recvcounts, recvdispls, MPI_INT,
+                      comm_col, &requests[1]);
 
-      MPI_Waitall(4 * distr_M, requests, MPI_STATUSES_IGNORE);
+      MPI_Waitall(2, requests, MPI_STATUSES_IGNORE);
     }
+    MPI_Pcontrol(-1, "Superstep (0)-(1)");
 
+    MPI_Pcontrol(1, "Superstep (2)");
     // superstep 2 & 3
     if (phi1(k, distr_N) == t) {
       absmax = 0;
       unsigned smax = 0;
 
-      for (i = 0; i < distr_M; i++) {
-        if (fabs(Max[i]) > absmax) {
-          absmax = fabs(Max[i]);
-          smax = i;
-        }
-      }
+      // for (i = 0; i < distr_M; i++) {
+      //   if (fabs(Max[i]) > absmax) {
+      //     absmax = fabs(Max[i]);
+      //     smax = i;
+      //   }
+      // }
+
+      smax = cblas_idamax(distr_M, Max, 1);
+      absmax = fabs(Max[smax]);
 
       if (absmax > EPS) {
         int imax = IMax[smax];
@@ -194,12 +214,15 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         MPI_Abort(MPI_COMM_WORLD, 192);
       }
     }
+    MPI_Pcontrol(-1, "Superstep (2)");
 
     /* Superstep (3) */
+    MPI_Pcontrol(1, "Superstep (3)");
     MPI_Bcast(&r, 1, MPI_INT, phi1(k, distr_N), comm_row);
+    MPI_Pcontrol(-1, "Superstep (3)");
 
-    // printf("rank %d: swap row k=%d with row r=%d\n", p_id, k, r);
-
+    /* Superstep (4)-(7) */
+    MPI_Pcontrol(1, "Superstep (4)-(7)");
     if (phi0(k, distr_M) == s && phi0(r, distr_M) == s && r != k) {
       double a_temp;
       int pi_temp;
@@ -236,12 +259,14 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
           &pi[i_loc(r, distr_M)], 1, MPI_INT, distr_N * phi0(k, distr_M) + t, 3,
           distr_N * phi0(k, distr_M) + t, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     }
+    MPI_Pcontrol(-1, "Superstep (4)-(7)");
 
     // if (k == 1) break;
 
     // algo 2.4 begin
 
     // superstep 8
+    MPI_Pcontrol(1, "Superstep (8)");
     double a_kk;
 
     if (phi1(k, distr_N) == t) {
@@ -251,8 +276,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
       MPI_Bcast(&a_kk, 1, MPI_DOUBLE, phi0(k, distr_M), comm_col);
     }
+    MPI_Pcontrol(-1, "Superstep (8)");
 
-    // // superstep 9
+    // superstep 9
+    MPI_Pcontrol(1, "Superstep (9)");
     if (phi1(k, distr_N) == t) {
       if ((k + 1) % distr_M < s + 1)
         start_i = i_loc(k + 1, distr_M);
@@ -275,8 +302,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                   0, NULL, 1, NULL, 1, 1. / a_kk,
                   &A[idx(start_i, j_loc(k, distr_N), nc)], nc);
     }
+    MPI_Pcontrol(-1, "Superstep (9)");
 
     // superstep 10
+    MPI_Pcontrol(1, "Superstep (10)");
     double a_ik[nr];
 
     if (phi1(k, distr_N) == t) {
@@ -301,6 +330,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
     MPI_Bcast(a_kj, nc, MPI_DOUBLE, phi0(k, distr_M), comm_col);
 
+    MPI_Pcontrol(-1, "Superstep (10)");
+
+    // superstep 11
+    MPI_Pcontrol(1, "Superstep (11)");
     int start_i, start_j;
 
     if ((k + 1) % distr_M < s + 1)
@@ -313,7 +346,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     else
       start_j = j_loc(k + 1, distr_N) + 1;
 
-    // // // superstep 11
     // for (i = start_i; i < nr; ++i) {
     //   for (j = start_j; j < nc; ++j) {
     //     A[idx(i, j, nc)] -= a_ik[i] * a_kj[j];
@@ -323,6 +355,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, nr - start_i,
                 nc - start_j, 1, -1., &a_ik[start_i], 1, &a_kj[start_j], 1, 1.,
                 &A[idx(start_i, start_j, nc)], nc);
+
+    MPI_Pcontrol(-1, "Superstep (11)");
   }
 }
 
@@ -334,16 +368,29 @@ int main(int argc, char** argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   /* Retrieve problem size. */
-  // int n = N;
-  int n = 16;
+  int n = N;
+  // int n = 16;
+
+  // int dims[2];
+
+  // MPI_Dims_create(size, 2, dims);
+
+  // unsigned distr_M = dims[0];
+  // unsigned distr_N = dims[1];
 
   unsigned distr_M,
       distr_N;  // M and N of the cyclic distr., need to be computed yet
 
-  distr_M = largest_divisor(size);
-  distr_N = size / distr_M;
+  if (size != 1) {
+    distr_M = largest_divisor(size);
+    distr_N = size / distr_M;
+  } else {
+    distr_M = 1;
+    distr_N = 1;
+  }
 
   int dims[2] = {distr_M, distr_N};
+
   int periods[2] = {0, 1};
   MPI_Comm comm_cart;
   MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 0, &comm_cart);
@@ -384,6 +431,7 @@ int main(int argc, char** argv) {
   init_array(n, nr, nc, distr_M, distr_N, A, s, t, rank);
   // if (rank == 0) print_array(nr, nc, A, distr_M, distr_N);
 
+#ifdef WRITE_TO_DISK
   // /* Write results to file */
   MPI_Datatype cyclic_dist;
   int array_gsizes[2] = {n, n};
@@ -405,6 +453,7 @@ int main(int argc, char** argv) {
   MPI_File_write_at_all(file, 0, A, nr * nc, MPI_DOUBLE, MPI_STATUS_IGNORE);
 
   MPI_File_close(&file);
+#endif
 
   int* pi = malloc(sizeof(int) * nr);
   unsigned i;
@@ -416,7 +465,9 @@ int main(int argc, char** argv) {
   polybench_start_instruments;
 
   /* Run kernel. */
+  MPI_Pcontrol(1, "Kernel");
   kernel_lu(n, A, rank, s, t, pi, distr_M, distr_N, comm_row, comm_col);
+  MPI_Pcontrol(-1, "Kernel");
 
   /* Stop and print timer. */
   polybench_stop_instruments;
@@ -426,6 +477,7 @@ int main(int argc, char** argv) {
      by the function call in argument. */
   // if (rank == 0) polybench_prevent_dce(print_array(n, POLYBENCH_ARRAY(A)));
 
+#ifdef WRITE_TO_DISK
   // /* Write results to file */
   MPI_File_open(MPI_COMM_WORLD, "lu.out", MPI_MODE_WRONLY | MPI_MODE_CREATE,
                 MPI_INFO_NULL, &file);
@@ -458,7 +510,7 @@ int main(int argc, char** argv) {
       MPI_Send(&pi[i], 1, MPI_INT, 0, i_glob(i, distr_M, s), MPI_COMM_WORLD);
     }
   }
-
+#endif
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
 
