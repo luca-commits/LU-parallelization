@@ -14,6 +14,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/time.h>
+#include <time.h>
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -32,6 +34,12 @@ static double frobenius_norm(int nx, int ny, double* A) {
   }
 
   return sqrt(norm_sq);
+}
+
+unsigned long get_time() {
+  struct timeval tp;
+  gettimeofday(&tp, NULL);
+  return tp.tv_sec * 1000000 + tp.tv_usec;
 }
 
 /* Array initialization. */
@@ -337,15 +345,17 @@ int main(int argc, char** argv) {
     float time;
 
     if (rank == 0) {
-      time = MPI_Wtime();
+      time = gettimeofday();
     }
 
     /* Run kernel. */
     kernel_jacobi_2d(tsteps, nx_local, ny_local, A_local, B_local, neighbours,
                      &comm_cart, &column_vec);
 
+    MPI_Barrier(MPI_COMM_WORLD);
+
     if (rank == 0) {
-      timings[i] = MPI_Wtime() - time;
+      timings[i] = gettimeofday() - time / 1000.0;
     }
     MPI_Pcontrol(-1, "Kernel");
   }
