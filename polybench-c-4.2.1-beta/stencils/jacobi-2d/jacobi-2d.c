@@ -345,7 +345,7 @@ int main(int argc, char** argv) {
     float time;
 
     if (rank == 0) {
-      time = gettimeofday();
+      time = get_time();
     }
 
     /* Run kernel. */
@@ -355,7 +355,7 @@ int main(int argc, char** argv) {
     MPI_Barrier(MPI_COMM_WORLD);
 
     if (rank == 0) {
-      timings[i] = gettimeofday() - time / 1000.0;
+      timings[i] = get_time() - time / 1000.0;
     }
     MPI_Pcontrol(-1, "Kernel");
   }
