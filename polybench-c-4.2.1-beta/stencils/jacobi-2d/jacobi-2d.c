@@ -355,10 +355,10 @@ int main(int argc, char** argv) {
     asprintf(&filename, "./timings/%d.csv", size);
     FILE* timings_file = fopen(filename, "w");
 
-    fprintf(timings_file, "size,time,\n");
+    fprintf(timings_file, "n,p,time,value,\n");
 
     for (int i = 0; i < NO_OF_RUNS; ++i) {
-      fprintf(timings_file, "%d,%f,\n", size, timings[i]);
+      fprintf(timings_file, "%d,%d,%f,%f,\n", n, size, timings[i], 0.0);
     }
 
     fclose(timings_file);
