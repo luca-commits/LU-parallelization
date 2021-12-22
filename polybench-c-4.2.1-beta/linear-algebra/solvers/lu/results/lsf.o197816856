@@ -1,0 +1,36 @@
+Sender: LSF System <lsfadmin@eu-a6-007-06>
+Subject: Job 197816856: <mpirun -np 1 ./jacobi-2d> in cluster <euler> Exited
+
+Job <mpirun -np 1 ./jacobi-2d> was submitted from host <eu-login-20> by user <wolfartl> in cluster <euler> at Wed Dec 22 10:31:02 2021
+Job was executed on host(s) <eu-a6-007-06>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Wed Dec 22 10:31:21 2021
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu> was used as the working directory.
+Started at Wed Dec 22 10:31:21 2021
+Terminated at Wed Dec 22 10:31:23 2021
+Results reported at Wed Dec 22 10:31:23 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -np 1 ./jacobi-2d
+------------------------------------------------------------
+
+Exited with exit code 255.
+
+Resource usage summary:
+
+    CPU time :                                   0.13 sec.
+    Max Memory :                                 15 MB
+    Average Memory :                             -
+    Total Requested Memory :                     1024.00 MB
+    Delta Memory :                               1009.00 MB
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   29 sec.
+    Turnaround time :                            21 sec.
+
+The output (if any) follows:
+
+[proxy:0:0@eu-a6-007-06] HYDU_create_process (../../utils/launch/launch.c:825): execvp error on file ./jacobi-2d (No such file or directory)
