@@ -21,7 +21,7 @@
 /* Include benchmark-specific header. */
 #include "jacobi-2d.h"
 
-#define NO_OF_RUNS 25
+#define NO_OF_RUNS 1
 
 /* Matrix norm */
 static double frobenius_norm(int nx, int ny, double* A) {
@@ -71,9 +71,9 @@ static void exchange_cells(double* A, int nx_local, int ny_local,
 
   /* Communication with top neighbour */
   if (neighbours[0] != MPI_PROC_NULL) {
-    MPI_Isend(&A[nx_local + 3], nx_local, MPI_DOUBLE, neighbours[0], 0,
+    MPI_Isend(&A[ny_local + 3], ny_local, MPI_DOUBLE, neighbours[0], 0,
               *comm_cart, &requests[0]);
-    MPI_Irecv(&A[1], nx_local, MPI_DOUBLE, neighbours[0], MPI_ANY_TAG,
+    MPI_Irecv(&A[1], ny_local, MPI_DOUBLE, neighbours[0], MPI_ANY_TAG,
               *comm_cart, &requests[1]);
   } else {
     requests[0] = MPI_REQUEST_NULL;
@@ -82,9 +82,9 @@ static void exchange_cells(double* A, int nx_local, int ny_local,
 
   /* Communication with bottom neighbour */
   if (neighbours[1] != MPI_PROC_NULL) {
-    MPI_Isend(&A[(nx_local + 2) * (ny_local + 2) - 2 * (nx_local + 2) + 1],
-              nx_local, MPI_DOUBLE, neighbours[1], 0, *comm_cart, &requests[2]);
-    MPI_Irecv(&A[(nx_local + 2) * (ny_local + 2) - nx_local - 1], nx_local,
+    MPI_Isend(&A[(ny_local + 2) * (nx_local + 2) - 2 * (ny_local + 2) + 1],
+              ny_local, MPI_DOUBLE, neighbours[1], 0, *comm_cart, &requests[2]);
+    MPI_Irecv(&A[(ny_local + 2) * (nx_local + 2) - ny_local - 1], ny_local,
               MPI_DOUBLE, neighbours[1], MPI_ANY_TAG, *comm_cart, &requests[3]);
   } else {
     requests[2] = MPI_REQUEST_NULL;
@@ -93,9 +93,9 @@ static void exchange_cells(double* A, int nx_local, int ny_local,
 
   /* Communication with left neighbour */
   if (neighbours[2] != MPI_PROC_NULL) {
-    MPI_Isend(&A[nx_local + 3], 1, *column_vec, neighbours[2], 0, *comm_cart,
+    MPI_Isend(&A[ny_local + 3], 1, *column_vec, neighbours[2], 0, *comm_cart,
               &requests[4]);
-    MPI_Irecv(&A[nx_local + 2], 1, *column_vec, neighbours[2], MPI_ANY_TAG,
+    MPI_Irecv(&A[ny_local + 2], 1, *column_vec, neighbours[2], MPI_ANY_TAG,
               *comm_cart, &requests[5]);
   } else {
     requests[4] = MPI_REQUEST_NULL;
@@ -104,9 +104,9 @@ static void exchange_cells(double* A, int nx_local, int ny_local,
 
   /* Communication with right neighbour */
   if (neighbours[3] != MPI_PROC_NULL) {
-    MPI_Isend(&A[2 * (nx_local + 2) - 2], 1, *column_vec, neighbours[3], 0,
+    MPI_Isend(&A[2 * (ny_local + 2) - 2], 1, *column_vec, neighbours[3], 0,
               *comm_cart, &requests[6]);
-    MPI_Irecv(&A[2 * (nx_local + 2) - 1], 1, *column_vec, neighbours[3],
+    MPI_Irecv(&A[2 * (ny_local + 2) - 1], 1, *column_vec, neighbours[3],
               MPI_ANY_TAG, *comm_cart, &requests[7]);
   } else {
     requests[6] = MPI_REQUEST_NULL;
@@ -120,10 +120,15 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
                              double* B, int* neighbours, MPI_Comm* comm_cart,
                              MPI_Datatype* column_vec) {
   int t, i, j;
-  MPI_Request requests[8];
 
-  /* Define bounds for iteration bounds, depending on location of processor in
-   * the cartesian grid */
+  int rank;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+  MPI_Request requests[8];
+  MPI_Status statuses[8];
+
+  /* Define bounds for iteration bounds, depending on location of processor
+   * in the cartesian grid */
   int x_bound_low = 2;
   int x_bound_high = nx_local;
   int y_bound_low = 2;
@@ -148,7 +153,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
              A[(nx_local + 2) * (i - 1) + j]);
 
     /* Wait for all communication to finish */
-    MPI_Waitall(8, requests, MPI_STATUSES_IGNORE);
+    int err = MPI_Waitall(8, requests, statuses);
+    // return;
 
     if (neighbours[0] != MPI_PROC_NULL) {
       j = 1;
@@ -193,7 +199,6 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
              A[(nx_local + 2) * (i - 1) + j]);
       }
     }
-
     exchange_cells(B, nx_local, ny_local, neighbours, requests, comm_cart,
                    column_vec);
 
@@ -207,7 +212,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
              B[(nx_local + 2) * (i - 1) + j]);
 
     /* Wait for all communication to finish */
-    MPI_Waitall(8, requests, MPI_STATUSES_IGNORE);
+    err = MPI_Waitall(8, requests, statuses);
 
     if (neighbours[0] != MPI_PROC_NULL) {
       j = 1;
@@ -272,10 +277,10 @@ int main(int argc, char** argv) {
                                  // "x-direction" (to the right), dims[1] as no
                                  // of ranks in "y-direction" (to the bottom)
 
-  printf("%d = %d x %d\n", size, dims[0], dims[1]);
-
   MPI_Comm comm_cart;
   MPI_Cart_create(MPI_COMM_WORLD, 2, dims_temp, periods, 0, &comm_cart);
+
+  // MPI_Comm_set_errhandler(MPI_COMM_WORLD, MPI_ERRORS_RETURN);
 
   int coords[2];
   MPI_Cart_coords(comm_cart, rank, 2, coords);
@@ -299,6 +304,8 @@ int main(int argc, char** argv) {
 
   int ny_local = n / dims[1];
   if (neighbours[3] == MPI_PROC_NULL) ny_local += n % dims[1];
+
+  printf("rank %d: %d x %d\n", rank, nx_local, ny_local);
 
   /* Define a data type for sending columns of local domains */
   MPI_Datatype column_vec;
