@@ -303,8 +303,7 @@ int main(int argc, char** argv) {
 
   /* Retrieve problem size. */
   int n = N;
-  // int tsteps = TSTEPS;
-  int tsteps = 1;
+  int tsteps = TSTEPS;
 
   /* Calculate problem size of local domain for every rank */
   int nx_local = n / dims[0];
@@ -337,12 +336,12 @@ int main(int argc, char** argv) {
   //   print_array(nx_local + 2, ny_local + 2, B_local);
   // }
 
-  float timings[NO_OF_RUNS];
+  double timings[NO_OF_RUNS];
 
   for (int i = 0; i < NO_OF_RUNS; ++i) {
     MPI_Pcontrol(1, "Kernel");
 
-    float time;
+    unsigned long time;
 
     if (rank == 0) {
       time = get_time();
@@ -355,7 +354,7 @@ int main(int argc, char** argv) {
     MPI_Barrier(MPI_COMM_WORLD);
 
     if (rank == 0) {
-      timings[i] = get_time() - time / 1000.0;
+      timings[i] = (get_time() - time) / 1000.0 / 1000.0;
     }
     MPI_Pcontrol(-1, "Kernel");
   }
