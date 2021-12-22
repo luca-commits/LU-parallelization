@@ -21,7 +21,7 @@
 /* Include benchmark-specific header. */
 #include "jacobi-2d.h"
 
-#define NO_OF_RUNS 1
+#define NO_OF_RUNS 25
 
 /* Matrix norm */
 static double frobenius_norm(int nx, int ny, double* A) {
