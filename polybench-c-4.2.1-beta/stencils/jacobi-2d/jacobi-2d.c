@@ -21,6 +21,8 @@
 /* Include benchmark-specific header. */
 #include "jacobi-2d.h"
 
+#define NO_OF_RUNS 25
+
 /* Matrix norm */
 static double frobenius_norm(int nx, int ny, double* A) {
   double norm_sq = 0;
@@ -288,7 +290,8 @@ int main(int argc, char** argv) {
 
   /* Retrieve problem size. */
   int n = N;
-  int tsteps = TSTEPS;
+  // int tsteps = TSTEPS;
+  int tsteps = 1;
 
   /* Calculate problem size of local domain for every rank */
   int nx_local = n / dims[0];
@@ -319,23 +322,40 @@ int main(int argc, char** argv) {
   //   print_array(nx_local + 2, ny_local + 2, B_local);
   // }
 
-  MPI_Pcontrol(1, "Kernel");
-  if (rank == 0) {
-    /* Start timer. */
-    polybench_prepare_instruments();
-    polybench_timer_start();
+  float timings[NO_OF_RUNS];
+
+  for (int i = 0; i < NO_OF_RUNS; ++i) {
+    MPI_Pcontrol(1, "Kernel");
+
+    float time;
+
+    if (rank == 0) {
+      time = MPI_Wtime();
+    }
+
+    /* Run kernel. */
+    kernel_jacobi_2d(tsteps, nx_local, ny_local, A_local, B_local, neighbours,
+                     &comm_cart, &column_vec);
+
+    if (rank == 0) {
+      timings[i] = MPI_Wtime() - time;
+    }
+    MPI_Pcontrol(-1, "Kernel");
   }
 
-  /* Run kernel. */
-  kernel_jacobi_2d(tsteps, nx_local, ny_local, A_local, B_local, neighbours,
-                   &comm_cart, &column_vec);
-
   if (rank == 0) {
-    /* Stop and print timer. */
-    polybench_timer_stop();
-    polybench_timer_print();
+    char* filename;
+    asprintf(&filename, "./timings/%d.csv", size);
+    FILE* timings_file = fopen(filename, "w");
+
+    fprintf(timings_file, "size,time,\n");
+
+    for (int i = 0; i < NO_OF_RUNS; ++i) {
+      fprintf(timings_file, "%d,%f,\n", size, timings[i]);
+    }
+
+    fclose(timings_file);
   }
-  MPI_Pcontrol(-1, "Kernel");
 
   // if (rank == 0) {
   //   print_array(nx_local + 2, ny_local + 2, A_local);
