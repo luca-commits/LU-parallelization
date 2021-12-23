@@ -27,11 +27,12 @@ df['time'].plot(
     kind='line',
     ## update title
     title='Strong scaling - LU with PRP, OpenMP',
-    logy=True,
+    logy=False,
     ylabel="time in sec",
     logx=False,
     xlabel="#processors",
     legend=False,
+    style='o'
 )
 
 plt.savefig(Path(args.output))
