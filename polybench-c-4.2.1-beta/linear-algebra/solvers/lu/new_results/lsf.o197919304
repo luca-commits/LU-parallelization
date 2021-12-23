@@ -1,0 +1,83 @@
+Sender: LSF System <lsfadmin@eu-a6-007-23>
+Subject: Job 197919304: <mpirun -np 16 ./lu> in cluster <euler> Done
+
+Job <mpirun -np 16 ./lu> was submitted from host <eu-login-44> by user <wolfartl> in cluster <euler> at Thu Dec 23 09:11:47 2021
+Job was executed on host(s) <16*eu-a6-007-23>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Thu Dec 23 09:12:13 2021
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu> was used as the working directory.
+Started at Thu Dec 23 09:12:13 2021
+Terminated at Thu Dec 23 09:13:12 2021
+Results reported at Thu Dec 23 09:13:12 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -np 16 ./lu
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   921.00 sec.
+    Max Memory :                                 900 MB
+    Average Memory :                             675.25 MB
+    Total Requested Memory :                     16384.00 MB
+    Delta Memory :                               15484.00 MB
+    Max Swap :                                   -
+    Max Processes :                              23
+    Max Threads :                                25
+    Run time :                                   58 sec.
+    Turnaround time :                            85 sec.
+
+The output (if any) follows:
+
+rank 1: s=0 t=1
+rank 2: s=1 t=0
+rank 3: s=1 t=1
+rank 4: s=2 t=0
+rank 11: s=5 t=1
+rank 12: s=6 t=0
+rank 13: s=6 t=1
+rank 15: s=7 t=1
+rank 0: s=0 t=0
+rank 5: s=2 t=1
+rank 6: s=3 t=0
+rank 7: s=3 t=1
+rank 8: s=4 t=0
+rank 9: s=4 t=1
+rank 10: s=5 t=0
+rank 14: s=7 t=0
+pid: 9 
+pid: 13 
+pid: 2 
+pid: 5 
+pid: 11 
+pid: 4 
+pid: 6 
+pid: 7 
+pid: 10 
+pid: 14 
+pid: 3 
+pid: 8 
+pid: 15 
+pid: 1 
+pid: 12 
+pid: 0 
+57.408859
+57.414265
+57.414427
+57.414340
+57.414393
+57.409330
+57.414521
+57.414396
+57.414484
+57.414404
+57.414388
+57.414353
+57.414519
+57.414377
+57.414413
+57.414356

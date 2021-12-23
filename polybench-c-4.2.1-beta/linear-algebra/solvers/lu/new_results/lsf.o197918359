@@ -1,0 +1,131 @@
+Sender: LSF System <lsfadmin@eu-a6-012-13>
+Subject: Job 197918359: <mpirun -np 32 ./lu> in cluster <euler> Done
+
+Job <mpirun -np 32 ./lu> was submitted from host <eu-login-44> by user <wolfartl> in cluster <euler> at Thu Dec 23 08:54:53 2021
+Job was executed on host(s) <32*eu-a6-012-13>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Thu Dec 23 08:55:24 2021
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu> was used as the working directory.
+Started at Thu Dec 23 08:55:24 2021
+Terminated at Thu Dec 23 08:55:57 2021
+Results reported at Thu Dec 23 08:55:57 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -np 32 ./lu
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1012.00 sec.
+    Max Memory :                                 1027 MB
+    Average Memory :                             980.00 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               31741.00 MB
+    Max Swap :                                   -
+    Max Processes :                              39
+    Max Threads :                                41
+    Run time :                                   53 sec.
+    Turnaround time :                            64 sec.
+
+The output (if any) follows:
+
+rank 8: s=4 t=0
+rank 15: s=7 t=1
+rank 16: s=8 t=0
+rank 17: s=8 t=1
+rank 27: s=13 t=1
+rank 1: s=0 t=1
+rank 2: s=1 t=0
+rank 3: s=1 t=1
+rank 4: s=2 t=0
+rank 5: s=2 t=1
+rank 6: s=3 t=0
+rank 7: s=3 t=1
+rank 12: s=6 t=0
+rank 18: s=9 t=0
+rank 19: s=9 t=1
+rank 21: s=10 t=1
+rank 22: s=11 t=0
+rank 23: s=11 t=1
+rank 24: s=12 t=0
+rank 25: s=12 t=1
+rank 26: s=13 t=0
+rank 28: s=14 t=0
+rank 29: s=14 t=1
+rank 30: s=15 t=0
+rank 0: s=0 t=0
+rank 9: s=4 t=1
+rank 10: s=5 t=0
+rank 11: s=5 t=1
+rank 13: s=6 t=1
+rank 14: s=7 t=0
+rank 20: s=10 t=0
+rank 31: s=15 t=1
+pid: 11 
+pid: 0 
+pid: 5 
+pid: 9 
+pid: 1 
+pid: 3 
+pid: 4 
+pid: 13 
+pid: 21 
+pid: 29 
+pid: 6 
+pid: 7 
+pid: 19 
+pid: 16 
+pid: 23 
+pid: 26 
+pid: 2 
+pid: 15 
+pid: 17 
+pid: 22 
+pid: 30 
+pid: 18 
+pid: 24 
+pid: 25 
+pid: 27 
+pid: 14 
+pid: 20 
+pid: 28 
+pid: 31 
+pid: 10 
+pid: 8 
+pid: 12 
+31.145743
+31.145951
+31.146027
+31.145941
+31.145930
+31.143747
+31.146025
+31.143816
+31.146261
+31.145611
+31.145765
+31.145664
+31.145842
+31.145606
+31.145653
+31.145638
+31.145970
+31.145764
+31.145555
+31.146033
+31.145950
+31.146002
+31.143360
+31.145941
+31.145801
+31.145738
+31.145991
+31.145764
+31.145801
+31.145669
+31.145806
+31.145613
