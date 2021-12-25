@@ -26,7 +26,7 @@ print(df)
 df['time'].plot(
     kind='line',
     ## update title
-    title='Strong scaling - LU with PRP, OpenMP',
+    title='Strong scaling - Jacobi 2D, MPI',
     logy=False,
     ylabel="time in sec",
     logx=False,
