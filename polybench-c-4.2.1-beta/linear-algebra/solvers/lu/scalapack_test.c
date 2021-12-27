@@ -58,6 +58,7 @@ int main(int argc, char **argv) {
   // Initialize BLACS
   int iam, nprocs;
   int zero = 0;
+  int minusone = -1;
   int ictxt, myrow, mycol;
   blacs_pinfo_(&iam, &nprocs);       // BLACS rank and world size
   blacs_get_(&zero, &zero, &ictxt);  // -> Create context
