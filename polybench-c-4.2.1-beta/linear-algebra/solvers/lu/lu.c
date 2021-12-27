@@ -32,6 +32,17 @@
 
 #define EPS 1.0e-15
 
+extern void blacs_get_(int *, int *, int *);
+extern void blacs_pinfo_(int *, int *);
+extern void blacs_gridinit_(int *, char *, int *, int *);
+extern void blacs_gridinfo_(int *, int *, int *, int *, int *);
+extern void descinit_(int *, int *, int *, int *, int *, int *, int *, int *,
+                      int *, int *);
+extern void pdgetrf_(int *, int *, double *, int *, int *, int *, int *, int *);
+extern void pdpotrf_(char *, int *, double *, int *, int *, int *, int *);
+extern void blacs_gridexit_(int *);
+extern int numroc_(int *, int *, int *, int *, int *);
+
 unsigned phi0(unsigned i, unsigned distr_M) { return i % distr_M; }
 
 unsigned phi1(unsigned j, unsigned distr_N) { return j % distr_N; }
@@ -68,7 +79,7 @@ int largest_divisor(int n) {
 
 /* DCE code. Must scan the entire live-out data.
    Can be used also to check the correctness of the output. */
-static void print_array(int nr, int nc, double* A, unsigned distr_M,
+static void print_array(int nr, int nc, double *A, unsigned distr_M,
                         unsigned distr_N) {
   int i, j;
 
@@ -89,7 +100,7 @@ static void print_array(int nr, int nc, double* A, unsigned distr_M,
 /* Array initialization. */
 // check this one!!1!!1!!
 static void init_array(int n, int nr, int nc, unsigned distr_M,
-                       unsigned distr_N, double* A, unsigned s, unsigned t,
+                       unsigned distr_N, double *A, unsigned s, unsigned t,
                        unsigned p_id /* for debugging*/) {
   // printf("rank=%d s=%d t=%d\n", p_id, s, t);
 
@@ -112,255 +123,12 @@ static void init_array(int n, int nr, int nc, unsigned distr_M,
    pi: permutation vector (need to solve lse)
    distr_M, distr_N: rows and cols of the cyclic distribution
 */
-static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
-                      unsigned* pi, const unsigned distr_M,
+static void kernel_lu(int n, double *A, unsigned p_id, unsigned s, unsigned t,
+                      unsigned *pi, const unsigned distr_M,
                       const unsigned distr_N, MPI_Comm comm_row,
-                      MPI_Comm comm_col) {
-  // unsigned nr = (n + distr_M - s - 1) / distr_M;  // number of local rows
-  unsigned nr = (n + distr_M - s - 1) / distr_M;
-  unsigned nc = (n + distr_N - t - 1) / distr_N;  // number of local columns
-  int i, j, k, r;
-  int start_i, start_j;
-  DATA_TYPE absmax;
+                      MPI_Comm comm_col) {}
 
-  int pi_k_temp, pi_r_temp;
-  double A_row_k_temp[nc];
-  double A_row_r_temp[nc];
-
-  printf("pid: %d \n", p_id);
-  // algorithm 2.5
-
-  // find largest absolute value in column k
-  double* Max = (double*)malloc(distr_M * sizeof(double));
-  int* IMax = (int*)malloc(distr_M * sizeof(int));
-
-  for (k = 0; k < n; k++) {
-    MPI_Pcontrol(1, "Superstep (0)-(1)");
-    if (phi1(k, distr_N) == t) {
-      int rs;
-
-      // absmax = fabs(A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
-      //                     nc)]);  // <-- kontrollieren ob dies stimmt
-      // rs = k;
-
-      // for (i = i_loc(k, distr_M); i < nr; i++) {
-      //   if (absmax < fabs(A[idx(i, j_loc(k, distr_N), nc)])) {
-      //     absmax = fabs(A[idx(i, j_loc(k, distr_N), nc)]);
-      //     rs = i_glob(i, distr_M, s);
-      //   }
-      // }
-
-      int absmax_idx =
-          (cblas_idamax(nr - i_loc(k, distr_M),
-                        &A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)],
-                        nc)) +
-          i_loc(k, distr_M);
-
-      if (absmax_idx == i_loc(k, distr_M))
-        rs = k;
-      else
-        rs = i_glob(absmax_idx, distr_M, s);
-
-      absmax = fabs(A[idx(absmax_idx, j_loc(k, distr_N), nc)]);
-
-      double max = 0;
-      if (absmax > EPS) {
-        max = A[idx(i_loc(rs, distr_M), j_loc(k, distr_N), nc)];
-      }
-
-      MPI_Request requests[2];
-
-      int recvcounts[distr_M];
-      int recvdispls[distr_M];
-
-      for (i = 0; i < distr_M; ++i) {
-        recvcounts[i] = 1;
-        recvdispls[i] = i;
-      }
-
-      MPI_Iallgatherv(&max, 1, MPI_DOUBLE, Max, recvcounts, recvdispls,
-                      MPI_DOUBLE, comm_col, &requests[0]);
-      MPI_Iallgatherv(&rs, 1, MPI_INT, IMax, recvcounts, recvdispls, MPI_INT,
-                      comm_col, &requests[1]);
-
-      MPI_Waitall(2, requests, MPI_STATUSES_IGNORE);
-    }
-    MPI_Pcontrol(-1, "Superstep (0)-(1)");
-
-    MPI_Pcontrol(1, "Superstep (2)");
-    // superstep 2 & 3
-    if (phi1(k, distr_N) == t) {
-      absmax = 0;
-      unsigned smax = 0;
-
-      // for (i = 0; i < distr_M; i++) {
-      //   if (fabs(Max[i]) > absmax) {
-      //     absmax = fabs(Max[i]);
-      //     smax = i;
-      //   }
-      // }
-
-      smax = cblas_idamax(distr_M, Max, 1);
-      absmax = fabs(Max[smax]);
-
-      if (absmax > EPS) {
-        int imax = IMax[smax];
-        r = imax;  // global index
-      } else {
-        printf(
-            "rank %d: ABORT because all elements in column are == 0 "
-            "(absmax=%f)\n",
-            p_id, absmax);
-        MPI_Abort(MPI_COMM_WORLD, 192);
-      }
-    }
-    MPI_Pcontrol(-1, "Superstep (2)");
-
-    /* Superstep (3) */
-    MPI_Pcontrol(1, "Superstep (3)");
-    MPI_Bcast(&r, 1, MPI_INT, phi1(k, distr_N), comm_row);
-    MPI_Pcontrol(-1, "Superstep (3)");
-
-    /* Superstep (4)-(7) */
-    MPI_Pcontrol(1, "Superstep (4)-(7)");
-    if (phi0(k, distr_M) == s && phi0(r, distr_M) == s && r != k) {
-      double a_temp;
-      int pi_temp;
-
-      // for (j = 0; j < nc; ++j) {  // waistful looping... will correct later
-      //   a_temp = A[idx(i_loc(k, distr_M), j, nc)];
-      //   A[idx(i_loc(k, distr_M), j, nc)] = A[idx(i_loc(r, distr_M), j, nc)];
-      //   A[idx(i_loc(r, distr_M), j, nc)] = a_temp;
-      // }
-
-      cblas_dswap(nc, &A[idx(i_loc(k, distr_M), 0, nc)], 1,
-                  &A[idx(i_loc(r, distr_M), 0, nc)], 1);
-
-      pi_temp = pi[i_loc(r, distr_M)];
-      pi[i_loc(r, distr_M)] = pi[i_loc(k, distr_M)];
-      pi[i_loc(k, distr_M)] = pi_temp;
-
-    } else if (phi0(k, distr_M) == s && r != k) {
-      // Sendrecv here
-      MPI_Sendrecv_replace(&A[idx(i_loc(k, distr_M), 0, nc)], nc, MPI_DOUBLE,
-                           distr_N * phi0(r, distr_M) + t, 0,
-                           distr_N * phi0(r, distr_M) + t, 1, MPI_COMM_WORLD,
-                           MPI_STATUS_IGNORE);
-      MPI_Sendrecv_replace(
-          &pi[i_loc(k, distr_M)], 1, MPI_INT, distr_N * phi0(r, distr_M) + t, 2,
-          distr_N * phi0(r, distr_M) + t, 3, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    } else if (phi1(r, distr_M) == s && r != k) {
-      // Sendrecv here
-      MPI_Sendrecv_replace(&A[idx(i_loc(r, distr_M), 0, nc)], nc, MPI_DOUBLE,
-                           distr_N * phi0(k, distr_M) + t, 1,
-                           distr_N * phi0(k, distr_M) + t, 0, MPI_COMM_WORLD,
-                           MPI_STATUS_IGNORE);
-      MPI_Sendrecv_replace(
-          &pi[i_loc(r, distr_M)], 1, MPI_INT, distr_N * phi0(k, distr_M) + t, 3,
-          distr_N * phi0(k, distr_M) + t, 2, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    }
-    MPI_Pcontrol(-1, "Superstep (4)-(7)");
-
-    // if (k == 1) break;
-
-    // algo 2.4 begin
-
-    // superstep 8
-    MPI_Pcontrol(1, "Superstep (8)");
-    double a_kk;
-
-    if (phi1(k, distr_N) == t) {
-      if (phi0(k, distr_M) == s) {
-        a_kk = A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)];
-      }
-
-      MPI_Bcast(&a_kk, 1, MPI_DOUBLE, phi0(k, distr_M), comm_col);
-    }
-    MPI_Pcontrol(-1, "Superstep (8)");
-
-    // superstep 9
-    MPI_Pcontrol(1, "Superstep (9)");
-    if (phi1(k, distr_N) == t) {
-      if ((k + 1) % distr_M < s + 1)
-        start_i = i_loc(k + 1, distr_M);
-      else
-        start_i = i_loc(k + 1, distr_M) + 1;
-
-      if (fabs(a_kk) < EPS) {
-        printf(
-            "rank %d: ABORT on k=%d because pivoting on zero element "
-            "a_kk=%f\n ",
-            p_id, k, a_kk);
-        MPI_Abort(MPI_COMM_WORLD, 345);
-      }
-
-      // for (i = start_i; i < nr; ++i) {
-      //   A[idx(i, j_loc(k, distr_N), nc)] /= a_kk;
-      // }
-
-      cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, nr - start_i, 1, 1,
-                  0, NULL, 1, NULL, 1, 1. / a_kk,
-                  &A[idx(start_i, j_loc(k, distr_N), nc)], nc);
-    }
-    MPI_Pcontrol(-1, "Superstep (9)");
-
-    // superstep 10
-    MPI_Pcontrol(1, "Superstep (10)");
-    double a_ik[nr];
-
-    if (phi1(k, distr_N) == t) {
-      // for (i = 0; i < nr; ++i) {
-      //   a_ik[i] = A[idx(i, j_loc(k, distr_N), nc)];
-      // }
-
-      cblas_dcopy(nr, &A[idx(0, j_loc(k, distr_N), nc)], nc, a_ik, 1);
-    }
-
-    MPI_Bcast(a_ik, nr, MPI_DOUBLE, phi1(k, distr_N), comm_row);
-
-    double a_kj[nc];
-
-    if (phi0(k, distr_M) == s) {
-      // for (j = 0; j < nc; ++j) {
-      //   a_kj[j] = A[idx(i_loc(k, distr_M), j, nc)];
-      // }
-
-      cblas_dcopy(nc, &A[idx(i_loc(k, distr_M), 0, nc)], 1, a_kj, 1);
-    }
-
-    MPI_Bcast(a_kj, nc, MPI_DOUBLE, phi0(k, distr_M), comm_col);
-
-    MPI_Pcontrol(-1, "Superstep (10)");
-
-    // superstep 11
-    MPI_Pcontrol(1, "Superstep (11)");
-    int start_i, start_j;
-
-    if ((k + 1) % distr_M < s + 1)
-      start_i = i_loc(k + 1, distr_M);
-    else
-      start_i = i_loc(k + 1, distr_M) + 1;
-
-    if ((k + 1) % distr_N < t + 1)
-      start_j = j_loc(k + 1, distr_N);
-    else
-      start_j = j_loc(k + 1, distr_N) + 1;
-
-    // for (i = start_i; i < nr; ++i) {
-    //   for (j = start_j; j < nc; ++j) {
-    //     A[idx(i, j, nc)] -= a_ik[i] * a_kj[j];
-    //   }
-    // }
-
-    cblas_dgemm(CblasRowMajor, CblasNoTrans, CblasTrans, nr - start_i,
-                nc - start_j, 1, -1., &a_ik[start_i], 1, &a_kj[start_j], 1, 1.,
-                &A[idx(start_i, start_j, nc)], nc);
-
-    MPI_Pcontrol(-1, "Superstep (11)");
-  }
-}
-
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
   int rank, size;
 
   MPI_Init(&argc, &argv);
@@ -369,16 +137,8 @@ int main(int argc, char** argv) {
 
   /* Retrieve problem size. */
   int n = N;
-  // int n = 16;
 
-  // int dims[2];
-
-  // MPI_Dims_create(size, 2, dims);
-
-  // unsigned distr_M = dims[0];
-  // unsigned distr_N = dims[1];
-
-  unsigned distr_M,
+  int distr_M,
       distr_N;  // M and N of the cyclic distr., need to be computed yet
 
   if (size != 1) {
@@ -389,41 +149,32 @@ int main(int argc, char** argv) {
     distr_N = 1;
   }
 
-  int dims[2] = {distr_M, distr_N};
+  int s, t;
+  int iam, nprocs;
+  int zero = 0;
+  int one = 1;
+  int ictxt;
+  char layout = 'R';  // Block cyclic, Row major processor mapping
 
-  int periods[2] = {0, 1};
-  MPI_Comm comm_cart;
-  MPI_Cart_create(MPI_COMM_WORLD, 2, dims, periods, 0, &comm_cart);
-
-  int coords[2];
-  MPI_Cart_coords(comm_cart, rank, 2, coords);
-  unsigned s = coords[0];
-  unsigned t = coords[1];
+  blacs_pinfo_(&iam, &nprocs);
+  blacs_get_(&zero, &zero, &ictxt);
+  blacs_gridinit_(&ictxt, &layout, &distr_M, &distr_N);
+  blacs_gridinfo_(&ictxt, &distr_M, &distr_N, &s, &t);
 
   printf("rank %d: s=%d t=%d\n", rank, s, t);
 
-  MPI_Comm comm_row;
-  int remain_dims_row[2] = {0, 1};
-  MPI_Cart_sub(comm_cart, remain_dims_row, &comm_row);
+  int nr = numroc_(&n, &one, &s, &zero, &distr_M);
+  int nc = numroc_(&n, &one, &t, &zero, &distr_N);
 
-  MPI_Comm comm_col;
-  int remain_dims_col[2] = {1, 0};
-  MPI_Cart_sub(comm_cart, remain_dims_col, &comm_col);
-
-  unsigned nr = (n + distr_M - s - 1) / distr_M;  // number of local rows
-  unsigned nc = (n + distr_N - t - 1) / distr_N;  // number of local columns
-
-  int rank_row, rank_col;
-  MPI_Comm_rank(comm_row, &rank_row);
-  MPI_Comm_rank(comm_col, &rank_col);
-
-  if (rank_row != t || rank_col != s) {
-    MPI_Abort(MPI_COMM_WORLD, -1);
-  }
+  printf(
+      "Hi. Proc %d/%d for MPI, proc %d/%d for BLACS in position "
+      "(%d,%d)/(%d,%d) with local matrix %dx%d, global matrix %d, block size"
+      "%d\n",
+      rank, size, iam, nprocs, s, t, distr_M, distr_N, nr, nc, n, 1);
 
   /* Variable declaration/allocation. */
   // POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
-  double* A = (double*)malloc(nr * nc * sizeof(double));
+  double *A = (double *)malloc(nr * nc * sizeof(double));
 
   /* Initialize array(s). */
   // srand((rank + 1) * time(NULL));
@@ -455,18 +206,20 @@ int main(int argc, char** argv) {
   MPI_File_close(&file);
 #endif
 
-  int* pi = malloc(sizeof(int) * nr);
-  unsigned i;
-  for (i = 0; i < nr; ++i) {
-    pi[i] = i_glob(i, distr_M, s);
-  }
+  int *pi = malloc(sizeof(int) * n);
+
+  int desc[9];
+  int info;
+  descinit_(desc, &n, &n, &one, &one, &zero, &zero, &ictxt, &nc, &info);
 
   /* Start timer. */
   polybench_start_instruments;
 
   /* Run kernel. */
   MPI_Pcontrol(1, "Kernel");
-  kernel_lu(n, A, rank, s, t, pi, distr_M, distr_N, comm_row, comm_col);
+  pdgetrf_(&n, &n, A, &one, &one, desc, pi, &info);
+  // char uplo = 'L';
+  // pdpotrf_(&uplo, &n, A, &one, &one, desc, &info);
   MPI_Pcontrol(-1, "Kernel");
 
   /* Stop and print timer. */
@@ -488,7 +241,7 @@ int main(int argc, char** argv) {
   MPI_File_close(&file);
 
   if (rank == 0) {
-    unsigned* pi_full = (unsigned*)malloc(sizeof(unsigned) * n);
+    unsigned *pi_full = (unsigned *)malloc(sizeof(unsigned) * n);
 
     for (i = 0; i < n; ++i) {
       if (phi0(i, distr_M) != s)
@@ -514,8 +267,7 @@ int main(int argc, char** argv) {
   /* Be clean. */
   POLYBENCH_FREE_ARRAY(A);
 
-  // while (1)
-  //   ;
+  blacs_gridexit_(&ictxt);
   MPI_Finalize();
 
   return 0;
