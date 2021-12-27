@@ -106,14 +106,15 @@ static void init_array(int n, int nr, int nc, unsigned distr_M,
 
   for (unsigned i = 0; i < nr; ++i) {
     for (unsigned j = 0; j < nc; ++j) {
-      if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
-        A[idx(i, j, nc)] = ((double)(-j_glob(j, distr_N, t) % n) / n + 1) * n;
-      } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
-        A[idx(i, j, nc)] = 1 * n;
-      } else {
-        A[idx(i, j, nc)] = 0;
-      }
-      // A[idx(i, j, nc)] = (double)(rand()) / RAND_MAX * 2.;
+      // if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
+      //   A[idx(i, j, nc)] = ((double)(-j_glob(j, distr_N, t) % n) / n + 1) *
+      //   n;
+      // } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
+      //   A[idx(i, j, nc)] = 1 * n;
+      // } else {
+      //   A[idx(i, j, nc)] = 0;
+      // }
+      A[idx(i, j, nc)] = (double)(rand()) / RAND_MAX * 2.;
     }
   }
 }
@@ -210,7 +211,7 @@ int main(int argc, char **argv) {
 
   int desc[9];
   int info;
-  descinit_(desc, &n, &n, &one, &one, &zero, &zero, &ictxt, &nc, &info);
+  descinit_(desc, &n, &n, &one, &one, &one, &one, &ictxt, &nc, &info);
 
   /* Start timer. */
   polybench_start_instruments;
