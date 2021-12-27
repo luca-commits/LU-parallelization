@@ -13,9 +13,9 @@
 #include <mpi.h>
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
 #include <sys/time.h>
 #include <time.h>
+#include <unistd.h>
 
 /* Include polybench common header. */
 #include <polybench.h>
@@ -151,7 +151,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
     exchange_cells(A, nx_local, ny_local, neighbours, requests, comm_cart,
                    column_vec);
 
-    // /* TODO: Implement SIMD instructions */
+// /* TODO: Implement SIMD instructions */
+#pragma omp parallel for collapse(2)
     for (i = x_bound_low; i < x_bound_high; i++)
       for (j = y_bound_low; j < y_bound_high; j++)
         B[(nx_local + 2) * i + j] =
@@ -166,6 +167,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[0] != MPI_PROC_NULL) {
       j = 1;
+#pragma omp parallel for
       for (i = x_bound_low; i < x_bound_high; i++) {
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
@@ -177,6 +179,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[1] != MPI_PROC_NULL) {
       j = ny_local;
+#pragma omp parallel for
       for (i = x_bound_low; i < x_bound_high; i++) {
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
@@ -188,6 +191,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[2] != MPI_PROC_NULL) {
       i = 1;
+#pragma omp parallel for
       for (j = x_bound_low; j < x_bound_high; j++) {
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
@@ -199,6 +203,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[3] != MPI_PROC_NULL) {
       i = nx_local;
+#pragma omp parallel for
       for (j = y_bound_low; j < y_bound_high; j++) {
         B[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
@@ -210,7 +215,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
     exchange_cells(B, nx_local, ny_local, neighbours, requests, comm_cart,
                    column_vec);
 
-    // /* TODO: Implement SIMD instructions */
+// /* TODO: Implement SIMD instructions */
+#pragma omp parallel for collapse(2)
     for (i = x_bound_low; i < x_bound_high; i++)
       for (j = y_bound_low; j < y_bound_high; j++)
         A[(nx_local + 2) * i + j] =
@@ -224,6 +230,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[0] != MPI_PROC_NULL) {
       j = 1;
+#pragma omp parallel for
       for (i = x_bound_low; i < x_bound_high; i++) {
         A[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
@@ -235,6 +242,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[1] != MPI_PROC_NULL) {
       j = ny_local;
+#pragma omp parallel for
       for (i = x_bound_low; i < x_bound_high; i++) {
         A[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
@@ -246,6 +254,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[2] != MPI_PROC_NULL) {
       i = 1;
+#pragma omp parallel for
       for (j = y_bound_low; j < y_bound_high; j++) {
         A[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
@@ -257,6 +266,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
     if (neighbours[3] != MPI_PROC_NULL) {
       i = nx_local;
+#pragma omp parallel for
       for (j = y_bound_low; j < y_bound_high; j++) {
         A[(nx_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
