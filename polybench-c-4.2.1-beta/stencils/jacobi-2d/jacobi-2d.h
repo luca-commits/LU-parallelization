@@ -49,6 +49,12 @@
 #define N 12599
 #endif
 
+/* Change TSTEPS/N from 1000/2800 to 3500/12599 */
+#ifdef EXTRALARGE_DATASET
+#define TSTEPS 3500
+#define N 12599
+#endif
+
 #endif /* !(TSTEPS N) */
 
 #define _PB_TSTEPS POLYBENCH_LOOP_BOUND(TSTEPS, tsteps)
