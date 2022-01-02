@@ -1,0 +1,47 @@
+Sender: LSF System <lsfadmin@eu-a6-007-12>
+Subject: Job 197817201: <mpirun -np 4 ./lu> in cluster <euler> Done
+
+Job <mpirun -np 4 ./lu> was submitted from host <eu-login-20> by user <wolfartl> in cluster <euler> at Wed Dec 22 10:33:15 2021
+Job was executed on host(s) <4*eu-a6-007-12>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Wed Dec 22 10:33:22 2021
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu> was used as the working directory.
+Started at Wed Dec 22 10:33:22 2021
+Terminated at Wed Dec 22 10:38:43 2021
+Results reported at Wed Dec 22 10:38:43 2021
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -np 4 ./lu
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   1281.00 sec.
+    Max Memory :                                 1976 MB
+    Average Memory :                             1975.33 MB
+    Total Requested Memory :                     4096.00 MB
+    Delta Memory :                               2120.00 MB
+    Max Swap :                                   -
+    Max Processes :                              11
+    Max Threads :                                18
+    Run time :                                   320 sec.
+    Turnaround time :                            328 sec.
+
+The output (if any) follows:
+
+rank 0: s=0 t=0
+rank 1: s=0 t=1
+rank 2: s=1 t=0
+rank 3: s=1 t=1
+pid: 2 
+pid: 1 
+pid: 3 
+pid: 0 
+318.541660
+318.547244
+318.547527
+318.544687
