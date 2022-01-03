@@ -3,6 +3,7 @@ N=10000
 runs=25
 
 module load new intel/2018.1
+mkdir bin
 make
 
 mkdir timings
@@ -29,14 +30,12 @@ do
     then
         cd mpi
         bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
-        cd ..
     fi
 
     if [ "$1" = "scalapack" ]
     then
         cd scalapack
         bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
-        cd ..
     fi
 
     if [ "$1" = "openmp" ]
@@ -44,7 +43,6 @@ do
         cd omp
         export OMP_NUM_THREADS=$ranks
         bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-omp $runs $N
-        cd ..
     fi
     cd ..
   done
