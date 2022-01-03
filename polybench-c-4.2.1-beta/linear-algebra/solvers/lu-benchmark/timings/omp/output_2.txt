@@ -1,0 +1,37 @@
+Sender: LSF System <lsfadmin@eu-c7-113-08>
+Subject: Job 199041048: <../../bin/lu-omp 25 10000> in cluster <euler> Exited
+
+Job <../../bin/lu-omp 25 10000> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Mon Jan  3 02:32:46 2022
+Job was executed on host(s) <24*eu-c7-113-08>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Mon Jan  3 02:33:20 2022
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/omp> was used as the working directory.
+Started at Mon Jan  3 02:33:20 2022
+Terminated at Mon Jan  3 06:33:21 2022
+Results reported at Mon Jan  3 06:33:21 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+../../bin/lu-omp 25 10000
+------------------------------------------------------------
+
+TERM_RUNLIMIT: job killed after reaching LSF run time limit.
+Exited with exit code 140.
+
+Resource usage summary:
+
+    CPU time :                                   23724.12 sec.
+    Max Memory :                                 1607 MB
+    Average Memory :                             1083.52 MB
+    Total Requested Memory :                     24576.00 MB
+    Delta Memory :                               22969.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                5
+    Run time :                                   14423 sec.
+    Turnaround time :                            14435 sec.
+
+The output (if any) follows:
+
+User defined signal 2
