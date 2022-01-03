@@ -2,10 +2,11 @@ model='XeonGold_5118'
 N=10000
 runs=25
 
-module new intel/2018.1
+module load new intel/2018.1
+make
 
-mkdir results
-cd results
+mkdir timings
+cd timings
 
 mkdir mpi
 mkdir scalapack
@@ -27,28 +28,22 @@ do
     if [ "$1" = "mpi" ]
     then
         cd mpi
-        mkdir $ranks
-        cd $ranks
-        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output.txt" mpirun -n $ranks ../../bin/lu-mpi
+        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
         cd ..
     fi
 
     if [ "$1" = "scalapack" ]
     then
         cd scalapack
-        mkdir $ranks
-        cd $ranks
-        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output.txt" mpirun -n $ranks ../../bin/lu-scalapack
+        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
         cd ..
     fi
 
     if [ "$1" = "openmp" ]
     then
         cd omp
-        mkdir $ranks
-        cd $ranks
         export OMP_NUM_THREADS=$ranks
-        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output.txt" mpirun -n $ranks ../../bin/lu-omp
+        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-omp $runs $N
         cd ..
     fi
     cd ..

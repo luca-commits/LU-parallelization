@@ -10,6 +10,7 @@
 /* lu.c: this file is part of PolyBench/C */
 
 #include <math.h>
+#include <omp.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -117,25 +118,54 @@ static void kernel_lu(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
 #pragma endscop
 }
 
-int main(int argc, char** argv) {
-  /* Retrieve problem size. */
-  int n = N;
+int main(int argc, char **argv) {
+  int runs, n;
+
+  if (argc == 3) {
+    runs = atoi(argv[1]);
+    n = atoi(argv[2]);
+  } else {
+    printf(
+        "Wrong number of arguments provided!\nUSAGE: Arg 1: No of runs\n     "
+        "  Arg 2: Problem size N\n");
+    return -1;
+  }
 
   /* Variable declaration/allocation. */
   POLYBENCH_2D_ARRAY_DECL(A, DATA_TYPE, N, N, n, n);
 
-  /* Initialize array(s). */
-  init_array(n, POLYBENCH_ARRAY(A));
+  double timings[runs];
 
-  /* Start timer. */
-  polybench_start_instruments;
+  for (int i = 0; i < runs; ++i) {
+    /* Initialize array(s). */
+    init_array(n, POLYBENCH_ARRAY(A));
 
-  /* Run kernel. */
-  kernel_lu(n, POLYBENCH_ARRAY(A));
+    /* Start timer. */
+    double start_time = omp_get_wtime();
 
-  /* Stop and print timer. */
-  polybench_stop_instruments;
-  polybench_print_instruments;
+    /* Run kernel. */
+    kernel_lu(n, POLYBENCH_ARRAY(A));
+
+    /* Stop and print timer. */
+    timings[i] = omp_get_wtime() - start_time;
+  }
+
+#pragma omp single
+  {
+    int size = omp_get_num_threads();
+
+    char *filename;
+    asprintf(&filename, "%d.csv", size);
+    FILE *timings_file = fopen(filename, "w");
+
+    fprintf(timings_file, "n,p,time,value\n");
+
+    for (int i = 0; i < runs; ++i) {
+      fprintf(timings_file, "%d,%d,%f,%f\n", n, size, timings[i], 0.0);
+    }
+
+    fclose(timings_file);
+  }
 
   /* Prevent dead-code elimination. All live-out data must be printed
      by the function call in argument. */
