@@ -42,7 +42,7 @@ do
     then
         cd omp
         export OMP_NUM_THREADS=$ranks
-        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-omp $runs $N
+        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" ../../bin/lu-omp $runs $N
     fi
     cd ..
   done
