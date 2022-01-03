@@ -136,6 +136,8 @@ int main(int argc, char **argv) {
 
   double timings[runs];
 
+  printf("Running on %d OpenMP threads\n", omp_get_max_threads());
+
   for (int i = 0; i < runs; ++i) {
     /* Initialize array(s). */
     init_array(n, POLYBENCH_ARRAY(A));
@@ -152,7 +154,7 @@ int main(int argc, char **argv) {
 
 #pragma omp single
   {
-    int size = omp_get_num_threads();
+    int size = omp_get_max_threads();
 
     char *filename;
     asprintf(&filename, "%d.csv", size);
