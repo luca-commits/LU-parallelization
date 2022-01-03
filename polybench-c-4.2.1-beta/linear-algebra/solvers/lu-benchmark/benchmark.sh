@@ -1,5 +1,5 @@
 model='XeonGold_5118'
-N=10000
+N=8192
 runs=25
 
 module load new intel/2018.1
