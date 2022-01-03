@@ -357,6 +357,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
                 &A[idx(start_i, start_j, nc)], nc);
 
     MPI_Pcontrol(-1, "Superstep (11)");
+
+    if (rank == 0) printf("Finished step k=%d\n", k);
   }
 }
 
@@ -521,6 +523,8 @@ int main(int argc, char** argv) {
       }
     }
 #endif
+
+    if (rank == 0) printf("finished run %d\n", i);
   }
 
   if (rank == 0) {

@@ -29,20 +29,33 @@ do
     if [ "$1" = "mpi" ]
     then
         cd mpi
-        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
+        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
     fi
 
     if [ "$1" = "scalapack" ]
     then
         cd scalapack
-        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
+
+        if [ "$ranks" -le 4 ]
+        then
+            bsub -W 16:00 -n $reserve -R "span[ptile=24]" -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
+        else
+            bsub -W 04:00 -n $reserve -R "span[ptile=24]" -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
+        fi
     fi
 
     if [ "$1" = "openmp" ]
     then
+        
         cd omp
         export OMP_NUM_THREADS=$ranks
-        bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R fullnode -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" ../../bin/lu-omp $runs $N
+
+        if [ "$ranks" -le 4 ]
+        then
+            bsub -W 16:00 -n $reserve -R "span[ptile=24]" -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" ../../bin/lu-omp $runs $N
+        else
+            bsub -W 04:00 -n $reserve -R "span[ptile=24]" -R "rusage[mem=$mem]" -R "select[model==$model]" -o "output_$ranks.txt" ../../bin/lu-omp $runs $N
+        fi
     fi
     cd ..
   done
