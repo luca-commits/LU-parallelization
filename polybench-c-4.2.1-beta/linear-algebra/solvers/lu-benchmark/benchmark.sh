@@ -17,9 +17,9 @@ for nodes in $(seq 1 2)
 do
   if [ $nodes -eq 1 ]
   then 
-    mem='2GB'
-  else
     mem='1GB'
+  else
+    mem='0.5GB'
   fi
 
   let reserve=nodes*24
