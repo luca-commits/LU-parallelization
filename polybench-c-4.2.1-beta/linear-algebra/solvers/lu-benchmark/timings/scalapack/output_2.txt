@@ -1,0 +1,39 @@
+Sender: LSF System <lsfadmin@eu-c7-117-06>
+Subject: Job 199089575: <mpirun -n 2 ../../bin/lu-scalapack 25 8192> in cluster <euler> Done
+
+Job <mpirun -n 2 ../../bin/lu-scalapack 25 8192> was submitted from host <eu-login-37> by user <sniall> in cluster <euler> at Mon Jan  3 12:31:53 2022
+Job was executed on host(s) <24*eu-c7-117-06>, in queue <normal.24h>, as user <sniall> in cluster <euler> at Tue Jan  4 08:22:24 2022
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
+Started at Tue Jan  4 08:22:24 2022
+Terminated at Tue Jan  4 08:25:09 2022
+Results reported at Tue Jan  4 08:25:09 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 2 ../../bin/lu-scalapack 25 8192
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   328.00 sec.
+    Max Memory :                                 601 MB
+    Average Memory :                             595.71 MB
+    Total Requested Memory :                     24576.00 MB
+    Delta Memory :                               23975.00 MB
+    Max Swap :                                   -
+    Max Processes :                              9
+    Max Threads :                                14
+    Run time :                                   171 sec.
+    Turnaround time :                            71596 sec.
+
+The output (if any) follows:
+
+rank 0: s=0 t=0
+rank 1: s=0 t=1
+Hi. Proc 1/2 for MPI, proc 1/2 for BLACS in position (0,1)/(1,2) with local matrix 8192x4096, global matrix 8192, block size1
+Hi. Proc 0/2 for MPI, proc 0/2 for BLACS in position (0,0)/(1,2) with local matrix 8192x4096, global matrix 8192, block size1
