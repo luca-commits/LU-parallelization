@@ -35,3 +35,39 @@ Resource usage summary:
 The output (if any) follows:
 
 User defined signal 2
+Sender: LSF System <lsfadmin@eu-c7-117-06>
+Subject: Job 199116624: <../../bin/lu-omp 25 8192> in cluster <euler> Done
+
+Job <../../bin/lu-omp 25 8192> was submitted from host <eu-login-09> by user <sniall> in cluster <euler> at Mon Jan  3 16:03:10 2022
+Job was executed on host(s) <24*eu-c7-117-06>, in queue <normal.24h>, as user <sniall> in cluster <euler> at Tue Jan  4 08:25:10 2022
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/omp> was used as the working directory.
+Started at Tue Jan  4 08:25:10 2022
+Terminated at Tue Jan  4 13:36:24 2022
+Results reported at Tue Jan  4 13:36:24 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+../../bin/lu-omp 25 8192
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   18624.04 sec.
+    Max Memory :                                 1091 MB
+    Average Memory :                             658.98 MB
+    Total Requested Memory :                     24576.00 MB
+    Delta Memory :                               23485.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                4
+    Run time :                                   18674 sec.
+    Turnaround time :                            77594 sec.
+
+The output (if any) follows:
+
+Running on 1 OpenMP threads
