@@ -1,14 +1,14 @@
-Sender: LSF System <lsfadmin@eu-a6-012-23>
-Subject: Job 199664967[4]: <lu_hybrid_strong[4]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-012-22>
+Subject: Job 199665029[4]: <lu_hybrid_strong[4]%36> in cluster <euler> Exited
 
-Job <lu_hybrid_strong[4]%36> was submitted from host <eu-login-09> by user <sniall> in cluster <euler> at Fri Jan  7 00:05:43 2022
-Job was executed on host(s) <2*eu-a6-012-23>, in queue <hpc.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 00:06:15 2022
-                            <2*eu-a6-012-22>
+Job <lu_hybrid_strong[4]%36> was submitted from host <eu-login-09> by user <sniall> in cluster <euler> at Fri Jan  7 00:08:06 2022
+Job was executed on host(s) <2*eu-a6-012-22>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 00:08:16 2022
+                            <2*eu-a6-012-23>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/hybrid> was used as the working directory.
-Started at Fri Jan  7 00:06:15 2022
-Terminated at Fri Jan  7 00:07:02 2022
-Results reported at Fri Jan  7 00:07:02 2022
+Started at Fri Jan  7 00:08:16 2022
+Terminated at Fri Jan  7 00:19:46 2022
+Results reported at Fri Jan  7 00:19:46 2022
 
 Your job looked like:
 
@@ -22,16 +22,16 @@ Exited with signal termination: 9.
 
 Resource usage summary:
 
-    CPU time :                                   182.00 sec.
-    Max Memory :                                 540 MB
-    Average Memory :                             540.00 MB
+    CPU time :                                   2745.00 sec.
+    Max Memory :                                 544 MB
+    Average Memory :                             544.00 MB
     Total Requested Memory :                     4096.00 MB
-    Delta Memory :                               3556.00 MB
+    Delta Memory :                               3552.00 MB
     Max Swap :                                   -
     Max Processes :                              9
-    Max Threads :                                13
-    Run time :                                   48 sec.
-    Turnaround time :                            79 sec.
+    Max Threads :                                18
+    Run time :                                   699 sec.
+    Turnaround time :                            700 sec.
 
 The output (if any) follows:
 
@@ -41,5 +41,32 @@ Available MKL threads: 2
 Available MKL threads: 2
 rank 0: s=0 t=0
 rank 1: s=0 t=1
+pid: 0 
+pid: 1 
+finished run 0
+pid: 0 
+pid: 1 
+finished run 1
+pid: 0 
+pid: 1 
+finished run 2
+pid: 0 
+pid: 1 
+finished run 3
+pid: 0 
+pid: 1 
+finished run 4
+pid: 0 
+pid: 1 
+finished run 5
+pid: 0 
+pid: 1 
+finished run 6
+pid: 0 
+pid: 1 
+finished run 7
+pid: 0 
+pid: 1 
+finished run 8
 pid: 0 
 pid: 1 
