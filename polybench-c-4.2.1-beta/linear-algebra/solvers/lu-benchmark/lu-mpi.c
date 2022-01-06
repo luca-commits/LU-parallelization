@@ -18,6 +18,10 @@
 #include <time.h>
 #include <unistd.h>
 
+#ifdef HYBRID
+#include <omp.h>
+#endif
+
 /* Include MPI header. */
 #include <mpi.h>
 
@@ -358,7 +362,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
     MPI_Pcontrol(-1, "Superstep (11)");
 
-    if (p_id == 0) printf("Finished step k=%d\n", k);
+    // if (p_id == 0) printf("Finished step k=%d\n", k);
   }
 }
 
@@ -370,6 +374,11 @@ int main(int argc, char** argv) {
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   int n, runs;
+
+#ifdef HYBRID
+  printf("Available OpenMP threads: %d\n", omp_get_max_threads());
+  printf("Available MKL threads: %d\n", mkl_get_max_threads());
+#endif
 
   if (argc == 3) {
     runs = atoi(argv[1]);
@@ -528,14 +537,21 @@ int main(int argc, char** argv) {
   }
 
   if (rank == 0) {
+#ifndef HYBRID
+    int true_size = size;
+#else
+    int true_size = size * mkl_get_max_threads();
+    printf("MKL max threads: %d\n", mkl_get_max_threads());
+#endif
+
     char* filename;
-    asprintf(&filename, "%d.csv", size);
+    asprintf(&filename, "%d.csv", true_size);
     FILE* timings_file = fopen(filename, "w");
 
     fprintf(timings_file, "n,p,time,value\n");
 
     for (int i = 0; i < runs; ++i) {
-      fprintf(timings_file, "%d,%d,%f,%f\n", n, size, timings[i], 0.0);
+      fprintf(timings_file, "%d,%d,%f,%f\n", n, true_size, timings[i], 0.0);
     }
 
     fclose(timings_file);
