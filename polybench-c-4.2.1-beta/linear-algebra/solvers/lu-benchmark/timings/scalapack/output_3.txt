@@ -1,0 +1,41 @@
+Sender: LSF System <lsfadmin@eu-a6-006-23>
+Subject: Job 199662728[3]: <lu_scalapack_strong[3]%36> in cluster <euler> Done
+
+Job <lu_scalapack_strong[3]%36> was submitted from host <eu-login-46> by user <sniall> in cluster <euler> at Thu Jan  6 22:32:43 2022
+Job was executed on host(s) <36*eu-a6-006-23>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Thu Jan  6 23:46:46 2022
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
+Started at Thu Jan  6 23:46:46 2022
+Terminated at Thu Jan  6 23:47:39 2022
+Results reported at Thu Jan  6 23:47:39 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 3 ../../bin/lu-scalapack 25 8192
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   315.00 sec.
+    Max Memory :                                 671 MB
+    Average Memory :                             668.00 MB
+    Total Requested Memory :                     36864.00 MB
+    Delta Memory :                               36193.00 MB
+    Max Swap :                                   -
+    Max Processes :                              10
+    Max Threads :                                15
+    Run time :                                   56 sec.
+    Turnaround time :                            4496 sec.
+
+The output (if any) follows:
+
+rank 1: s=0 t=1
+Hi. Proc 1/3 for MPI, proc 1/3 for BLACS in position (0,1)/(1,3) with local matrix 8192x2731, global matrix 8192, block size1
+rank 2: s=0 t=2
+Hi. Proc 2/3 for MPI, proc 2/3 for BLACS in position (0,2)/(1,3) with local matrix 8192x2730, global matrix 8192, block size1
+rank 0: s=0 t=0
+Hi. Proc 0/3 for MPI, proc 0/3 for BLACS in position (0,0)/(1,3) with local matrix 8192x2731, global matrix 8192, block size1
