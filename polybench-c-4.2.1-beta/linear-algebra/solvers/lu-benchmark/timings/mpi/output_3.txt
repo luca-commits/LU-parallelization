@@ -1,0 +1,138 @@
+Sender: LSF System <lsfadmin@eu-a6-011-03>
+Subject: Job 199662727[3]: <lu_mpi_strong[3]%36> in cluster <euler> Done
+
+Job <lu_mpi_strong[3]%36> was submitted from host <eu-login-46> by user <sniall> in cluster <euler> at Thu Jan  6 22:32:42 2022
+Job was executed on host(s) <36*eu-a6-011-03>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Thu Jan  6 23:19:44 2022
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/mpi> was used as the working directory.
+Started at Thu Jan  6 23:19:44 2022
+Terminated at Thu Jan  6 23:32:03 2022
+Results reported at Thu Jan  6 23:32:03 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 3 ../../bin/lu-mpi 25 8192
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   4507.00 sec.
+    Max Memory :                                 555 MB
+    Average Memory :                             554.92 MB
+    Total Requested Memory :                     36864.00 MB
+    Delta Memory :                               36309.00 MB
+    Max Swap :                                   -
+    Max Processes :                              10
+    Max Threads :                                22
+    Run time :                                   753 sec.
+    Turnaround time :                            3561 sec.
+
+The output (if any) follows:
+
+rank 0: s=0 t=0
+rank 1: s=0 t=1
+rank 2: s=0 t=2
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 0
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 1
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 2
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 3
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 4
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 5
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 6
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 7
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 8
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 9
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 10
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 11
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 12
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 13
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 14
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 15
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 16
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 17
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 18
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 19
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 20
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 21
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 22
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 23
+pid: 0 
+pid: 1 
+pid: 2 
+finished run 24
