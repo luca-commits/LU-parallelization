@@ -30,7 +30,7 @@ do
   if [ "$1" = "mpi" ] || [ "$1" = "all" ]
   then
       cd mpi
-      bsub -We 01:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
+      bsub -We 01:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
       cd ..
   fi
 
@@ -55,9 +55,9 @@ do
 
       if [ "$ranks" -le 4 ]
       then
-          bsub -W 16:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
+          bsub -W 16:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
       else
-          bsub -W 04:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
+          bsub -W 04:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
       fi
 
       cd ..
@@ -71,9 +71,9 @@ do
 
       if [ "$ranks" -le 4 ]
       then
-          bsub -W 16:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
+          bsub -W 16:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
       else
-          bsub -W 04:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
+          bsub -W 04:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
       fi
 
       cd ..
