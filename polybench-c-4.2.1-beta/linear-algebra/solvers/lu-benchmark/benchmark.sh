@@ -30,7 +30,7 @@ do
   if [ "$1" = "mpi" ] || [ "$1" = "all" ]
   then
       cd mpi
-      bsub -We 01:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
+      bsub -We 01:00 -n $reserve -J "lu_mpi_strong[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
       cd ..
   fi
 
@@ -38,27 +38,100 @@ do
   # then
   #   cd hybrid
 
-  #   if [ "gcd $ranks 12" -neq "0"]
+  #   if [ "$ranks" -eq "1"]
   #   then
-
-  #   elif [ "gcd $ranks 8" -neq "0" ]
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
   #   then
-      
-  #   fi
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
+  #   elif [ "$ranks" -eq "2"]
+  #   then
+  #     mpi_ranks = 
+  #     omp_ranks = 
 
-  #   bsub -We 01:00 -n $reserve -R "span[ptile=24]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
+
+  #   bsub -We 01:00 -n $reserve -J "mpi_strong[$ranks]%36" -R "span[ptile=24]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
   # fi
 
   if [ "$1" = "scalapack" ] || [ "$1" = "all" ]
   then
       cd scalapack
 
-      if [ "$ranks" -le 4 ]
-      then
-          bsub -W 16:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
-      else
-          bsub -W 04:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
-      fi
+      bsub -W 01:00 -n $reserve -J "lu_scalapack_strong[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
 
       cd ..
   fi
@@ -71,9 +144,9 @@ do
 
       if [ "$ranks" -le 4 ]
       then
-          bsub -W 16:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
+          bsub -W 16:00 -n $reserve -J "lu_omp_strong[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
       else
-          bsub -W 04:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
+          bsub -W 04:00 -n $reserve -J "lu_omp_strong[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
       fi
 
       cd ..
