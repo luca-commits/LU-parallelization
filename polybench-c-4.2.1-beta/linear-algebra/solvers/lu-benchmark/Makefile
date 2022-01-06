@@ -1,19 +1,24 @@
 include ../../../config.mk
 
-EXTRA_FLAGS=-DPOLYBENCH_TIME -Wall -DWRITE_TO_DISK
+EXTRA_FLAGS=-DPOLYBENCH_TIME -Wall
 CFLAGS=-O3 -I"${MKLROOT}/include" -std=c99
-MKL_LINKING_FLAGS=${MKLROOT}/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a ${MKLROOT}/lib/intel64/libmkl_core.a ${MKLROOT}/lib/intel64/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -liomp5 -lpthread -lm -ldl
+# MKL_LINKING_FLAGS=${MKLROOT}/lib/intel64/libmkl_scalapack_lp64.a -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a ${MKLROOT}/lib/intel64/libmkl_intel_thread.a ${MKLROOT}/lib/intel64/libmkl_core.a ${MKLROOT}/lib/intel64/libmkl_blacs_intelmpi_lp64.a -Wl,--end-group -liomp5 -lpthread -lm -ldl
+MKL_LINKING_FLAGS = -lrt -fopenmp -Wl,--no-as-needed -L${MKLROOT}/lib/intel64 -lmkl_intel_lp64 -lmkl_core -lmkl_gnu_thread -lgomp -lpthread -lm -ldl -m64 -I${MKLROOT}/include
+SCALAPACK_LINKING_FLAGS = -lrt -fopenmp -Wl,--no-as-needed -L${MKLROOT}/lib/intel64 -lmkl_scalapack_lp64 -lmkl_intel_lp64 -lmkl_core -lmkl_blacs_intelmpi_lp64 -lmkl_gnu_thread -lgomp -lpthread -lm -ldl -m64 -I${MKLROOT}/include
 
 CC=icc
 MPICC=mpiicc
 
-all: ./bin/lu-mpi ./bin/lu-scalapack ./bin/lu-omp
+all: ./bin/lu-mpi ./bin/lu-hybrid ./bin/lu-scalapack ./bin/lu-omp
 
 ./bin/lu-mpi: lu-mpi.c lu.h
 	${VERBOSE} ${MPICC} -o ./bin/lu-mpi lu-mpi.c ${CFLAGS} $(MKL_LINKING_FLAGS) -I. -I../../../utilities ../../../utilities/polybench.c ${EXTRA_FLAGS}
 
+./bin/lu-hybrid: lu-mpi.c lu.h
+	${VERBOSE} ${MPICC} -fopenmp -o ./bin/lu-hybrid lu-mpi.c ${CFLAGS} $(MKL_LINKING_FLAGS) -I. -I../../../utilities ../../../utilities/polybench.c ${EXTRA_FLAGS} -DHYBRID
+
 ./bin/lu-scalapack: lu-scalapack.c lu.h
-	${VERBOSE} ${MPICC} -o ./bin/lu-scalapack lu-scalapack.c ${CFLAGS} $(MKL_LINKING_FLAGS) -I. -I../../../utilities ../../../utilities/polybench.c ${EXTRA_FLAGS}
+	${VERBOSE} ${MPICC} -o ./bin/lu-scalapack lu-scalapack.c ${CFLAGS} $(SCALAPACK_LINKING_FLAGS) -I. -I../../../utilities ../../../utilities/polybench.c ${EXTRA_FLAGS}
 
 ./bin/lu-omp: lu-omp.c lu.h
-	${VERBOSE} ${CC} -qopenmp -o ./bin/lu-omp lu-omp.c ${CFLAGS} $(MKL_LINKING_FLAGS) -I. -I../../../utilities ../../../utilities/polybench.c ${EXTRA_FLAGS}
+	${VERBOSE} ${CC} -fopenmp -o ./bin/lu-omp lu-omp.c ${CFLAGS} $(MKL_LINKING_FLAGS) -I. -I../../../utilities ../../../utilities/polybench.c ${EXTRA_FLAGS}
