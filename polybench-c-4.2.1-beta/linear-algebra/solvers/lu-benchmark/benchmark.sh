@@ -185,7 +185,7 @@ do
     fi
 
     export OMP_NUM_THREADS=$omp_ranks
-    bsub -We 01:00 -n $ranks -J "lu_hybrid_strong[$ranks]%36" -R "span[ptile=$omp_ranks]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" mpirun -n $mpi_ranks ../../bin/lu-hybrid $runs $N
+    bsub -We 04:00 -n $ranks -J "lu_hybrid_strong[$ranks]%36" -R "span[ptile=$omp_ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $mpi_ranks ../../bin/lu-hybrid $runs $N
   
     cd ..
   fi
