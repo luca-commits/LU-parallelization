@@ -1,0 +1,37 @@
+Sender: LSF System <lsfadmin@eu-c7-109-08>
+Subject: Job 199116711: <../../bin/lu-omp 25 8192> in cluster <euler> Done
+
+Job <../../bin/lu-omp 25 8192> was submitted from host <eu-login-09> by user <sniall> in cluster <euler> at Mon Jan  3 16:03:19 2022
+Job was executed on host(s) <24*eu-c7-109-08>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Thu Jan  6 15:14:52 2022
+                            <24*eu-c7-110-12>
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/omp> was used as the working directory.
+Started at Thu Jan  6 15:14:52 2022
+Terminated at Thu Jan  6 16:41:12 2022
+Results reported at Thu Jan  6 16:41:12 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+../../bin/lu-omp 25 8192
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   67133.34 sec.
+    Max Memory :                                 1095 MB
+    Average Memory :                             940.14 MB
+    Total Requested Memory :                     24576.00 MB
+    Delta Memory :                               23481.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                48
+    Run time :                                   5181 sec.
+    Turnaround time :                            261473 sec.
+
+The output (if any) follows:
+
+Running on 45 OpenMP threads
