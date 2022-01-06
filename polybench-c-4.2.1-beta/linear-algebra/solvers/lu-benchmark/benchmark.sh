@@ -31,6 +31,7 @@ do
   then
       cd mpi
       bsub -We 01:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
+      cd ..
   fi
 
   # if [ "$1" = "hybrid"]
@@ -58,6 +59,8 @@ do
       else
           bsub -W 04:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
       fi
+
+      cd ..
   fi
 
   if [ "$1" = "openmp" ] || [ "$1" = "all" ]
@@ -72,7 +75,8 @@ do
       else
           bsub -W 04:00 -n $reserve -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model==$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
       fi
+
+      cd ..
   fi
-  cd ..
 done
 cd ..
