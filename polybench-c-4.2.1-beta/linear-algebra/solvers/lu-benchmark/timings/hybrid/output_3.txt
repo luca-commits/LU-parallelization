@@ -1,0 +1,50 @@
+Sender: LSF System <lsfadmin@eu-a6-012-23>
+Subject: Job 199664966[3]: <lu_hybrid_strong[3]%36> in cluster <euler> Exited
+
+Job <lu_hybrid_strong[3]%36> was submitted from host <eu-login-09> by user <sniall> in cluster <euler> at Fri Jan  7 00:05:43 2022
+Job was executed on host(s) <1*eu-a6-012-23>, in queue <hpc.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 00:06:15 2022
+                            <1*eu-a6-012-22>
+                            <1*eu-a6-012-20>
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/hybrid> was used as the working directory.
+Started at Fri Jan  7 00:06:15 2022
+Terminated at Fri Jan  7 00:07:02 2022
+Results reported at Fri Jan  7 00:07:02 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 3 ../../bin/lu-hybrid 25 8192
+------------------------------------------------------------
+
+TERM_OWNER: job killed by owner.
+Exited with signal termination: 9.
+
+Resource usage summary:
+
+    CPU time :                                   45.00 sec.
+    Max Memory :                                 567 MB
+    Average Memory :                             128.00 MB
+    Total Requested Memory :                     3072.00 MB
+    Delta Memory :                               2505.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   48 sec.
+    Turnaround time :                            79 sec.
+
+The output (if any) follows:
+
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+rank 2: s=0 t=2
+rank 1: s=0 t=1
+rank 0: s=0 t=0
+pid: 2 
+pid: 1 
+pid: 0 
