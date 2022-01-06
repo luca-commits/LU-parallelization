@@ -139,18 +139,26 @@ int main(int argc, char **argv) {
 
   printf("Running on %d OpenMP threads\n", omp_get_max_threads());
 
+  double exec_start_time = omp_get_wtime();
+  double start_time, init_time, kernel_time;
+
   for (int i = 0; i < runs; ++i) {
+    start_time = omp_get_wtime();
     /* Initialize array(s). */
     init_array(n, POLYBENCH_ARRAY(A));
+    init_time = omp_get_wtime() - start_time;
 
     /* Start timer. */
-    double start_time = omp_get_wtime();
+    start_time = omp_get_wtime();
 
     /* Run kernel. */
     kernel_lu(n, POLYBENCH_ARRAY(A));
 
     /* Stop and print timer. */
-    timings[i] = omp_get_wtime() - start_time;
+    kernel_time = omp_get_wtime() - start_time;
+    timings[i] = kernel_time;
+    printf("Run %d: Init time=%fs, Kernel time=%fs, Total exec time=%fs\n",
+           init_time, kernel_time, omp_get_wtime() - exec_start_time);
   }
 
 #pragma omp single
