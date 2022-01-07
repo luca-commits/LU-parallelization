@@ -146,7 +146,9 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       int ceil_n = n;
       if (n % distr_M != 0) ceil_n += distr_M - n % distr_M;
 
-      if (ceil_n - k <= s) {
+      printf("rank %d: %d, %d\n", p_id, (int)s, distr_M - ceil_n + k);
+
+      if ((int)s >= (int)distr_M - ceil_n + k) {
         int absmax_idx =
             (cblas_idamax(nr - i_loc(k, distr_M),
                           &A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)],
@@ -159,7 +161,9 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
           rs = i_glob(absmax_idx, distr_M, s);
 
         absmax = fabs(A[idx(absmax_idx, j_loc(k, distr_N), nc)]);
+
       } else {
+        printf("rank %d going wrong\n", p_id);
         absmax = 0;
         rs = 0;
       }
@@ -209,9 +213,9 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         r = imax;  // global index
       } else {
         printf(
-            "rank %d: ABORT because all elements in column are == 0 "
+            "rank %d: ABORT at k=%d because all elements in column are == 0 "
             "(absmax=%f)\n",
-            p_id, absmax);
+            p_id, k, absmax);
         MPI_Abort(MPI_COMM_WORLD, 192);
       }
     }
