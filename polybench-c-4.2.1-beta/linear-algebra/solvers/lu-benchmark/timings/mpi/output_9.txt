@@ -1,13 +1,21 @@
-Sender: LSF System <lsfadmin@eu-a6-006-03>
-Subject: Job 199662745[9]: <lu_mpi_strong[9]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199687609[9]: <lu_mpi_strong[9]%36> in cluster <euler> Exited
 
-Job <lu_mpi_strong[9]%36> was submitted from host <eu-login-46> by user <sniall> in cluster <euler> at Thu Jan  6 22:32:48 2022
-Job was executed on host(s) <36*eu-a6-006-03>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 02:58:22 2022
+Job <lu_mpi_strong[9]%36> was submitted from host <eu-login-29> by user <sniall> in cluster <euler> at Fri Jan  7 11:34:23 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 12:39:44 2022
+                            <1*eu-a6-005-03>
+                            <1*eu-a6-005-13>
+                            <1*eu-a6-005-05>
+                            <1*eu-a6-001-03>
+                            <1*eu-a6-001-08>
+                            <1*eu-a6-001-14>
+                            <1*eu-a6-001-09>
+                            <1*eu-a6-001-24>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/mpi> was used as the working directory.
-Started at Fri Jan  7 02:58:22 2022
-Terminated at Fri Jan  7 03:17:22 2022
-Results reported at Fri Jan  7 03:17:22 2022
+Started at Fri Jan  7 12:39:44 2022
+Terminated at Fri Jan  7 12:40:08 2022
+Results reported at Fri Jan  7 12:40:08 2022
 
 Your job looked like:
 
@@ -16,279 +24,57 @@ Your job looked like:
 mpirun -n 9 ../../bin/lu-mpi 25 8192
 ------------------------------------------------------------
 
-Successfully completed.
+Exited with exit code 139.
 
 Resource usage summary:
 
-    CPU time :                                   82957.00 sec.
-    Max Memory :                                 617 MB
-    Average Memory :                             613.56 MB
-    Total Requested Memory :                     36864.00 MB
-    Delta Memory :                               36247.00 MB
+    CPU time :                                   200.47 sec.
+    Max Memory :                                 789 MB
+    Average Memory :                             76.67 MB
+    Total Requested Memory :                     9216.00 MB
+    Delta Memory :                               8427.00 MB
     Max Swap :                                   -
-    Max Processes :                              16
-    Max Threads :                                154
-    Run time :                                   1146 sec.
-    Turnaround time :                            17074 sec.
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   52 sec.
+    Turnaround time :                            3945 sec.
 
 The output (if any) follows:
 
-rank 0: s=0 t=0
-rank 1: s=0 t=1
 rank 2: s=0 t=2
-rank 3: s=1 t=0
-rank 4: s=1 t=1
-rank 5: s=1 t=2
-rank 6: s=2 t=0
+rank 1: s=0 t=1
+rank 0: s=0 t=0
 rank 7: s=2 t=1
+rank 5: s=1 t=2
 rank 8: s=2 t=2
-pid: 0 
-pid: 1 
+rank 6: s=2 t=0
+rank 4: s=1 t=1
+rank 3: s=1 t=0
 pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 0
-pid: 0 
 pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 1
 pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
 pid: 7 
-pid: 8 
-finished run 2
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
 pid: 5 
-pid: 6 
-pid: 7 
 pid: 8 
-finished run 3
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
+pid: 6 
 pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 4
-pid: 0 
-pid: 1 
-pid: 2 
 pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 5
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 6
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 7
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 8
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 9
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 10
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 11
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 12
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 13
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 14
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 15
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 16
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 17
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 18
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 19
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 20
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 21
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 22
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 23
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-finished run 24
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 46841 RUNNING AT eu-a6-001-14
+=   EXIT CODE: 139
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 46841 RUNNING AT eu-a6-001-14
+=   EXIT CODE: 11
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+   Intel(R) MPI Library troubleshooting guide:
+      https://software.intel.com/node/561764
+===================================================================================
