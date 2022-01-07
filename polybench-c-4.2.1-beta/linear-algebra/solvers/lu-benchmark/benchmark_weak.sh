@@ -28,7 +28,7 @@ do
   then
       cd mpi
       export OMP_NUM_THREADS=1
-      bsub -We 01:00 -n $reserve -J "lu_mpi_weak[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
+      bsub -We 01:00 -n $ranks -J "lu_mpi_weak[$ranks]%36" -R "span[ptile=1]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
       cd ..
   fi
 
@@ -192,7 +192,7 @@ do
   then
       cd scalapack
       export OMP_NUM_THREADS=1
-      bsub -W 01:00 -n $reserve -J "lu_scalapack_weak[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
+      bsub -W 01:00 -n $ranks -J "lu_scalapack_weak[$ranks]%36" -R "span[ptile=1]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
 
       cd ..
   fi
@@ -205,9 +205,9 @@ do
 
       if [ "$ranks" -le 4 ]
       then
-          bsub -W 16:00 -n $reserve -J "lu_omp_weak[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
+          bsub -W 16:00 -n $ranks -J "lu_omp_weak[$ranks]%36" -R "span[ptile=$ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
       else
-          bsub -W 04:00 -n $reserve -J "lu_omp_weak[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
+          bsub -W 04:00 -n $ranks -J "lu_omp_weak[$ranks]%36" -R "span[ptile=$ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/lu-omp $runs $N
       fi
 
       cd ..

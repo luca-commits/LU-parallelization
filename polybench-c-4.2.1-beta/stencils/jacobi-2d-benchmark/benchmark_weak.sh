@@ -27,7 +27,7 @@ do
   then
       cd mpi
       export OMP_NUM_THREADS=1
-      bsub -We 01:00 -n $reserve -J "jacobi_2d_mpi_strong[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/jacobi-2d-mpi $runs $N $tsteps
+      bsub -We 01:00 -n $ranks -J "jacobi_2d_mpi_strong[$ranks]%36" -R "span[ptile=1]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/jacobi-2d-mpi $runs $N $tsteps
       cd ..
   fi
 
@@ -195,9 +195,9 @@ do
 
       if [ "$ranks" -le 4 ]
       then
-          bsub -W 16:00 -n $reserve -J "jacobi_2d_lu_omp_strong[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/jacobi-2d-omp $runs $N $tsteps
+          bsub -W 16:00 -n $ranks -J "jacobi_2d_lu_omp_strong[$ranks]%36" -R "span[ptile=$ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/jacobi-2d-omp $runs $N $tsteps
       else
-          bsub -W 04:00 -n $reserve -J "jacobi_2d_lu_omp_strong[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/jacobi-2d-omp $runs $N $tsteps
+          bsub -W 04:00 -n $ranks -J "jacobi_2d_lu_omp_strong[$ranks]%36" -R "span[ptile=$ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/jacobi-2d-omp $runs $N $tsteps
       fi
 
       cd ..
