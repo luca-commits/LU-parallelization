@@ -9,8 +9,8 @@ module load new intel/2018.1
 mkdir bin
 make
 
-mkdir timings
-cd timings
+mkdir timings_weak
+cd timings_weak
 
 mkdir mpi
 mkdir hybrid
