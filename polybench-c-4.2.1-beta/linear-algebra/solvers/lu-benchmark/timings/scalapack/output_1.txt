@@ -1,13 +1,13 @@
-Sender: LSF System <lsfadmin@eu-a6-011-24>
-Subject: Job 199687506[1]: <lu_scalapack_strong[1]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-003-03>
+Subject: Job 199707057[1]: <lu_scalapack_strong[1]%36> in cluster <euler> Done
 
-Job <lu_scalapack_strong[1]%36> was submitted from host <eu-login-29> by user <sniall> in cluster <euler> at Fri Jan  7 11:34:08 2022
-Job was executed on host(s) <eu-a6-011-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 11:34:41 2022
+Job <lu_scalapack_strong[1]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:19 2022
+Job was executed on host(s) <eu-a6-003-03>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 16:57:49 2022
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
-Started at Fri Jan  7 11:34:41 2022
-Terminated at Fri Jan  7 11:39:22 2022
-Results reported at Fri Jan  7 11:39:22 2022
+Started at Fri Jan  7 16:57:49 2022
+Terminated at Fri Jan  7 17:02:43 2022
+Results reported at Fri Jan  7 17:02:43 2022
 
 Your job looked like:
 
@@ -20,16 +20,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   281.00 sec.
-    Max Memory :                                 553 MB
-    Average Memory :                             551.82 MB
+    CPU time :                                   293.00 sec.
+    Max Memory :                                 562 MB
+    Average Memory :                             560.64 MB
     Total Requested Memory :                     1024.00 MB
-    Delta Memory :                               471.00 MB
+    Delta Memory :                               462.00 MB
     Max Swap :                                   -
     Max Processes :                              8
     Max Threads :                                12
-    Run time :                                   300 sec.
-    Turnaround time :                            314 sec.
+    Run time :                                   305 sec.
+    Turnaround time :                            324 sec.
 
 The output (if any) follows:
 

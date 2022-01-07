@@ -1,13 +1,23 @@
-Sender: LSF System <lsfadmin@eu-a6-009-12>
-Subject: Job 199662751[11]: <lu_mpi_strong[11]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199707125[11]: <lu_mpi_strong[11]%36> in cluster <euler> Done
 
-Job <lu_mpi_strong[11]%36> was submitted from host <eu-login-46> by user <sniall> in cluster <euler> at Thu Jan  6 22:32:49 2022
-Job was executed on host(s) <36*eu-a6-009-12>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 04:38:19 2022
+Job <lu_mpi_strong[11]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:31 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 18:30:31 2022
+                            <1*eu-a6-011-24>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-004-16>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-05>
+                            <1*eu-a6-005-13>
+                            <1*eu-a6-006-16>
+                            <1*eu-a6-006-15>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/mpi> was used as the working directory.
-Started at Fri Jan  7 04:38:19 2022
-Terminated at Fri Jan  7 04:59:31 2022
-Results reported at Fri Jan  7 04:59:31 2022
+Started at Fri Jan  7 18:30:31 2022
+Terminated at Fri Jan  7 18:37:37 2022
+Results reported at Fri Jan  7 18:37:37 2022
 
 Your job looked like:
 
@@ -20,327 +30,327 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   116465.00 sec.
-    Max Memory :                                 609 MB
-    Average Memory :                             608.95 MB
-    Total Requested Memory :                     36864.00 MB
-    Delta Memory :                               36255.00 MB
+    CPU time :                                   4644.00 sec.
+    Max Memory :                                 808 MB
+    Average Memory :                             672.64 MB
+    Total Requested Memory :                     11264.00 MB
+    Delta Memory :                               10456.00 MB
     Max Swap :                                   -
-    Max Processes :                              18
-    Max Threads :                                230
-    Run time :                                   1277 sec.
-    Turnaround time :                            23202 sec.
+    Max Processes :                              28
+    Max Threads :                                44
+    Run time :                                   432 sec.
+    Turnaround time :                            6006 sec.
 
 The output (if any) follows:
 
-rank 0: s=0 t=0
-rank 1: s=0 t=1
-rank 2: s=0 t=2
-rank 3: s=0 t=3
-rank 4: s=0 t=4
-rank 5: s=0 t=5
+rank 8: s=0 t=8
 rank 6: s=0 t=6
 rank 7: s=0 t=7
-rank 8: s=0 t=8
 rank 9: s=0 t=9
+rank 2: s=0 t=2
+rank 3: s=0 t=3
+rank 5: s=0 t=5
 rank 10: s=0 t=10
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+rank 1: s=0 t=1
+rank 0: s=0 t=0
+rank 4: s=0 t=4
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 2 
+pid: 3 
+pid: 5 
+pid: 0 
+pid: 4 
 pid: 10 
+pid: 1 
 finished run 0
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 4 
+pid: 2 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 1 
+pid: 0 
 finished run 1
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 4 
+pid: 2 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 1 
+pid: 0 
 finished run 2
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 2 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 1 
+pid: 0 
+pid: 4 
 finished run 3
+pid: 9 
 pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
-pid: 9 
+pid: 4 
+pid: 2 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 1 
 finished run 4
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 2 
+pid: 3 
+pid: 5 
 pid: 10 
-finished run 5
-pid: 0 
 pid: 1 
+pid: 0 
+pid: 4 
+finished run 5
+pid: 8 
+pid: 6 
+pid: 9 
 pid: 2 
 pid: 3 
-pid: 4 
 pid: 5 
-pid: 6 
+pid: 1 
+pid: 0 
 pid: 7 
-pid: 8 
-pid: 9 
+pid: 4 
 pid: 10 
 finished run 6
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 4 
+pid: 2 
+pid: 5 
 pid: 10 
+pid: 1 
+pid: 0 
+pid: 3 
 finished run 7
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 4 
+pid: 2 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 1 
+pid: 0 
+pid: 8 
 finished run 8
 pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 4 
+pid: 2 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 1 
 finished run 9
+pid: 9 
 pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
-pid: 9 
+pid: 4 
+pid: 2 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 1 
 finished run 10
-pid: 0 
-pid: 1 
 pid: 2 
 pid: 3 
-pid: 4 
-pid: 5 
+pid: 10 
+pid: 0 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
-pid: 10 
+pid: 4 
+pid: 5 
+pid: 1 
 finished run 11
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
 pid: 9 
+pid: 4 
+pid: 3 
 pid: 10 
-finished run 12
 pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
+pid: 2 
+pid: 5 
+pid: 1 
+finished run 12
 pid: 8 
+pid: 6 
+pid: 7 
+pid: 2 
+pid: 5 
+pid: 1 
+pid: 0 
 pid: 9 
+pid: 4 
+pid: 3 
 pid: 10 
 finished run 13
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 2 
+pid: 5 
 pid: 10 
+pid: 0 
+pid: 4 
+pid: 3 
+pid: 1 
 finished run 14
-pid: 0 
-pid: 1 
+pid: 6 
+pid: 9 
 pid: 2 
 pid: 3 
+pid: 10 
+pid: 1 
+pid: 0 
+pid: 8 
+pid: 7 
 pid: 4 
 pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-pid: 9 
-pid: 10 
 finished run 15
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 0 
+pid: 4 
+pid: 2 
+pid: 1 
 finished run 16
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
 pid: 8 
+pid: 6 
 pid: 9 
+pid: 4 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 0 
+pid: 7 
+pid: 2 
+pid: 1 
 finished run 17
-pid: 0 
-pid: 1 
+pid: 8 
+pid: 6 
+pid: 9 
 pid: 2 
 pid: 3 
+pid: 10 
+pid: 0 
+pid: 7 
 pid: 4 
 pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-pid: 9 
-pid: 10 
+pid: 1 
 finished run 18
 pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
 pid: 8 
+pid: 7 
 pid: 9 
+pid: 4 
+pid: 2 
+pid: 5 
 pid: 10 
+pid: 1 
+pid: 6 
+pid: 3 
 finished run 19
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
 pid: 8 
+pid: 6 
 pid: 9 
+pid: 3 
+pid: 5 
 pid: 10 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 2 
+pid: 1 
 finished run 20
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
 pid: 8 
+pid: 7 
 pid: 9 
+pid: 2 
+pid: 5 
 pid: 10 
+pid: 0 
+pid: 6 
+pid: 4 
+pid: 3 
+pid: 1 
 finished run 21
-pid: 0 
-pid: 1 
-pid: 2 
-pid: 3 
-pid: 4 
-pid: 5 
-pid: 6 
-pid: 7 
 pid: 8 
+pid: 7 
 pid: 9 
+pid: 2 
+pid: 5 
 pid: 10 
-finished run 22
-pid: 0 
 pid: 1 
-pid: 2 
-pid: 3 
+pid: 0 
+pid: 6 
 pid: 4 
-pid: 5 
+pid: 3 
+finished run 22
+pid: 8 
 pid: 6 
 pid: 7 
-pid: 8 
 pid: 9 
+pid: 5 
+pid: 1 
+pid: 0 
+pid: 4 
+pid: 2 
+pid: 3 
 pid: 10 
 finished run 23
-pid: 0 
-pid: 1 
+pid: 8 
+pid: 6 
+pid: 9 
 pid: 2 
 pid: 3 
+pid: 1 
+pid: 0 
+pid: 7 
 pid: 4 
 pid: 5 
-pid: 6 
-pid: 7 
-pid: 8 
-pid: 9 
 pid: 10 
 finished run 24

@@ -1,16 +1,16 @@
-Sender: LSF System <lsfadmin@eu-a6-012-24>
-Subject: Job 199687599[8]: <lu_hybrid_strong[8]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-006-15>
+Subject: Job 199707112[8]: <lu_hybrid_strong[8]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[8]%36> was submitted from host <eu-login-29> by user <sniall> in cluster <euler> at Fri Jan  7 11:34:22 2022
-Job was executed on host(s) <2*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 12:30:13 2022
-                            <2*eu-a6-005-03>
-                            <2*eu-a6-005-13>
-                            <2*eu-a6-005-05>
+Job <lu_hybrid_strong[8]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:28 2022
+Job was executed on host(s) <2*eu-a6-006-15>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 17:41:28 2022
+                            <2*eu-a6-011-21>
+                            <2*eu-a6-012-24>
+                            <2*eu-a6-012-05>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/hybrid> was used as the working directory.
-Started at Fri Jan  7 12:30:13 2022
-Terminated at Fri Jan  7 12:43:42 2022
-Results reported at Fri Jan  7 12:43:42 2022
+Started at Fri Jan  7 17:41:28 2022
+Terminated at Fri Jan  7 17:58:28 2022
+Results reported at Fri Jan  7 17:58:28 2022
 
 Your job looked like:
 
@@ -23,16 +23,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   6442.00 sec.
-    Max Memory :                                 589 MB
-    Average Memory :                             548.17 MB
+    CPU time :                                   8141.00 sec.
+    Max Memory :                                 599 MB
+    Average Memory :                             564.53 MB
     Total Requested Memory :                     8192.00 MB
-    Delta Memory :                               7603.00 MB
+    Delta Memory :                               7593.00 MB
     Max Swap :                                   -
     Max Processes :                              12
     Max Threads :                                29
-    Run time :                                   833 sec.
-    Turnaround time :                            4160 sec.
+    Run time :                                   1018 sec.
+    Turnaround time :                            3660 sec.
 
 The output (if any) follows:
 
@@ -45,42 +45,42 @@ Available MKL threads: 2
 Available MKL threads: 2
 Available MKL threads: 2
 rank 0: s=0 t=0
-rank 2: s=1 t=0
 rank 1: s=0 t=1
+rank 2: s=1 t=0
 rank 3: s=1 t=1
-pid: 0 
-pid: 2 
-pid: 1 
 pid: 3 
+pid: 0 
+pid: 1 
+pid: 2 
 finished run 0
-pid: 2 
-pid: 3 
 pid: 0 
 pid: 1 
+pid: 2 
+pid: 3 
 finished run 1
-pid: 0 
 pid: 2 
-pid: 1 
 pid: 3 
+pid: 0 
+pid: 1 
 finished run 2
-pid: 2 
-pid: 3 
 pid: 0 
+pid: 2 
 pid: 1 
+pid: 3 
 finished run 3
 pid: 0 
-pid: 1 
 pid: 2 
+pid: 1 
 pid: 3 
 finished run 4
 pid: 2 
-pid: 3 
 pid: 0 
+pid: 3 
 pid: 1 
 finished run 5
 pid: 0 
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 3 
 finished run 6
 pid: 2 
@@ -88,74 +88,74 @@ pid: 3
 pid: 0 
 pid: 1 
 finished run 7
-pid: 0 
 pid: 2 
-pid: 1 
+pid: 0 
 pid: 3 
+pid: 1 
 finished run 8
 pid: 2 
-pid: 3 
 pid: 0 
+pid: 3 
 pid: 1 
 finished run 9
-pid: 0 
 pid: 2 
-pid: 1 
+pid: 0 
 pid: 3 
+pid: 1 
 finished run 10
 pid: 0 
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 3 
 finished run 11
-pid: 0 
 pid: 2 
-pid: 1 
+pid: 0 
 pid: 3 
+pid: 1 
 finished run 12
-pid: 0 
 pid: 2 
-pid: 1 
+pid: 0 
 pid: 3 
+pid: 1 
 finished run 13
-pid: 0 
 pid: 2 
-pid: 1 
 pid: 3 
+pid: 0 
+pid: 1 
 finished run 14
-pid: 0 
 pid: 2 
-pid: 1 
 pid: 3 
+pid: 0 
+pid: 1 
 finished run 15
-pid: 0 
-pid: 1 
 pid: 2 
+pid: 0 
 pid: 3 
+pid: 1 
 finished run 16
 pid: 2 
-pid: 3 
 pid: 0 
+pid: 3 
 pid: 1 
 finished run 17
-pid: 0 
 pid: 2 
-pid: 1 
+pid: 0 
 pid: 3 
+pid: 1 
 finished run 18
 pid: 0 
 pid: 1 
 pid: 2 
 pid: 3 
 finished run 19
-pid: 2 
-pid: 3 
 pid: 0 
 pid: 1 
-finished run 20
 pid: 2 
 pid: 3 
+finished run 20
+pid: 2 
 pid: 0 
+pid: 3 
 pid: 1 
 finished run 21
 pid: 0 
@@ -164,8 +164,8 @@ pid: 2
 pid: 3 
 finished run 22
 pid: 2 
-pid: 3 
 pid: 0 
+pid: 3 
 pid: 1 
 finished run 23
 pid: 2 

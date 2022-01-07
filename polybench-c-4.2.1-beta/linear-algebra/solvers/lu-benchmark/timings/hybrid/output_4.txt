@@ -1,14 +1,14 @@
-Sender: LSF System <lsfadmin@eu-a6-001-03>
-Subject: Job 199687555[4]: <lu_hybrid_strong[4]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-011-23>
+Subject: Job 199707090[4]: <lu_hybrid_strong[4]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[4]%36> was submitted from host <eu-login-29> by user <sniall> in cluster <euler> at Fri Jan  7 11:34:15 2022
-Job was executed on host(s) <2*eu-a6-001-03>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 11:34:41 2022
-                            <2*eu-a6-001-24>
+Job <lu_hybrid_strong[4]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:24 2022
+Job was executed on host(s) <2*eu-a6-011-23>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 16:57:49 2022
+                            <2*eu-a6-011-21>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/hybrid> was used as the working directory.
-Started at Fri Jan  7 11:34:41 2022
-Terminated at Fri Jan  7 12:09:38 2022
-Results reported at Fri Jan  7 12:09:38 2022
+Started at Fri Jan  7 16:57:49 2022
+Terminated at Fri Jan  7 17:29:21 2022
+Results reported at Fri Jan  7 17:29:21 2022
 
 Your job looked like:
 
@@ -21,16 +21,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   8376.00 sec.
-    Max Memory :                                 534 MB
-    Average Memory :                             534.00 MB
+    CPU time :                                   7558.00 sec.
+    Max Memory :                                 552 MB
+    Average Memory :                             538.79 MB
     Total Requested Memory :                     4096.00 MB
-    Delta Memory :                               3562.00 MB
+    Delta Memory :                               3544.00 MB
     Max Swap :                                   -
     Max Processes :                              9
     Max Threads :                                18
-    Run time :                                   2113 sec.
-    Turnaround time :                            2123 sec.
+    Run time :                                   1890 sec.
+    Turnaround time :                            1917 sec.
 
 The output (if any) follows:
 

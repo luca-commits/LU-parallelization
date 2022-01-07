@@ -1,0 +1,599 @@
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199707171[20]: <lu_mpi_strong[20]%36> in cluster <euler> Done
+
+Job <lu_mpi_strong[20]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:47 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 20:42:30 2022
+                            <1*eu-a6-011-24>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-005-13>
+                            <1*eu-a6-005-12>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-004-16>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-05>
+                            <1*eu-a6-002-19>
+                            <1*eu-a6-002-03>
+                            <1*eu-a6-006-15>
+                            <1*eu-a6-006-07>
+                            <1*eu-a6-009-21>
+                            <1*eu-a6-009-16>
+                            <1*eu-a6-009-04>
+                            <1*eu-a6-003-17>
+                            <1*eu-a6-003-08>
+                            <1*eu-a6-003-05>
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/mpi> was used as the working directory.
+Started at Fri Jan  7 20:42:30 2022
+Terminated at Fri Jan  7 20:45:54 2022
+Results reported at Fri Jan  7 20:45:54 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 20 ../../bin/lu-mpi 25 8192
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   4021.00 sec.
+    Max Memory :                                 1084 MB
+    Average Memory :                             774.75 MB
+    Total Requested Memory :                     20480.00 MB
+    Delta Memory :                               19396.00 MB
+    Max Swap :                                   -
+    Max Processes :                              46
+    Max Threads :                                71
+    Run time :                                   219 sec.
+    Turnaround time :                            13687 sec.
+
+The output (if any) follows:
+
+rank 7: s=3 t=1
+rank 4: s=2 t=0
+rank 15: s=7 t=1
+rank 8: s=4 t=0
+rank 5: s=2 t=1
+rank 13: s=6 t=1
+rank 3: s=1 t=1
+rank 11: s=5 t=1
+rank 10: s=5 t=0
+rank 18: s=9 t=0
+rank 9: s=4 t=1
+rank 6: s=3 t=0
+rank 12: s=6 t=0
+rank 16: s=8 t=0
+rank 14: s=7 t=0
+rank 1: s=0 t=1
+rank 19: s=9 t=1
+rank 2: s=1 t=0
+rank 17: s=8 t=1
+rank 0: s=0 t=0
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 6 
+pid: 16 
+pid: 19 
+pid: 17 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 3 
+pid: 18 
+pid: 12 
+pid: 14 
+pid: 1 
+pid: 2 
+finished run 0
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 6 
+pid: 19 
+pid: 17 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 18 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+finished run 1
+pid: 7 
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 1 
+pid: 0 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 19 
+pid: 2 
+pid: 17 
+finished run 2
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 18 
+pid: 9 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+pid: 0 
+finished run 3
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 18 
+pid: 9 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+pid: 0 
+finished run 4
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 18 
+pid: 9 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+pid: 0 
+finished run 5
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 18 
+pid: 9 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+pid: 0 
+finished run 6
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 19 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+pid: 17 
+finished run 7
+pid: 7 
+pid: 5 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 6 
+pid: 19 
+pid: 0 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 13 
+pid: 3 
+pid: 18 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+pid: 17 
+finished run 8
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 19 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+pid: 17 
+finished run 9
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 6 
+pid: 19 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 18 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+pid: 17 
+finished run 10
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 19 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+pid: 17 
+finished run 11
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 19 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+pid: 17 
+finished run 12
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 19 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+pid: 17 
+finished run 13
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 19 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+pid: 17 
+finished run 14
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 19 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 2 
+pid: 17 
+finished run 15
+pid: 7 
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 9 
+pid: 0 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 10 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+finished run 16
+pid: 7 
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 9 
+pid: 0 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 10 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+pid: 18 
+pid: 6 
+finished run 17
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 6 
+pid: 12 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 3 
+pid: 18 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+finished run 18
+pid: 7 
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 0 
+pid: 4 
+pid: 15 
+pid: 3 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+finished run 19
+pid: 5 
+pid: 13 
+pid: 11 
+pid: 10 
+pid: 9 
+pid: 0 
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 3 
+pid: 18 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+finished run 20
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 18 
+pid: 9 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+pid: 0 
+finished run 21
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 18 
+pid: 9 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+pid: 0 
+finished run 22
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 18 
+pid: 9 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+pid: 0 
+finished run 23
+pid: 7 
+pid: 4 
+pid: 15 
+pid: 8 
+pid: 5 
+pid: 13 
+pid: 3 
+pid: 11 
+pid: 10 
+pid: 18 
+pid: 9 
+pid: 6 
+pid: 12 
+pid: 16 
+pid: 14 
+pid: 1 
+pid: 19 
+pid: 2 
+pid: 17 
+pid: 0 
+finished run 24

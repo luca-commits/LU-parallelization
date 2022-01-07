@@ -1,14 +1,14 @@
-Sender: LSF System <lsfadmin@eu-a6-001-03>
-Subject: Job 199687519[2]: <lu_scalapack_strong[2]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199707068[2]: <lu_scalapack_strong[2]%36> in cluster <euler> Done
 
-Job <lu_scalapack_strong[2]%36> was submitted from host <eu-login-29> by user <sniall> in cluster <euler> at Fri Jan  7 11:34:11 2022
-Job was executed on host(s) <1*eu-a6-001-03>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 11:34:41 2022
-                            <1*eu-a6-001-08>
+Job <lu_scalapack_strong[2]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:20 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 16:57:49 2022
+                            <1*eu-a6-005-13>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
-Started at Fri Jan  7 11:34:41 2022
-Terminated at Fri Jan  7 11:37:30 2022
-Results reported at Fri Jan  7 11:37:30 2022
+Started at Fri Jan  7 16:57:49 2022
+Terminated at Fri Jan  7 17:00:49 2022
+Results reported at Fri Jan  7 17:00:49 2022
 
 Your job looked like:
 
@@ -21,16 +21,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   333.00 sec.
-    Max Memory :                                 589 MB
-    Average Memory :                             501.29 MB
+    CPU time :                                   353.01 sec.
+    Max Memory :                                 595 MB
+    Average Memory :                             509.71 MB
     Total Requested Memory :                     2048.00 MB
-    Delta Memory :                               1459.00 MB
+    Delta Memory :                               1453.00 MB
     Max Swap :                                   -
     Max Processes :                              10
     Max Threads :                                17
-    Run time :                                   186 sec.
-    Turnaround time :                            199 sec.
+    Run time :                                   179 sec.
+    Turnaround time :                            209 sec.
 
 The output (if any) follows:
 
