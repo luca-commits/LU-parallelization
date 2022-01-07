@@ -28,11 +28,12 @@ static void init_array(int n, DATA_TYPE POLYBENCH_2D(A, N, N, n, n)) {
 
 #pragma omp parallel for
   for (i = 0; i < n; i++) {
-    for (j = 0; j <= i; j++) A[i][j] = (DATA_TYPE)(-j % n) / n + 1;
+    for (j = 0; j <= i; j++)
+      A[i][j] = ((DATA_TYPE)(-j % n) * (DATA_TYPE)(i % n) / n + 1) * n;
     for (j = i + 1; j < n; j++) {
       A[i][j] = 0;
     }
-    A[i][i] = 1;
+    A[i][i] = n;
   }
 
   // /* Make the matrix positive semi-definite. */

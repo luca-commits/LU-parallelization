@@ -100,7 +100,10 @@ static void init_array(int n, int nr, int nc, unsigned distr_M,
   for (unsigned i = 0; i < nr; ++i) {
     for (unsigned j = 0; j < nc; ++j) {
       if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
-        A[idx(i, j, nc)] = ((double)(-j_glob(j, distr_N, t) % n) / n + 1) * n;
+        A[idx(i, j, nc)] = ((double)(-j_glob(j, distr_N, t) % n) / n *
+                                (double)(i_glob(i, distr_M, s) % n) / n +
+                            1) *
+                           n;
       } else if (i_glob(i, distr_M, s) == j_glob(j, distr_N, t)) {
         A[idx(i, j, nc)] = 1 * n;
       } else {
@@ -146,9 +149,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       int ceil_n = n;
       if (n % distr_M != 0) ceil_n += distr_M - n % distr_M;
 
-      printf("rank %d: %d, %d\n", p_id, (int)s, distr_M - ceil_n + k);
-
-      if ((int)s >= (int)distr_M - ceil_n + k) {
+      if ((int)s >= (int)distr_M - ceil_n + k && k / distr_M < nr) {
         int absmax_idx =
             (cblas_idamax(nr - i_loc(k, distr_M),
                           &A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)],
@@ -163,7 +164,6 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
         absmax = fabs(A[idx(absmax_idx, j_loc(k, distr_N), nc)]);
 
       } else {
-        printf("rank %d going wrong\n", p_id);
         absmax = 0;
         rs = 0;
       }
@@ -226,6 +226,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     MPI_Bcast(&r, 1, MPI_INT, phi1(k, distr_N), comm_row);
     MPI_Pcontrol(-1, "Superstep (3)");
 
+    // if (k == 1) break;
+
     /* Superstep (4)-(7) */
     MPI_Pcontrol(1, "Superstep (4)-(7)");
     if (phi0(k, distr_M) == s && phi0(r, distr_M) == s && r != k) {
@@ -282,6 +284,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
       MPI_Bcast(&a_kk, 1, MPI_DOUBLE, phi0(k, distr_M), comm_col);
     }
     MPI_Pcontrol(-1, "Superstep (8)");
+
+    // if (k == 2) break;
 
     // superstep 9
     MPI_Pcontrol(1, "Superstep (9)");
