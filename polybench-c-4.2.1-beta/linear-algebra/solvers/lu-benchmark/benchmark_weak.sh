@@ -2,7 +2,7 @@ model='XeonGold_6150'
 reserve=36
 mem='1GB'
 
-N_base=2048
+N_base=4096
 runs=25
 
 module load new intel/2018.1
@@ -19,8 +19,10 @@ mkdir omp
 
 for ranks in $(seq 1 $reserve)
 do
-  scaling=$(bc <<< "scale=2; sqrt($ranks)")
+  scaling=$(bc -l <<< "scale=2; e(l($ranks)/3)")
   N=$(bc <<< "($N_base * $scaling) / 1")
+
+  echo $N
 
   if [ "$1" = "mpi" ] || [ "$1" = "all" ]
   then
