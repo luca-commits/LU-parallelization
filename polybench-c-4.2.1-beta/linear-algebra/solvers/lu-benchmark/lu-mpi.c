@@ -143,7 +143,7 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     if (phi1(k, distr_N) == t) {
       int rs;
 
-      if (n - k > distr_N) {
+      if (n - k > 5 * distr_N) {
         int absmax_idx =
             (cblas_idamax(nr - i_loc(k, distr_M),
                           &A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)],
