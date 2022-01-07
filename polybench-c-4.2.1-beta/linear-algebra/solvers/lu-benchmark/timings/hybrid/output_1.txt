@@ -1,36 +1,35 @@
-Sender: LSF System <lsfadmin@eu-a6-005-07>
-Subject: Job 199665026[1]: <lu_hybrid_strong[1]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-002-12>
+Subject: Job 199666107[1]: <lu_hybrid_strong[1]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[1]%36> was submitted from host <eu-login-09> by user <sniall> in cluster <euler> at Fri Jan  7 00:08:05 2022
-Job was executed on host(s) <eu-a6-005-07>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 00:08:16 2022
+Job <lu_hybrid_strong[1]%36> was submitted from host <eu-login-36> by user <sniall> in cluster <euler> at Fri Jan  7 00:49:05 2022
+Job was executed on host(s) <eu-a6-002-12>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 00:49:24 2022
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/hybrid> was used as the working directory.
-Started at Fri Jan  7 00:08:16 2022
-Terminated at Fri Jan  7 00:21:00 2022
-Results reported at Fri Jan  7 00:21:00 2022
+Started at Fri Jan  7 00:49:24 2022
+Terminated at Fri Jan  7 01:49:16 2022
+Results reported at Fri Jan  7 01:49:16 2022
 
 Your job looked like:
 
 ------------------------------------------------------------
 # LSBATCH: User input
-mpirun -n 1 ../../bin/lu-hybrid 25 8192
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 1 -ppn 1 ../../bin/lu-hybrid 25 8192
 ------------------------------------------------------------
 
-TERM_OWNER: job killed by owner.
-Exited with signal termination: 9.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   760.00 sec.
+    CPU time :                                   3592.00 sec.
     Max Memory :                                 548 MB
-    Average Memory :                             547.89 MB
+    Average Memory :                             547.97 MB
     Total Requested Memory :                     1024.00 MB
     Delta Memory :                               476.00 MB
     Max Swap :                                   -
     Max Processes :                              8
     Max Threads :                                12
-    Run time :                                   768 sec.
-    Turnaround time :                            775 sec.
+    Run time :                                   3600 sec.
+    Turnaround time :                            3611 sec.
 
 The output (if any) follows:
 
@@ -48,3 +47,43 @@ finished run 3
 pid: 0 
 finished run 4
 pid: 0 
+finished run 5
+pid: 0 
+finished run 6
+pid: 0 
+finished run 7
+pid: 0 
+finished run 8
+pid: 0 
+finished run 9
+pid: 0 
+finished run 10
+pid: 0 
+finished run 11
+pid: 0 
+finished run 12
+pid: 0 
+finished run 13
+pid: 0 
+finished run 14
+pid: 0 
+finished run 15
+pid: 0 
+finished run 16
+pid: 0 
+finished run 17
+pid: 0 
+finished run 18
+pid: 0 
+finished run 19
+pid: 0 
+finished run 20
+pid: 0 
+finished run 21
+pid: 0 
+finished run 22
+pid: 0 
+finished run 23
+pid: 0 
+finished run 24
+MKL max threads: 1

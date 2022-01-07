@@ -1,38 +1,37 @@
 Sender: LSF System <lsfadmin@eu-a6-012-22>
-Subject: Job 199665028[3]: <lu_hybrid_strong[3]%36> in cluster <euler> Exited
+Subject: Job 199666109[3]: <lu_hybrid_strong[3]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[3]%36> was submitted from host <eu-login-09> by user <sniall> in cluster <euler> at Fri Jan  7 00:08:05 2022
-Job was executed on host(s) <1*eu-a6-012-22>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 00:08:16 2022
+Job <lu_hybrid_strong[3]%36> was submitted from host <eu-login-36> by user <sniall> in cluster <euler> at Fri Jan  7 00:49:05 2022
+Job was executed on host(s) <1*eu-a6-012-22>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 00:49:24 2022
                             <1*eu-a6-012-23>
                             <1*eu-a6-012-20>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/hybrid> was used as the working directory.
-Started at Fri Jan  7 00:08:16 2022
-Terminated at Fri Jan  7 00:19:46 2022
-Results reported at Fri Jan  7 00:19:46 2022
+Started at Fri Jan  7 00:49:24 2022
+Terminated at Fri Jan  7 01:17:18 2022
+Results reported at Fri Jan  7 01:17:18 2022
 
 Your job looked like:
 
 ------------------------------------------------------------
 # LSBATCH: User input
-mpirun -n 3 ../../bin/lu-hybrid 25 8192
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 3 -ppn 1 ../../bin/lu-hybrid 25 8192
 ------------------------------------------------------------
 
-TERM_OWNER: job killed by owner.
-Exited with signal termination: 9.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   2001.00 sec.
-    Max Memory :                                 572 MB
-    Average Memory :                             538.26 MB
+    CPU time :                                   5004.00 sec.
+    Max Memory :                                 578 MB
+    Average Memory :                             560.88 MB
     Total Requested Memory :                     3072.00 MB
-    Delta Memory :                               2500.00 MB
+    Delta Memory :                               2494.00 MB
     Max Swap :                                   -
     Max Processes :                              12
     Max Threads :                                20
-    Run time :                                   699 sec.
-    Turnaround time :                            701 sec.
+    Run time :                                   1674 sec.
+    Turnaround time :                            1693 sec.
 
 The output (if any) follows:
 
@@ -42,53 +41,107 @@ Available OpenMP threads: 1
 Available MKL threads: 1
 Available MKL threads: 1
 Available MKL threads: 1
-rank 2: s=0 t=2
 rank 1: s=0 t=1
+rank 2: s=0 t=2
 rank 0: s=0 t=0
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 0
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 1
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 2
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 3
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 4
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 5
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 6
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 7
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 8
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 9
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
 finished run 10
-pid: 2 
 pid: 1 
+pid: 2 
 pid: 0 
+finished run 11
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 12
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 13
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 14
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 15
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 16
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 17
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 18
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 19
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 20
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 21
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 22
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 23
+pid: 1 
+pid: 2 
+pid: 0 
+finished run 24
+MKL max threads: 1
