@@ -1,13 +1,14 @@
-Sender: LSF System <lsfadmin@eu-a6-011-03>
-Subject: Job 199662724[2]: <lu_mpi_strong[2]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-001-03>
+Subject: Job 199687509[2]: <lu_mpi_strong[2]%36> in cluster <euler> Done
 
-Job <lu_mpi_strong[2]%36> was submitted from host <eu-login-46> by user <sniall> in cluster <euler> at Thu Jan  6 22:32:42 2022
-Job was executed on host(s) <36*eu-a6-011-03>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Thu Jan  6 22:49:43 2022
+Job <lu_mpi_strong[2]%36> was submitted from host <eu-login-29> by user <sniall> in cluster <euler> at Fri Jan  7 11:34:09 2022
+Job was executed on host(s) <1*eu-a6-001-03>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 11:34:41 2022
+                            <1*eu-a6-001-08>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/mpi> was used as the working directory.
-Started at Thu Jan  6 22:49:43 2022
-Terminated at Thu Jan  6 23:17:11 2022
-Results reported at Thu Jan  6 23:17:11 2022
+Started at Fri Jan  7 11:34:41 2022
+Terminated at Fri Jan  7 12:33:05 2022
+Results reported at Fri Jan  7 12:33:05 2022
 
 Your job looked like:
 
@@ -20,93 +21,93 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   3306.00 sec.
-    Max Memory :                                 548 MB
-    Average Memory :                             547.96 MB
-    Total Requested Memory :                     36864.00 MB
-    Delta Memory :                               36316.00 MB
+    CPU time :                                   6986.00 sec.
+    Max Memory :                                 554 MB
+    Average Memory :                             543.97 MB
+    Total Requested Memory :                     2048.00 MB
+    Delta Memory :                               1494.00 MB
     Max Swap :                                   -
-    Max Processes :                              9
-    Max Threads :                                14
-    Run time :                                   1670 sec.
-    Turnaround time :                            2669 sec.
+    Max Processes :                              10
+    Max Threads :                                17
+    Run time :                                   3520 sec.
+    Turnaround time :                            3536 sec.
 
 The output (if any) follows:
 
-rank 0: s=0 t=0
 rank 1: s=0 t=1
-pid: 0 
+rank 0: s=0 t=0
 pid: 1 
+pid: 0 
 finished run 0
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 1
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 2
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 3
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 4
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 5
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 6
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 7
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 8
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 9
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 10
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 11
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 12
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 13
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 14
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 15
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 16
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 17
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 18
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 19
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 20
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 21
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 22
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 23
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 24

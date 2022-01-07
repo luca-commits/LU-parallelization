@@ -1,15 +1,15 @@
-Sender: LSF System <lsfadmin@eu-a6-012-20>
-Subject: Job 199666112[6]: <lu_hybrid_strong[6]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-001-03>
+Subject: Job 199687577[6]: <lu_hybrid_strong[6]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[6]%36> was submitted from host <eu-login-36> by user <sniall> in cluster <euler> at Fri Jan  7 00:49:06 2022
-Job was executed on host(s) <2*eu-a6-012-20>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 01:28:17 2022
-                            <2*eu-a6-012-22>
-                            <2*eu-a6-012-23>
+Job <lu_hybrid_strong[6]%36> was submitted from host <eu-login-29> by user <sniall> in cluster <euler> at Fri Jan  7 11:34:18 2022
+Job was executed on host(s) <2*eu-a6-001-03>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 11:53:42 2022
+                            <2*eu-a6-001-09>
+                            <2*eu-a6-001-18>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/hybrid> was used as the working directory.
-Started at Fri Jan  7 01:28:17 2022
-Terminated at Fri Jan  7 01:46:45 2022
-Results reported at Fri Jan  7 01:46:45 2022
+Started at Fri Jan  7 11:53:42 2022
+Terminated at Fri Jan  7 12:27:19 2022
+Results reported at Fri Jan  7 12:27:19 2022
 
 Your job looked like:
 
@@ -22,16 +22,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   6633.00 sec.
-    Max Memory :                                 570 MB
-    Average Memory :                             556.11 MB
+    CPU time :                                   12078.00 sec.
+    Max Memory :                                 561 MB
+    Average Memory :                             548.66 MB
     Total Requested Memory :                     6144.00 MB
-    Delta Memory :                               5574.00 MB
+    Delta Memory :                               5583.00 MB
     Max Swap :                                   -
     Max Processes :                              11
     Max Threads :                                26
-    Run time :                                   1127 sec.
-    Turnaround time :                            3459 sec.
+    Run time :                                   2025 sec.
+    Turnaround time :                            3181 sec.
 
 The output (if any) follows:
 
@@ -42,102 +42,102 @@ Available MKL threads: 2
 Available MKL threads: 2
 Available MKL threads: 2
 rank 0: s=0 t=0
-rank 2: s=0 t=2
 rank 1: s=0 t=1
-pid: 2 
+rank 2: s=0 t=2
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 0
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 1
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 2
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 3
 pid: 0 
+pid: 2 
 pid: 1 
-pid: 2 
 finished run 4
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 5
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 6
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 7
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 8
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 9
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 10
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 11
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 12
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 13
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 14
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 15
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 16
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 17
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 18
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 19
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 20
 pid: 2 
 pid: 0 
 pid: 1 
 finished run 21
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 22
-pid: 2 
 pid: 0 
+pid: 2 
 pid: 1 
 finished run 23
 pid: 2 

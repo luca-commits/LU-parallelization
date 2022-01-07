@@ -1,13 +1,19 @@
-Sender: LSF System <lsfadmin@eu-a6-006-03>
-Subject: Job 199662740[7]: <lu_scalapack_strong[7]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199687585[7]: <lu_scalapack_strong[7]%36> in cluster <euler> Done
 
-Job <lu_scalapack_strong[7]%36> was submitted from host <eu-login-46> by user <sniall> in cluster <euler> at Thu Jan  6 22:32:46 2022
-Job was executed on host(s) <36*eu-a6-006-03>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 01:42:47 2022
+Job <lu_scalapack_strong[7]%36> was submitted from host <eu-login-29> by user <sniall> in cluster <euler> at Fri Jan  7 11:34:21 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 12:28:46 2022
+                            <1*eu-a6-005-03>
+                            <1*eu-a6-005-13>
+                            <1*eu-a6-005-05>
+                            <1*eu-a6-001-14>
+                            <1*eu-a6-001-22>
+                            <1*eu-a6-001-03>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
-Started at Fri Jan  7 01:42:47 2022
-Terminated at Fri Jan  7 01:43:16 2022
-Results reported at Fri Jan  7 01:43:16 2022
+Started at Fri Jan  7 12:28:46 2022
+Terminated at Fri Jan  7 12:29:41 2022
+Results reported at Fri Jan  7 12:29:41 2022
 
 Your job looked like:
 
@@ -20,16 +26,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   1196.00 sec.
-    Max Memory :                                 822 MB
-    Average Memory :                             821.00 MB
-    Total Requested Memory :                     36864.00 MB
-    Delta Memory :                               36042.00 MB
+    CPU time :                                   351.00 sec.
+    Max Memory :                                 834 MB
+    Average Memory :                             98.50 MB
+    Total Requested Memory :                     7168.00 MB
+    Delta Memory :                               6334.00 MB
     Max Swap :                                   -
-    Max Processes :                              14
-    Max Threads :                                51
-    Run time :                                   31 sec.
-    Turnaround time :                            11430 sec.
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   50 sec.
+    Turnaround time :                            3320 sec.
 
 The output (if any) follows:
 
@@ -39,10 +45,10 @@ rank 2: s=0 t=2
 Hi. Proc 2/7 for MPI, proc 2/7 for BLACS in position (0,2)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
 rank 3: s=0 t=3
 Hi. Proc 3/7 for MPI, proc 3/7 for BLACS in position (0,3)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
-rank 4: s=0 t=4
-Hi. Proc 4/7 for MPI, proc 4/7 for BLACS in position (0,4)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
 rank 5: s=0 t=5
 Hi. Proc 5/7 for MPI, proc 5/7 for BLACS in position (0,5)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
+rank 4: s=0 t=4
+Hi. Proc 4/7 for MPI, proc 4/7 for BLACS in position (0,4)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
 rank 6: s=0 t=6
 Hi. Proc 6/7 for MPI, proc 6/7 for BLACS in position (0,6)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
 rank 0: s=0 t=0
