@@ -143,7 +143,10 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     if (phi1(k, distr_N) == t) {
       int rs;
 
-      if (n - k > 5 * distr_N) {
+      int ceil_n = n;
+      if (n % distr_M != 0) ceil_n += distr_M - n % distr_M;
+
+      if (ceil_n - k <= s) {
         int absmax_idx =
             (cblas_idamax(nr - i_loc(k, distr_M),
                           &A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)],
@@ -157,16 +160,8 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
 
         absmax = fabs(A[idx(absmax_idx, j_loc(k, distr_N), nc)]);
       } else {
-        absmax = fabs(A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
-                            nc)]);  // <-- kontrollieren ob dies stimmt
-        rs = k;
-
-        for (i = i_loc(k, distr_M); i < nr; i++) {
-          if (absmax < fabs(A[idx(i, j_loc(k, distr_N), nc)])) {
-            absmax = fabs(A[idx(i, j_loc(k, distr_N), nc)]);
-            rs = i_glob(i, distr_M, s);
-          }
-        }
+        absmax = 0;
+        rs = 0;
       }
 
       double max = 0;
