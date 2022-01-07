@@ -143,29 +143,31 @@ static void kernel_lu(int n, double* A, unsigned p_id, unsigned s, unsigned t,
     if (phi1(k, distr_N) == t) {
       int rs;
 
-      // absmax = fabs(A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
-      //                     nc)]);  // <-- kontrollieren ob dies stimmt
-      // rs = k;
+      if (n - k > distr_N) {
+        int absmax_idx =
+            (cblas_idamax(nr - i_loc(k, distr_M),
+                          &A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)],
+                          nc)) +
+            i_loc(k, distr_M);
 
-      // for (i = i_loc(k, distr_M); i < nr; i++) {
-      //   if (absmax < fabs(A[idx(i, j_loc(k, distr_N), nc)])) {
-      //     absmax = fabs(A[idx(i, j_loc(k, distr_N), nc)]);
-      //     rs = i_glob(i, distr_M, s);
-      //   }
-      // }
+        if (absmax_idx == i_loc(k, distr_M))
+          rs = k;
+        else
+          rs = i_glob(absmax_idx, distr_M, s);
 
-      int absmax_idx =
-          (cblas_idamax(nr - i_loc(k, distr_M),
-                        &A[idx(i_loc(k, distr_M), j_loc(k, distr_N), nc)],
-                        nc)) +
-          i_loc(k, distr_M);
-
-      if (absmax_idx == i_loc(k, distr_M))
+        absmax = fabs(A[idx(absmax_idx, j_loc(k, distr_N), nc)]);
+      } else {
+        absmax = fabs(A[idx(i_loc(k, distr_M), j_loc(k, distr_N),
+                            nc)]);  // <-- kontrollieren ob dies stimmt
         rs = k;
-      else
-        rs = i_glob(absmax_idx, distr_M, s);
 
-      absmax = fabs(A[idx(absmax_idx, j_loc(k, distr_N), nc)]);
+        for (i = i_loc(k, distr_M); i < nr; i++) {
+          if (absmax < fabs(A[idx(i, j_loc(k, distr_N), nc)])) {
+            absmax = fabs(A[idx(i, j_loc(k, distr_N), nc)]);
+            rs = i_glob(i, distr_M, s);
+          }
+        }
+      }
 
       double max = 0;
       if (absmax > EPS) {
