@@ -3,7 +3,7 @@ reserve=36
 mem='1GB'
 
 N_base=2048
-tsteps=100
+tsteps=1000
 runs=25
 
 module load new intel/2018.1
