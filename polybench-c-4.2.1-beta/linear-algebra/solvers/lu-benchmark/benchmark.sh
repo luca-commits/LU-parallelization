@@ -1,14 +1,9 @@
 model='XeonGold_6150'
+reserve=36
+mem='1GB'
+
 N=8192
 runs=25
-
-gcd() (
-    if (( $1 % $2 == 0)); then
-        echo $2
-     else
-        gcd $2 $(( $1 % $2 ))
-    fi
-)
 
 module load new intel/2018.1
 mkdir bin
@@ -22,14 +17,12 @@ mkdir hybrid
 mkdir scalapack
 mkdir omp
 
-mem='1GB'
-
-let reserve=36
 for ranks in $(seq 1 $reserve)
 do
   if [ "$1" = "mpi" ] || [ "$1" = "all" ]
   then
       cd mpi
+      export OMP_NUM_THREADS=1
       bsub -We 01:00 -n $reserve -J "lu_mpi_strong[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-mpi $runs $N
       cd ..
   fi
@@ -193,7 +186,7 @@ do
   if [ "$1" = "scalapack" ] || [ "$1" = "all" ]
   then
       cd scalapack
-
+      export OMP_NUM_THREADS=1
       bsub -W 01:00 -n $reserve -J "lu_scalapack_strong[$ranks]%36" -R "span[ptile=36]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" mpirun -n $ranks ../../bin/lu-scalapack $runs $N
 
       cd ..
