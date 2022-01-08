@@ -15,7 +15,6 @@ cd timings
 
 mkdir mpi
 mkdir hybrid
-mkdir scalapack
 mkdir omp
 
 for ranks in $(seq 1 $reserve)
