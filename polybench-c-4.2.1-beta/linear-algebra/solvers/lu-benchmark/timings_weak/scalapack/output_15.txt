@@ -1,0 +1,79 @@
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199717490[15]: <lu_scalapack_weak[15]%36> in cluster <euler> Done
+
+Job <lu_scalapack_weak[15]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:02:08 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 00:29:10 2022
+                            <1*eu-a6-006-15>
+                            <1*eu-a6-006-07>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-005-13>
+                            <1*eu-a6-005-12>
+                            <1*eu-a6-005-02>
+                            <1*eu-a6-009-21>
+                            <1*eu-a6-009-16>
+                            <1*eu-a6-009-04>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-004-05>
+                            <1*eu-a6-004-16>
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
+Started at Sat Jan  8 00:29:10 2022
+Terminated at Sat Jan  8 00:30:04 2022
+Results reported at Sat Jan  8 00:30:04 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 15 ../../bin/lu-scalapack 25 10035
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   765.00 sec.
+    Max Memory :                                 1394 MB
+    Average Memory :                             88.75 MB
+    Total Requested Memory :                     15360.00 MB
+    Delta Memory :                               13966.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   66 sec.
+    Turnaround time :                            8876 sec.
+
+The output (if any) follows:
+
+rank 5: s=1 t=2
+Hi. Proc 5/15 for MPI, proc 5/15 for BLACS in position (1,2)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 14: s=4 t=2
+Hi. Proc 14/15 for MPI, proc 14/15 for BLACS in position (4,2)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 11: s=3 t=2
+Hi. Proc 11/15 for MPI, proc 11/15 for BLACS in position (3,2)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 7: s=2 t=1
+Hi. Proc 7/15 for MPI, proc 7/15 for BLACS in position (2,1)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 4: s=1 t=1
+Hi. Proc 4/15 for MPI, proc 4/15 for BLACS in position (1,1)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 2: s=0 t=2
+Hi. Proc 2/15 for MPI, proc 2/15 for BLACS in position (0,2)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 10: s=3 t=1
+Hi. Proc 10/15 for MPI, proc 10/15 for BLACS in position (3,1)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 1: s=0 t=1
+Hi. Proc 1/15 for MPI, proc 1/15 for BLACS in position (0,1)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 6: s=2 t=0
+Hi. Proc 6/15 for MPI, proc 6/15 for BLACS in position (2,0)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 9: s=3 t=0
+Hi. Proc 9/15 for MPI, proc 9/15 for BLACS in position (3,0)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 12: s=4 t=0
+Hi. Proc 12/15 for MPI, proc 12/15 for BLACS in position (4,0)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 13: s=4 t=1
+Hi. Proc 13/15 for MPI, proc 13/15 for BLACS in position (4,1)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 0: s=0 t=0
+Hi. Proc 0/15 for MPI, proc 0/15 for BLACS in position (0,0)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 3: s=1 t=0
+Hi. Proc 3/15 for MPI, proc 3/15 for BLACS in position (1,0)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1
+rank 8: s=2 t=2
+Hi. Proc 8/15 for MPI, proc 8/15 for BLACS in position (2,2)/(5,3) with local matrix 2007x3345, global matrix 10035, block size1

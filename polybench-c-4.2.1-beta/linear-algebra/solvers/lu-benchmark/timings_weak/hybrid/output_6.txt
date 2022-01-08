@@ -1,0 +1,147 @@
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199717447[6]: <lu_hybrid_weak[6]%36> in cluster <euler> Done
+
+Job <lu_hybrid_weak[6]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:01:50 2022
+Job was executed on host(s) <2*eu-a6-012-24>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Fri Jan  7 22:29:08 2022
+                            <2*eu-a6-005-12>
+                            <2*eu-a6-005-02>
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Fri Jan  7 22:29:08 2022
+Terminated at Fri Jan  7 22:48:03 2022
+Results reported at Fri Jan  7 22:48:03 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 3 -ppn 2 ../../bin/lu-hybrid 25 7372
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   6779.00 sec.
+    Max Memory :                                 486 MB
+    Average Memory :                             465.38 MB
+    Total Requested Memory :                     6144.00 MB
+    Delta Memory :                               5658.00 MB
+    Max Swap :                                   -
+    Max Processes :                              11
+    Max Threads :                                26
+    Run time :                                   1134 sec.
+    Turnaround time :                            2773 sec.
+
+The output (if any) follows:
+
+Available OpenMP threads: 2
+Available OpenMP threads: 2
+Available OpenMP threads: 2
+Available MKL threads: 2
+Available MKL threads: 2
+Available MKL threads: 2
+rank 0: s=0 t=0
+rank 2: s=0 t=2
+rank 1: s=0 t=1
+pid: 0 
+pid: 2 
+pid: 1 
+finished run 0
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 1
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 2
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 3
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 4
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 5
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 6
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 7
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 8
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 9
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 10
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 11
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 12
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 13
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 14
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 15
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 16
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 17
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 18
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 19
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 20
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 21
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 22
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 23
+pid: 2 
+pid: 0 
+pid: 1 
+finished run 24
+MKL max threads: 2

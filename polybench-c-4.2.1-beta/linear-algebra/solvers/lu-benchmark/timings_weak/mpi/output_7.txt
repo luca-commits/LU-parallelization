@@ -1,0 +1,248 @@
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199717450[7]: <lu_mpi_weak[7]%36> in cluster <euler> Done
+
+Job <lu_mpi_weak[7]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:01:51 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Fri Jan  7 22:30:12 2022
+                            <1*eu-a6-011-24>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-004-16>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-11>
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/mpi> was used as the working directory.
+Started at Fri Jan  7 22:30:12 2022
+Terminated at Fri Jan  7 22:44:24 2022
+Results reported at Fri Jan  7 22:44:24 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 7 ../../bin/lu-mpi 25 7741
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   5934.00 sec.
+    Max Memory :                                 632 MB
+    Average Memory :                             594.53 MB
+    Total Requested Memory :                     7168.00 MB
+    Delta Memory :                               6536.00 MB
+    Max Swap :                                   -
+    Max Processes :                              20
+    Max Threads :                                32
+    Run time :                                   853 sec.
+    Turnaround time :                            2553 sec.
+
+The output (if any) follows:
+
+rank 5: s=0 t=5
+rank 0: s=0 t=0
+rank 6: s=0 t=6
+rank 1: s=0 t=1
+rank 2: s=0 t=2
+rank 3: s=0 t=3
+rank 4: s=0 t=4
+pid: 5 
+pid: 0 
+pid: 2 
+pid: 6 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 0
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 1 
+pid: 4 
+finished run 1
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 2
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 3
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 4
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 5
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 6
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 4 
+pid: 1 
+pid: 3 
+finished run 7
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 8
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 9
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 10
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 11
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 12
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 13
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 1 
+pid: 4 
+finished run 14
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 15
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 16
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 17
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 18
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 19
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 20
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 21
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 22
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 23
+pid: 5 
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 1 
+finished run 24

@@ -1,0 +1,64 @@
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199717465[10]: <lu_scalapack_weak[10]%36> in cluster <euler> Done
+
+Job <lu_scalapack_weak[10]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:02:01 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Fri Jan  7 22:49:45 2022
+                            <1*eu-a6-011-24>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-006-07>
+                            <1*eu-a6-006-16>
+                            <1*eu-a6-006-15>
+                            <1*eu-a6-005-13>
+                            <1*eu-a6-005-02>
+                            <1*eu-a6-005-12>
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
+Started at Fri Jan  7 22:49:45 2022
+Terminated at Fri Jan  7 22:50:44 2022
+Results reported at Fri Jan  7 22:50:44 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 10 ../../bin/lu-scalapack 25 8724
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   561.73 sec.
+    Max Memory :                                 887 MB
+    Average Memory :                             87.25 MB
+    Total Requested Memory :                     10240.00 MB
+    Delta Memory :                               9353.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   87 sec.
+    Turnaround time :                            2923 sec.
+
+The output (if any) follows:
+
+rank 0: s=0 t=0
+Hi. Proc 0/10 for MPI, proc 0/10 for BLACS in position (0,0)/(5,2) with local matrix 1745x4362, global matrix 8724, block size1
+rank 5: s=2 t=1
+Hi. Proc 5/10 for MPI, proc 5/10 for BLACS in position (2,1)/(5,2) with local matrix 1745x4362, global matrix 8724, block size1
+rank 6: s=3 t=0
+Hi. Proc 6/10 for MPI, proc 6/10 for BLACS in position (3,0)/(5,2) with local matrix 1745x4362, global matrix 8724, block size1
+rank 7: s=3 t=1
+Hi. Proc 7/10 for MPI, proc 7/10 for BLACS in position (3,1)/(5,2) with local matrix 1745x4362, global matrix 8724, block size1
+rank 9: s=4 t=1
+Hi. Proc 9/10 for MPI, proc 9/10 for BLACS in position (4,1)/(5,2) with local matrix 1744x4362, global matrix 8724, block size1
+rank 3: s=1 t=1
+Hi. Proc 3/10 for MPI, proc 3/10 for BLACS in position (1,1)/(5,2) with local matrix 1745x4362, global matrix 8724, block size1
+rank 4: s=2 t=0
+Hi. Proc 4/10 for MPI, proc 4/10 for BLACS in position (2,0)/(5,2) with local matrix 1745x4362, global matrix 8724, block size1
+rank 8: s=4 t=0
+Hi. Proc 8/10 for MPI, proc 8/10 for BLACS in position (4,0)/(5,2) with local matrix 1744x4362, global matrix 8724, block size1
+rank 2: s=1 t=0
+Hi. Proc 2/10 for MPI, proc 2/10 for BLACS in position (1,0)/(5,2) with local matrix 1745x4362, global matrix 8724, block size1
+rank 1: s=0 t=1
+Hi. Proc 1/10 for MPI, proc 1/10 for BLACS in position (0,1)/(5,2) with local matrix 1745x4362, global matrix 8724, block size1

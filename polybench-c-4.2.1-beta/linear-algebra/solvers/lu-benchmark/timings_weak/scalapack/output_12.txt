@@ -1,0 +1,70 @@
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199717473[12]: <lu_scalapack_weak[12]%36> in cluster <euler> Done
+
+Job <lu_scalapack_weak[12]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:02:03 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Fri Jan  7 23:29:05 2022
+                            <1*eu-a6-011-24>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-002-19>
+                            <1*eu-a6-002-03>
+                            <1*eu-a6-006-01>
+                            <1*eu-a6-006-16>
+                            <1*eu-a6-006-15>
+                            <1*eu-a6-006-07>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-004-22>
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
+Started at Fri Jan  7 23:29:05 2022
+Terminated at Fri Jan  7 23:30:02 2022
+Results reported at Fri Jan  7 23:30:02 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 12 ../../bin/lu-scalapack 25 9297
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   649.94 sec.
+    Max Memory :                                 1119 MB
+    Average Memory :                             95.25 MB
+    Total Requested Memory :                     12288.00 MB
+    Delta Memory :                               11169.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   64 sec.
+    Turnaround time :                            5279 sec.
+
+The output (if any) follows:
+
+rank 8: s=4 t=0
+Hi. Proc 8/12 for MPI, proc 8/12 for BLACS in position (4,0)/(6,2) with local matrix 1549x4649, global matrix 9297, block size1
+rank 9: s=4 t=1
+Hi. Proc 9/12 for MPI, proc 9/12 for BLACS in position (4,1)/(6,2) with local matrix 1549x4648, global matrix 9297, block size1
+rank 7: s=3 t=1
+Hi. Proc 7/12 for MPI, proc 7/12 for BLACS in position (3,1)/(6,2) with local matrix 1549x4648, global matrix 9297, block size1
+rank 5: s=2 t=1
+Hi. Proc 5/12 for MPI, proc 5/12 for BLACS in position (2,1)/(6,2) with local matrix 1550x4648, global matrix 9297, block size1
+rank 4: s=2 t=0
+Hi. Proc 4/12 for MPI, proc 4/12 for BLACS in position (2,0)/(6,2) with local matrix 1550x4649, global matrix 9297, block size1
+rank 10: s=5 t=0
+Hi. Proc 10/12 for MPI, proc 10/12 for BLACS in position (5,0)/(6,2) with local matrix 1549x4649, global matrix 9297, block size1
+rank 11: s=5 t=1
+Hi. Proc 11/12 for MPI, proc 11/12 for BLACS in position (5,1)/(6,2) with local matrix 1549x4648, global matrix 9297, block size1
+rank 3: s=1 t=1
+Hi. Proc 3/12 for MPI, proc 3/12 for BLACS in position (1,1)/(6,2) with local matrix 1550x4648, global matrix 9297, block size1
+rank 2: s=1 t=0
+Hi. Proc 2/12 for MPI, proc 2/12 for BLACS in position (1,0)/(6,2) with local matrix 1550x4649, global matrix 9297, block size1
+rank 0: s=0 t=0
+Hi. Proc 0/12 for MPI, proc 0/12 for BLACS in position (0,0)/(6,2) with local matrix 1550x4649, global matrix 9297, block size1
+rank 1: s=0 t=1
+Hi. Proc 1/12 for MPI, proc 1/12 for BLACS in position (0,1)/(6,2) with local matrix 1550x4648, global matrix 9297, block size1
+rank 6: s=3 t=0
+Hi. Proc 6/12 for MPI, proc 6/12 for BLACS in position (3,0)/(6,2) with local matrix 1549x4649, global matrix 9297, block size1
