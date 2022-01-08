@@ -1,21 +1,21 @@
-Sender: LSF System <lsfadmin@eu-a6-004-05>
-Subject: Job 199717121[9]: <lu_scalapack_strong[9]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-012-16>
+Subject: Job 199755341[9]: <lu_scalapack_strong[9]%36> in cluster <euler> Done
 
-Job <lu_scalapack_strong[9]%36> was submitted from host <eu-login-45> by user <sniall> in cluster <euler> at Fri Jan  7 21:39:42 2022
-Job was executed on host(s) <1*eu-a6-004-05>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 22:09:22 2022
-                            <1*eu-a6-004-22>
-                            <1*eu-a6-004-11>
-                            <1*eu-a6-011-24>
-                            <1*eu-a6-011-23>
-                            <1*eu-a6-005-12>
-                            <1*eu-a6-005-02>
-                            <1*eu-a6-003-22>
-                            <1*eu-a6-003-09>
+Job <lu_scalapack_strong[9]%36> was submitted from host <eu-login-08> by user <sniall> in cluster <euler> at Sat Jan  8 10:21:31 2022
+Job was executed on host(s) <1*eu-a6-012-16>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Sat Jan  8 10:22:04 2022
+                            <1*eu-a6-012-12>
+                            <1*eu-a6-008-10>
+                            <1*eu-a6-008-12>
+                            <1*eu-a6-008-02>
+                            <1*eu-a6-008-09>
+                            <1*eu-a6-008-20>
+                            <1*eu-a6-009-21>
+                            <1*eu-a6-009-16>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
-Started at Fri Jan  7 22:09:22 2022
-Terminated at Fri Jan  7 22:09:27 2022
-Results reported at Fri Jan  7 22:09:27 2022
+Started at Sat Jan  8 10:22:04 2022
+Terminated at Sat Jan  8 10:22:51 2022
+Results reported at Sat Jan  8 10:22:51 2022
 
 Your job looked like:
 
@@ -24,57 +24,38 @@ Your job looked like:
 mpirun -n 9 ../../bin/lu-scalapack 25 8192
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   1.74 sec.
-    Max Memory :                                 1 MB
-    Average Memory :                             1.00 MB
+    CPU time :                                   387.00 sec.
+    Max Memory :                                 789 MB
+    Average Memory :                             23.00 MB
     Total Requested Memory :                     9216.00 MB
-    Delta Memory :                               9215.00 MB
+    Delta Memory :                               8427.00 MB
     Max Swap :                                   -
-    Max Processes :                              1
-    Max Threads :                                1
-    Run time :                                   3 sec.
-    Turnaround time :                            1785 sec.
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   45 sec.
+    Turnaround time :                            80 sec.
 
 The output (if any) follows:
 
-rank 0: s=0 t=0
-Hi. Proc 0/9 for MPI, proc 0/9 for BLACS in position (0,0)/(3,3) with local matrix 2731x2731, global matrix 8192, block size1
+rank 3: s=1 t=0
+Hi. Proc 3/9 for MPI, proc 3/9 for BLACS in position (1,0)/(3,3) with local matrix 2731x2731, global matrix 8192, block size1
 rank 1: s=0 t=1
 Hi. Proc 1/9 for MPI, proc 1/9 for BLACS in position (0,1)/(3,3) with local matrix 2731x2731, global matrix 8192, block size1
 rank 2: s=0 t=2
 Hi. Proc 2/9 for MPI, proc 2/9 for BLACS in position (0,2)/(3,3) with local matrix 2731x2730, global matrix 8192, block size1
+rank 4: s=1 t=1
+Hi. Proc 4/9 for MPI, proc 4/9 for BLACS in position (1,1)/(3,3) with local matrix 2731x2731, global matrix 8192, block size1
+rank 0: s=0 t=0
+Hi. Proc 0/9 for MPI, proc 0/9 for BLACS in position (0,0)/(3,3) with local matrix 2731x2731, global matrix 8192, block size1
 rank 5: s=1 t=2
 Hi. Proc 5/9 for MPI, proc 5/9 for BLACS in position (1,2)/(3,3) with local matrix 2731x2730, global matrix 8192, block size1
 rank 6: s=2 t=0
 Hi. Proc 6/9 for MPI, proc 6/9 for BLACS in position (2,0)/(3,3) with local matrix 2730x2731, global matrix 8192, block size1
-rank 8: s=2 t=2
-Hi. Proc 8/9 for MPI, proc 8/9 for BLACS in position (2,2)/(3,3) with local matrix 2730x2730, global matrix 8192, block size1
 rank 7: s=2 t=1
 Hi. Proc 7/9 for MPI, proc 7/9 for BLACS in position (2,1)/(3,3) with local matrix 2730x2731, global matrix 8192, block size1
-rank 4: s=1 t=1
-Hi. Proc 4/9 for MPI, proc 4/9 for BLACS in position (1,1)/(3,3) with local matrix 2731x2731, global matrix 8192, block size1
-rank 3: s=1 t=0
-Hi. Proc 3/9 for MPI, proc 3/9 for BLACS in position (1,0)/(3,3) with local matrix 2731x2731, global matrix 8192, block size1
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 72048 RUNNING AT eu-a6-004-11
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 72048 RUNNING AT eu-a6-004-11
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 8: s=2 t=2
+Hi. Proc 8/9 for MPI, proc 8/9 for BLACS in position (2,2)/(3,3) with local matrix 2730x2730, global matrix 8192, block size1
