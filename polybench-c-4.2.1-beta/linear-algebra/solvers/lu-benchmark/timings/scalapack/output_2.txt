@@ -1,14 +1,14 @@
 Sender: LSF System <lsfadmin@eu-a6-012-24>
-Subject: Job 199707068[2]: <lu_scalapack_strong[2]%36> in cluster <euler> Done
+Subject: Job 199717111[2]: <lu_scalapack_strong[2]%36> in cluster <euler> Exited
 
-Job <lu_scalapack_strong[2]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:20 2022
-Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 16:57:49 2022
-                            <1*eu-a6-005-13>
+Job <lu_scalapack_strong[2]%36> was submitted from host <eu-login-45> by user <sniall> in cluster <euler> at Fri Jan  7 21:39:41 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 21:39:52 2022
+                            <1*eu-a6-011-23>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
-Started at Fri Jan  7 16:57:49 2022
-Terminated at Fri Jan  7 17:00:49 2022
-Results reported at Fri Jan  7 17:00:49 2022
+Started at Fri Jan  7 21:39:52 2022
+Terminated at Fri Jan  7 21:39:55 2022
+Results reported at Fri Jan  7 21:39:55 2022
 
 Your job looked like:
 
@@ -17,20 +17,20 @@ Your job looked like:
 mpirun -n 2 ../../bin/lu-scalapack 25 8192
 ------------------------------------------------------------
 
-Successfully completed.
+Exited with exit code 139.
 
 Resource usage summary:
 
-    CPU time :                                   353.01 sec.
-    Max Memory :                                 595 MB
-    Average Memory :                             509.71 MB
+    CPU time :                                   0.40 sec.
+    Max Memory :                                 59 MB
+    Average Memory :                             -
     Total Requested Memory :                     2048.00 MB
-    Delta Memory :                               1453.00 MB
+    Delta Memory :                               1989.00 MB
     Max Swap :                                   -
-    Max Processes :                              10
-    Max Threads :                                17
-    Run time :                                   179 sec.
-    Turnaround time :                            209 sec.
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   28 sec.
+    Turnaround time :                            14 sec.
 
 The output (if any) follows:
 
@@ -38,3 +38,22 @@ rank 1: s=0 t=1
 Hi. Proc 1/2 for MPI, proc 1/2 for BLACS in position (0,1)/(1,2) with local matrix 8192x4096, global matrix 8192, block size1
 rank 0: s=0 t=0
 Hi. Proc 0/2 for MPI, proc 0/2 for BLACS in position (0,0)/(1,2) with local matrix 8192x4096, global matrix 8192, block size1
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 1855 RUNNING AT eu-a6-011-23
+=   EXIT CODE: 139
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 1855 RUNNING AT eu-a6-011-23
+=   EXIT CODE: 11
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+   Intel(R) MPI Library troubleshooting guide:
+      https://software.intel.com/node/561764
+===================================================================================

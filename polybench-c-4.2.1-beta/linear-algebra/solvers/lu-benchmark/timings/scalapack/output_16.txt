@@ -1,28 +1,28 @@
-Sender: LSF System <lsfadmin@eu-a6-012-24>
-Subject: Job 199707150[16]: <lu_scalapack_strong[16]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-004-11>
+Subject: Job 199717129[16]: <lu_scalapack_strong[16]%36> in cluster <euler> Done
 
-Job <lu_scalapack_strong[16]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:43 2022
-Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 19:45:26 2022
-                            <1*eu-a6-011-24>
-                            <1*eu-a6-011-23>
-                            <1*eu-a6-005-13>
-                            <1*eu-a6-004-22>
+Job <lu_scalapack_strong[16]%36> was submitted from host <eu-login-45> by user <sniall> in cluster <euler> at Fri Jan  7 21:39:44 2022
+Job was executed on host(s) <1*eu-a6-004-11>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 22:14:22 2022
                             <1*eu-a6-004-16>
-                            <1*eu-a6-004-11>
                             <1*eu-a6-004-05>
+                            <1*eu-a6-006-07>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-011-23>
                             <1*eu-a6-002-03>
+                            <1*eu-a6-002-19>
+                            <1*eu-a6-005-12>
+                            <1*eu-a6-005-13>
+                            <1*eu-a6-005-02>
                             <1*eu-a6-003-08>
-                            <1*eu-a6-003-17>
                             <1*eu-a6-003-05>
-                            <1*eu-a6-003-09>
-                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-17>
                             <1*eu-a6-003-01>
-                            <1*eu-a6-003-21>
+                            <1*eu-a6-003-22>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
-Started at Fri Jan  7 19:45:26 2022
-Terminated at Fri Jan  7 19:45:30 2022
-Results reported at Fri Jan  7 19:45:30 2022
+Started at Fri Jan  7 22:14:22 2022
+Terminated at Fri Jan  7 22:14:58 2022
+Results reported at Fri Jan  7 22:14:58 2022
 
 Your job looked like:
 
@@ -31,71 +31,52 @@ Your job looked like:
 mpirun -n 16 ../../bin/lu-scalapack 25 8192
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   2.49 sec.
-    Max Memory :                                 46 MB
-    Average Memory :                             -
+    CPU time :                                   544.00 sec.
+    Max Memory :                                 1096 MB
+    Average Memory :                             75.50 MB
     Total Requested Memory :                     16384.00 MB
-    Delta Memory :                               16338.00 MB
+    Delta Memory :                               15288.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   6 sec.
-    Turnaround time :                            10067 sec.
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   56 sec.
+    Turnaround time :                            2114 sec.
 
 The output (if any) follows:
 
-rank 15: s=7 t=1
-Hi. Proc 15/16 for MPI, proc 15/16 for BLACS in position (7,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
 rank 13: s=6 t=1
 Hi. Proc 13/16 for MPI, proc 13/16 for BLACS in position (6,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 5: s=2 t=1
-Hi. Proc 5/16 for MPI, proc 5/16 for BLACS in position (2,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 9: s=4 t=1
-Hi. Proc 9/16 for MPI, proc 9/16 for BLACS in position (4,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 11: s=5 t=1
-Hi. Proc 11/16 for MPI, proc 11/16 for BLACS in position (5,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 8: s=4 t=0
-Hi. Proc 8/16 for MPI, proc 8/16 for BLACS in position (4,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 0: s=0 t=0
-Hi. Proc 0/16 for MPI, proc 0/16 for BLACS in position (0,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 10: s=5 t=0
-Hi. Proc 10/16 for MPI, proc 10/16 for BLACS in position (5,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 3: s=1 t=1
-Hi. Proc 3/16 for MPI, proc 3/16 for BLACS in position (1,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 6: s=3 t=0
-Hi. Proc 6/16 for MPI, proc 6/16 for BLACS in position (3,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 4: s=2 t=0
-Hi. Proc 4/16 for MPI, proc 4/16 for BLACS in position (2,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 7: s=3 t=1
-Hi. Proc 7/16 for MPI, proc 7/16 for BLACS in position (3,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-rank 14: s=7 t=0
-Hi. Proc 14/16 for MPI, proc 14/16 for BLACS in position (7,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
 rank 12: s=6 t=0
 Hi. Proc 12/16 for MPI, proc 12/16 for BLACS in position (6,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 8: s=4 t=0
+Hi. Proc 8/16 for MPI, proc 8/16 for BLACS in position (4,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 15: s=7 t=1
+Hi. Proc 15/16 for MPI, proc 15/16 for BLACS in position (7,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 6: s=3 t=0
+Hi. Proc 6/16 for MPI, proc 6/16 for BLACS in position (3,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
 rank 2: s=1 t=0
 Hi. Proc 2/16 for MPI, proc 2/16 for BLACS in position (1,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 5: s=2 t=1
+Hi. Proc 5/16 for MPI, proc 5/16 for BLACS in position (2,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 7: s=3 t=1
+Hi. Proc 7/16 for MPI, proc 7/16 for BLACS in position (3,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 3: s=1 t=1
+Hi. Proc 3/16 for MPI, proc 3/16 for BLACS in position (1,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 14: s=7 t=0
+Hi. Proc 14/16 for MPI, proc 14/16 for BLACS in position (7,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 9: s=4 t=1
+Hi. Proc 9/16 for MPI, proc 9/16 for BLACS in position (4,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
 rank 1: s=0 t=1
 Hi. Proc 1/16 for MPI, proc 1/16 for BLACS in position (0,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 33452 RUNNING AT eu-a6-004-05
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 33452 RUNNING AT eu-a6-004-05
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 4: s=2 t=0
+Hi. Proc 4/16 for MPI, proc 4/16 for BLACS in position (2,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 11: s=5 t=1
+Hi. Proc 11/16 for MPI, proc 11/16 for BLACS in position (5,1)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 10: s=5 t=0
+Hi. Proc 10/16 for MPI, proc 10/16 for BLACS in position (5,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1
+rank 0: s=0 t=0
+Hi. Proc 0/16 for MPI, proc 0/16 for BLACS in position (0,0)/(8,2) with local matrix 1024x4096, global matrix 8192, block size1

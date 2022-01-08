@@ -1,0 +1,139 @@
+Sender: LSF System <lsfadmin@eu-a6-003-21>
+Subject: Job 199717152[35]: <lu_scalapack_strong[35]%36> in cluster <euler> Done
+
+Job <lu_scalapack_strong[35]%36> was submitted from host <eu-login-45> by user <sniall> in cluster <euler> at Fri Jan  7 21:39:49 2022
+Job was executed on host(s) <1*eu-a6-003-21>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Sat Jan  8 04:42:58 2022
+                            <1*eu-a6-003-08>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-12>
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-003-01>
+                            <1*eu-a6-001-20>
+                            <1*eu-a6-001-06>
+                            <1*eu-a6-001-04>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-10>
+                            <1*eu-a6-001-09>
+                            <1*eu-a6-001-16>
+                            <1*eu-a6-001-12>
+                            <1*eu-a6-001-18>
+                            <1*eu-a6-009-16>
+                            <1*eu-a6-009-04>
+                            <1*eu-a6-009-21>
+                            <1*eu-a6-008-14>
+                            <1*eu-a6-008-20>
+                            <1*eu-a6-008-12>
+                            <1*eu-a6-008-02>
+                            <1*eu-a6-008-09>
+                            <1*eu-a6-008-10>
+                            <1*eu-a6-008-05>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-011-24>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-011-22>
+                            <1*eu-a6-004-19>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-23>
+                            <1*eu-a6-004-16>
+                            <1*eu-a6-004-15>
+                            <1*eu-a6-004-11>
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
+Started at Sat Jan  8 04:42:58 2022
+Terminated at Sat Jan  8 04:43:23 2022
+Results reported at Sat Jan  8 04:43:23 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 35 ../../bin/lu-scalapack 25 8192
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   805.00 sec.
+    Max Memory :                                 1741 MB
+    Average Memory :                             48.00 MB
+    Total Requested Memory :                     35840.00 MB
+    Delta Memory :                               34099.00 MB
+    Max Swap :                                   -
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   25 sec.
+    Turnaround time :                            25414 sec.
+
+The output (if any) follows:
+
+rank 23: s=4 t=3
+Hi. Proc 23/35 for MPI, proc 23/35 for BLACS in position (4,3)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 22: s=4 t=2
+Hi. Proc 22/35 for MPI, proc 22/35 for BLACS in position (4,2)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 24: s=4 t=4
+Hi. Proc 24/35 for MPI, proc 24/35 for BLACS in position (4,4)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 8: s=1 t=3
+Hi. Proc 8/35 for MPI, proc 8/35 for BLACS in position (1,3)/(7,5) with local matrix 1171x1638, global matrix 8192, block size1
+rank 19: s=3 t=4
+Hi. Proc 19/35 for MPI, proc 19/35 for BLACS in position (3,4)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 16: s=3 t=1
+Hi. Proc 16/35 for MPI, proc 16/35 for BLACS in position (3,1)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 5: s=1 t=0
+Hi. Proc 5/35 for MPI, proc 5/35 for BLACS in position (1,0)/(7,5) with local matrix 1171x1639, global matrix 8192, block size1
+rank 7: s=1 t=2
+Hi. Proc 7/35 for MPI, proc 7/35 for BLACS in position (1,2)/(7,5) with local matrix 1171x1638, global matrix 8192, block size1
+rank 18: s=3 t=3
+Hi. Proc 18/35 for MPI, proc 18/35 for BLACS in position (3,3)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 1: s=0 t=1
+Hi. Proc 1/35 for MPI, proc 1/35 for BLACS in position (0,1)/(7,5) with local matrix 1171x1639, global matrix 8192, block size1
+rank 3: s=0 t=3
+Hi. Proc 3/35 for MPI, proc 3/35 for BLACS in position (0,3)/(7,5) with local matrix 1171x1638, global matrix 8192, block size1
+rank 26: s=5 t=1
+Hi. Proc 26/35 for MPI, proc 26/35 for BLACS in position (5,1)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 17: s=3 t=2
+Hi. Proc 17/35 for MPI, proc 17/35 for BLACS in position (3,2)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 2: s=0 t=2
+Hi. Proc 2/35 for MPI, proc 2/35 for BLACS in position (0,2)/(7,5) with local matrix 1171x1638, global matrix 8192, block size1
+rank 13: s=2 t=3
+Hi. Proc 13/35 for MPI, proc 13/35 for BLACS in position (2,3)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 6: s=1 t=1
+Hi. Proc 6/35 for MPI, proc 6/35 for BLACS in position (1,1)/(7,5) with local matrix 1171x1639, global matrix 8192, block size1
+rank 10: s=2 t=0
+Hi. Proc 10/35 for MPI, proc 10/35 for BLACS in position (2,0)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 9: s=1 t=4
+Hi. Proc 9/35 for MPI, proc 9/35 for BLACS in position (1,4)/(7,5) with local matrix 1171x1638, global matrix 8192, block size1
+rank 28: s=5 t=3
+Hi. Proc 28/35 for MPI, proc 28/35 for BLACS in position (5,3)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 0: s=0 t=0
+Hi. Proc 0/35 for MPI, proc 0/35 for BLACS in position (0,0)/(7,5) with local matrix 1171x1639, global matrix 8192, block size1
+rank 32: s=6 t=2
+Hi. Proc 32/35 for MPI, proc 32/35 for BLACS in position (6,2)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 4: s=0 t=4
+Hi. Proc 4/35 for MPI, proc 4/35 for BLACS in position (0,4)/(7,5) with local matrix 1171x1638, global matrix 8192, block size1
+rank 20: s=4 t=0
+Hi. Proc 20/35 for MPI, proc 20/35 for BLACS in position (4,0)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 33: s=6 t=3
+Hi. Proc 33/35 for MPI, proc 33/35 for BLACS in position (6,3)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 34: s=6 t=4
+Hi. Proc 34/35 for MPI, proc 34/35 for BLACS in position (6,4)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 15: s=3 t=0
+Hi. Proc 15/35 for MPI, proc 15/35 for BLACS in position (3,0)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 30: s=6 t=0
+Hi. Proc 30/35 for MPI, proc 30/35 for BLACS in position (6,0)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 31: s=6 t=1
+Hi. Proc 31/35 for MPI, proc 31/35 for BLACS in position (6,1)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 21: s=4 t=1
+Hi. Proc 21/35 for MPI, proc 21/35 for BLACS in position (4,1)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 25: s=5 t=0
+Hi. Proc 25/35 for MPI, proc 25/35 for BLACS in position (5,0)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 29: s=5 t=4
+Hi. Proc 29/35 for MPI, proc 29/35 for BLACS in position (5,4)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 14: s=2 t=4
+Hi. Proc 14/35 for MPI, proc 14/35 for BLACS in position (2,4)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 12: s=2 t=2
+Hi. Proc 12/35 for MPI, proc 12/35 for BLACS in position (2,2)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1
+rank 11: s=2 t=1
+Hi. Proc 11/35 for MPI, proc 11/35 for BLACS in position (2,1)/(7,5) with local matrix 1170x1639, global matrix 8192, block size1
+rank 27: s=5 t=2
+Hi. Proc 27/35 for MPI, proc 27/35 for BLACS in position (5,2)/(7,5) with local matrix 1170x1638, global matrix 8192, block size1

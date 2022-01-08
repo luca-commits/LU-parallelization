@@ -1,0 +1,61 @@
+Sender: LSF System <lsfadmin@eu-a6-004-16>
+Subject: Job 199707196[24]: <lu_omp_strong[24]%36> in cluster <euler> Done
+
+Job <lu_omp_strong[24]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:52 2022
+Job was executed on host(s) <24*eu-a6-004-16>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 22:21:53 2022
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/omp> was used as the working directory.
+Started at Fri Jan  7 22:21:53 2022
+Terminated at Fri Jan  7 22:33:37 2022
+Results reported at Fri Jan  7 22:33:37 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+../../bin/lu-omp 25 8192
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   16800.57 sec.
+    Max Memory :                                 550 MB
+    Average Memory :                             525.96 MB
+    Total Requested Memory :                     24576.00 MB
+    Delta Memory :                               24026.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                27
+    Run time :                                   702 sec.
+    Turnaround time :                            20145 sec.
+
+The output (if any) follows:
+
+Running on 24 OpenMP threads
+Run 0: Init time=0.043827s, Kernel time=29.750847s, Total exec time=29.794676s
+Run 0: Init time=0.028721s, Kernel time=28.267033s, Total exec time=58.090516s
+Run 0: Init time=0.018485s, Kernel time=28.443546s, Total exec time=86.552567s
+Run 0: Init time=0.011058s, Kernel time=28.502140s, Total exec time=115.065775s
+Run 0: Init time=0.018158s, Kernel time=29.096733s, Total exec time=144.180685s
+Run 0: Init time=0.010643s, Kernel time=29.070206s, Total exec time=173.261544s
+Run 0: Init time=0.010027s, Kernel time=28.944359s, Total exec time=202.215948s
+Run 0: Init time=0.026538s, Kernel time=27.629908s, Total exec time=229.872409s
+Run 0: Init time=0.015267s, Kernel time=27.412101s, Total exec time=257.299795s
+Run 0: Init time=0.009085s, Kernel time=27.329797s, Total exec time=284.638687s
+Run 0: Init time=0.013923s, Kernel time=27.382079s, Total exec time=312.034708s
+Run 0: Init time=0.009738s, Kernel time=27.334205s, Total exec time=339.378660s
+Run 0: Init time=0.008917s, Kernel time=27.309960s, Total exec time=366.697547s
+Run 0: Init time=0.008694s, Kernel time=27.350380s, Total exec time=394.056637s
+Run 0: Init time=0.013822s, Kernel time=27.307452s, Total exec time=421.377927s
+Run 0: Init time=0.014121s, Kernel time=27.353023s, Total exec time=448.745927s
+Run 0: Init time=0.009844s, Kernel time=27.265062s, Total exec time=476.020849s
+Run 0: Init time=0.008674s, Kernel time=27.605990s, Total exec time=503.635529s
+Run 0: Init time=0.018283s, Kernel time=28.704282s, Total exec time=532.358112s
+Run 0: Init time=0.009600s, Kernel time=28.450804s, Total exec time=560.818528s
+Run 0: Init time=0.009382s, Kernel time=28.439707s, Total exec time=589.267638s
+Run 0: Init time=0.015363s, Kernel time=28.329162s, Total exec time=617.612186s
+Run 0: Init time=0.011498s, Kernel time=28.286170s, Total exec time=645.909864s
+Run 0: Init time=0.010593s, Kernel time=28.362228s, Total exec time=674.282697s
+Run 0: Init time=0.008818s, Kernel time=28.212612s, Total exec time=702.504147s
