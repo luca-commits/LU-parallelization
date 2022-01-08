@@ -104,8 +104,8 @@ static void init_array(int n, int nr, int nc, unsigned distr_M,
                        unsigned p_id /* for debugging*/) {
   // printf("rank=%d s=%d t=%d\n", p_id, s, t);
 
-  for (unsigned i = 0; i < nc; ++i) {
-    for (unsigned j = 0; j < nr; ++j) {
+  for (unsigned j = 0; j < nc; ++j) {
+    for (unsigned i = 0; i < nr; ++i) {
       if (j_glob(j, distr_N, t) < i_glob(i, distr_M, s)) {
         A[idx(i, j, nr)] = ((double)(-j_glob(j, distr_N, t) % n) / n *
                                 (double)(i_glob(i, distr_M, s) % n) / n +

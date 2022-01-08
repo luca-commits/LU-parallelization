@@ -1,19 +1,19 @@
-Sender: LSF System <lsfadmin@eu-a6-011-21>
-Subject: Job 199707108[7]: <lu_scalapack_strong[7]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-16>
+Subject: Job 199755336[7]: <lu_scalapack_strong[7]%36> in cluster <euler> Done
 
-Job <lu_scalapack_strong[7]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:28 2022
-Job was executed on host(s) <1*eu-a6-011-21>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 17:36:17 2022
-                            <1*eu-a6-011-23>
-                            <1*eu-a6-005-13>
-                            <1*eu-a6-005-12>
-                            <1*eu-a6-004-22>
-                            <1*eu-a6-004-05>
-                            <1*eu-a6-004-16>
+Job <lu_scalapack_strong[7]%36> was submitted from host <eu-login-08> by user <sniall> in cluster <euler> at Sat Jan  8 10:21:30 2022
+Job was executed on host(s) <1*eu-a6-012-16>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Sat Jan  8 10:22:04 2022
+                            <1*eu-a6-012-12>
+                            <1*eu-a6-008-10>
+                            <1*eu-a6-008-14>
+                            <1*eu-a6-008-12>
+                            <1*eu-a6-008-02>
+                            <1*eu-a6-008-09>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/scalapack> was used as the working directory.
-Started at Fri Jan  7 17:36:17 2022
-Terminated at Fri Jan  7 17:37:00 2022
-Results reported at Fri Jan  7 17:37:00 2022
+Started at Sat Jan  8 10:22:04 2022
+Terminated at Sat Jan  8 10:22:51 2022
+Results reported at Sat Jan  8 10:22:51 2022
 
 Your job looked like:
 
@@ -26,30 +26,30 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   280.46 sec.
-    Max Memory :                                 839 MB
-    Average Memory :                             129.50 MB
+    CPU time :                                   302.87 sec.
+    Max Memory :                                 714 MB
+    Average Memory :                             77.50 MB
     Total Requested Memory :                     7168.00 MB
-    Delta Memory :                               6329.00 MB
+    Delta Memory :                               6454.00 MB
     Max Swap :                                   -
     Max Processes :                              8
     Max Threads :                                11
-    Run time :                                   55 sec.
-    Turnaround time :                            2372 sec.
+    Run time :                                   44 sec.
+    Turnaround time :                            81 sec.
 
 The output (if any) follows:
 
-rank 2: s=0 t=2
-Hi. Proc 2/7 for MPI, proc 2/7 for BLACS in position (0,2)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
 rank 3: s=0 t=3
 Hi. Proc 3/7 for MPI, proc 3/7 for BLACS in position (0,3)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
-rank 4: s=0 t=4
-Hi. Proc 4/7 for MPI, proc 4/7 for BLACS in position (0,4)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
-rank 6: s=0 t=6
-Hi. Proc 6/7 for MPI, proc 6/7 for BLACS in position (0,6)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
-rank 1: s=0 t=1
-Hi. Proc 1/7 for MPI, proc 1/7 for BLACS in position (0,1)/(1,7) with local matrix 8192x1171, global matrix 8192, block size1
-rank 5: s=0 t=5
-Hi. Proc 5/7 for MPI, proc 5/7 for BLACS in position (0,5)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
+rank 2: s=0 t=2
+Hi. Proc 2/7 for MPI, proc 2/7 for BLACS in position (0,2)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
 rank 0: s=0 t=0
 Hi. Proc 0/7 for MPI, proc 0/7 for BLACS in position (0,0)/(1,7) with local matrix 8192x1171, global matrix 8192, block size1
+rank 4: s=0 t=4
+Hi. Proc 4/7 for MPI, proc 4/7 for BLACS in position (0,4)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
+rank 1: s=0 t=1
+Hi. Proc 1/7 for MPI, proc 1/7 for BLACS in position (0,1)/(1,7) with local matrix 8192x1171, global matrix 8192, block size1
+rank 6: s=0 t=6
+Hi. Proc 6/7 for MPI, proc 6/7 for BLACS in position (0,6)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
+rank 5: s=0 t=5
+Hi. Proc 5/7 for MPI, proc 5/7 for BLACS in position (0,5)/(1,7) with local matrix 8192x1170, global matrix 8192, block size1
