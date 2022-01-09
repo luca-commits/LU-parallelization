@@ -155,11 +155,11 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 #endif
     for (i = x_bound_low; i < x_bound_high; i++)
       for (j = y_bound_low; j < y_bound_high; j++)
-        B[(nx_local + 2) * i + j] =
+        B[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
-             A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
-             A[(nx_local + 2) * (i - 1) + j]);
+            (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
+             A[(ny_local + 2) * i + 1 + j] + A[(ny_local + 2) * (1 + i) + j] +
+             A[(ny_local + 2) * (i - 1) + j]);
 
     /* Wait for all communication to finish */
     int err = MPI_Waitall(8, requests, statuses);
@@ -171,11 +171,11 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 #pragma omp parallel for
 #endif
       for (i = x_bound_low; i < x_bound_high; i++) {
-        B[(nx_local + 2) * i + j] =
+        B[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
-             A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
-             A[(nx_local + 2) * (i - 1) + j]);
+            (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
+             A[(ny_local + 2) * i + 1 + j] + A[(ny_local + 2) * (1 + i) + j] +
+             A[(ny_local + 2) * (i - 1) + j]);
       }
     }
 
@@ -186,11 +186,11 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 #pragma omp parallel for
 #endif
       for (i = x_bound_low; i < x_bound_high; i++) {
-        B[(nx_local + 2) * i + j] =
+        B[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
-             A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
-             A[(nx_local + 2) * (i - 1) + j]);
+            (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
+             A[(ny_local + 2) * i + 1 + j] + A[(ny_local + 2) * (1 + i) + j] +
+             A[(ny_local + 2) * (i - 1) + j]);
       }
     }
 
@@ -201,11 +201,11 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 #pragma omp parallel for
 #endif
       for (j = x_bound_low; j < x_bound_high; j++) {
-        B[(nx_local + 2) * i + j] =
+        B[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
-             A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
-             A[(nx_local + 2) * (i - 1) + j]);
+            (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
+             A[(ny_local + 2) * i + 1 + j] + A[(ny_local + 2) * (1 + i) + j] +
+             A[(ny_local + 2) * (i - 1) + j]);
       }
     }
 
@@ -216,11 +216,11 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 #pragma omp parallel for
 #endif
       for (j = y_bound_low; j < y_bound_high; j++) {
-        B[(nx_local + 2) * i + j] =
+        B[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (A[(nx_local + 2) * i + j] + A[(nx_local + 2) * i + j - 1] +
-             A[(nx_local + 2) * i + 1 + j] + A[(nx_local + 2) * (1 + i) + j] +
-             A[(nx_local + 2) * (i - 1) + j]);
+            (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
+             A[(ny_local + 2) * i + 1 + j] + A[(ny_local + 2) * (1 + i) + j] +
+             A[(ny_local + 2) * (i - 1) + j]);
       }
     }
     exchange_cells(B, nx_local, ny_local, neighbours, requests, comm_cart,
@@ -231,11 +231,11 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 #endif
     for (i = x_bound_low; i < x_bound_high; i++)
       for (j = y_bound_low; j < y_bound_high; j++)
-        A[(nx_local + 2) * i + j] =
+        A[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
-             B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
-             B[(nx_local + 2) * (i - 1) + j]);
+            (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
+             B[(ny_local + 2) * i + 1 + j] + B[(ny_local + 2) * (1 + i) + j] +
+             B[(ny_local + 2) * (i - 1) + j]);
 
     /* Wait for all communication to finish */
     err = MPI_Waitall(8, requests, statuses);
@@ -247,11 +247,11 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 #pragma omp parallel for
 #endif
       for (i = x_bound_low; i < x_bound_high; i++) {
-        A[(nx_local + 2) * i + j] =
+        A[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
-             B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
-             B[(nx_local + 2) * (i - 1) + j]);
+            (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
+             B[(ny_local + 2) * i + 1 + j] + B[(ny_local + 2) * (1 + i) + j] +
+             B[(ny_local + 2) * (i - 1) + j]);
       }
     }
 
@@ -262,11 +262,11 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 #pragma omp parallel for
 #endif
       for (i = x_bound_low; i < x_bound_high; i++) {
-        A[(nx_local + 2) * i + j] =
+        A[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
-             B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
-             B[(nx_local + 2) * (i - 1) + j]);
+            (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
+             B[(ny_local + 2) * i + 1 + j] + B[(ny_local + 2) * (1 + i) + j] +
+             B[(ny_local + 2) * (i - 1) + j]);
       }
     }
 
@@ -277,26 +277,26 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 #pragma omp parallel for
 #endif
       for (j = y_bound_low; j < y_bound_high; j++) {
-        A[(nx_local + 2) * i + j] =
+        A[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
-             B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
-             B[(nx_local + 2) * (i - 1) + j]);
+            (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
+             B[(ny_local + 2) * i + 1 + j] + B[(ny_local + 2) * (1 + i) + j] +
+             B[(ny_local + 2) * (i - 1) + j]);
       }
     }
 
     if (neighbours[3] != MPI_PROC_NULL) {
-      i = nx_local;
+      i = ny_local;
 
 #ifdef HYBRID
 #pragma omp parallel for
 #endif
       for (j = y_bound_low; j < y_bound_high; j++) {
-        A[(nx_local + 2) * i + j] =
+        A[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
-            (B[(nx_local + 2) * i + j] + B[(nx_local + 2) * i + j - 1] +
-             B[(nx_local + 2) * i + 1 + j] + B[(nx_local + 2) * (1 + i) + j] +
-             B[(nx_local + 2) * (i - 1) + j]);
+            (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
+             B[(ny_local + 2) * i + 1 + j] + B[(ny_local + 2) * (1 + i) + j] +
+             B[(ny_local + 2) * (i - 1) + j]);
       }
     }
   }
@@ -349,8 +349,8 @@ int main(int argc, char** argv) {
   MPI_Cart_shift(comm_cart, 0, 1, &neighbours[0], &neighbours[1]);
   MPI_Cart_shift(comm_cart, 1, 1, &neighbours[2], &neighbours[3]);
 
-  printf("Rank %d: %d %d %d %d\n", rank, neighbours[0], neighbours[1],
-         neighbours[2], neighbours[3]);
+  // printf("Rank %d: %d %d %d %d\n", rank, neighbours[0], neighbours[1],
+  //        neighbours[2], neighbours[3]);
 
   /* Calculate problem size of local domain for every rank */
   int nx_local = n / dims[0];
@@ -371,12 +371,12 @@ int main(int argc, char** argv) {
   double* B_local =
       (double*)malloc((nx_local + 2) * (ny_local + 2) * sizeof(double));
 
-  printf("malloced\n");
+  // printf("malloced\n");
 
   /* Initialize array(s). */
   init_array(n, nx_local, ny_local, A_local, B_local, coords[0], coords[1]);
 
-  printf("finished init\n");
+  // printf("finished init\n");
 
   // if (rank == 1) {
   //   print_array(nx_local + 2, ny_local + 2, A_local);
