@@ -151,7 +151,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
 
 // /* TODO: Implement SIMD instructions */
 #ifdef HYBRID
-#pragma omp parallel for collapse(2) private(i, j)
+#pragma omp parallel for collapse(2)
 #endif
     for (i = x_bound_low; i < x_bound_high; i++)
       for (j = y_bound_low; j < y_bound_high; j++)
@@ -168,7 +168,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       j = 1;
 
 #ifdef HYBRID
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
       for (i = x_bound_low; i < x_bound_high; i++) {
         B[(nx_local + 2) * i + j] =
@@ -183,7 +183,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       j = ny_local;
 
 #ifdef HYBRID
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
       for (i = x_bound_low; i < x_bound_high; i++) {
         B[(nx_local + 2) * i + j] =
@@ -198,7 +198,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       i = 1;
 
 #ifdef HYBRID
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
       for (j = x_bound_low; j < x_bound_high; j++) {
         B[(nx_local + 2) * i + j] =
@@ -213,7 +213,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       i = nx_local;
 
 #ifdef HYBRID
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
       for (j = y_bound_low; j < y_bound_high; j++) {
         B[(nx_local + 2) * i + j] =
@@ -227,7 +227,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
                    column_vec);
 
 #ifdef HYBRID
-#pragma omp parallel for collapse(2) private(i, j)
+#pragma omp parallel for collapse(2)
 #endif
     for (i = x_bound_low; i < x_bound_high; i++)
       for (j = y_bound_low; j < y_bound_high; j++)
@@ -244,7 +244,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       j = 1;
 
 #ifdef HYBRID
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
       for (i = x_bound_low; i < x_bound_high; i++) {
         A[(nx_local + 2) * i + j] =
@@ -259,7 +259,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       j = ny_local;
 
 #ifdef HYBRID
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
       for (i = x_bound_low; i < x_bound_high; i++) {
         A[(nx_local + 2) * i + j] =
@@ -274,7 +274,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       i = 1;
 
 #ifdef HYBRID
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
       for (j = y_bound_low; j < y_bound_high; j++) {
         A[(nx_local + 2) * i + j] =
@@ -289,7 +289,7 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       i = nx_local;
 
 #ifdef HYBRID
-#pragma omp parallel for private(i, j)
+#pragma omp parallel for
 #endif
       for (j = y_bound_low; j < y_bound_high; j++) {
         A[(nx_local + 2) * i + j] =
