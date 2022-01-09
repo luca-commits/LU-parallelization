@@ -17,6 +17,10 @@
 #include <time.h>
 #include <unistd.h>
 
+#ifdef HYBRID
+#include <omp.h>
+#endif
+
 /* Include polybench common header. */
 #include <polybench.h>
 
@@ -45,6 +49,7 @@ static void init_array(int n, int nx, int ny, double* A, double* B, int s,
                        int t) {
   int i, j;
 
+#pragma omp parallel for collapse(2)
   for (i = 0; i < nx; i++)
     for (j = 0; j < ny; j++) {
       A[ny * i + j] = ((DATA_TYPE)(i * s) * (j * t + 2) + 2) / n;
