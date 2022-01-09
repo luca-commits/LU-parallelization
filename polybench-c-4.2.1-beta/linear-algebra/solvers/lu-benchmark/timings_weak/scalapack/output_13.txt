@@ -1,25 +1,25 @@
-Sender: LSF System <lsfadmin@eu-a6-012-24>
-Subject: Job 199717479[13]: <lu_scalapack_weak[13]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-001-10>
+Subject: Job 199765540[13]: <lu_scalapack_weak[13]%36> in cluster <euler> Exited
 
-Job <lu_scalapack_weak[13]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:02:04 2022
-Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Fri Jan  7 23:54:10 2022
-                            <1*eu-a6-002-19>
-                            <1*eu-a6-002-03>
-                            <1*eu-a6-011-24>
-                            <1*eu-a6-011-21>
-                            <1*eu-a6-011-23>
-                            <1*eu-a6-005-13>
-                            <1*eu-a6-005-12>
-                            <1*eu-a6-005-02>
-                            <1*eu-a6-006-16>
-                            <1*eu-a6-006-15>
-                            <1*eu-a6-006-07>
-                            <1*eu-a6-006-01>
+Job <lu_scalapack_weak[13]%36> was submitted from host <eu-login-12> by user <wolfartl> in cluster <euler> at Sat Jan  8 15:54:29 2022
+Job was executed on host(s) <1*eu-a6-001-10>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 16:00:47 2022
+                            <1*eu-a6-001-14>
+                            <1*eu-a6-001-05>
+                            <1*eu-a6-012-23>
+                            <1*eu-a6-012-22>
+                            <1*eu-a6-012-21>
+                            <1*eu-a6-012-24>
+                            <1*eu-a6-012-15>
+                            <1*eu-a6-012-07>
+                            <1*eu-a6-008-14>
+                            <1*eu-a6-008-09>
+                            <1*eu-a6-008-20>
+                            <1*eu-a6-008-02>
 </cluster/home/wolfartl> was used as the home directory.
 </cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
-Started at Fri Jan  7 23:54:10 2022
-Terminated at Fri Jan  7 23:54:14 2022
-Results reported at Fri Jan  7 23:54:14 2022
+Started at Sat Jan  8 16:00:47 2022
+Terminated at Sat Jan  8 16:00:51 2022
+Results reported at Sat Jan  8 16:00:51 2022
 
 Your job looked like:
 
@@ -32,49 +32,49 @@ Exited with exit code 139.
 
 Resource usage summary:
 
-    CPU time :                                   1.93 sec.
-    Max Memory :                                 42 MB
+    CPU time :                                   1.80 sec.
+    Max Memory :                                 431 MB
     Average Memory :                             -
     Total Requested Memory :                     13312.00 MB
-    Delta Memory :                               13270.00 MB
+    Delta Memory :                               12881.00 MB
     Max Swap :                                   -
     Max Processes :                              -
     Max Threads :                                -
-    Run time :                                   5 sec.
-    Turnaround time :                            6730 sec.
+    Run time :                                   16 sec.
+    Turnaround time :                            382 sec.
 
 The output (if any) follows:
 
-rank 10: s=0 t=10
-Hi. Proc 10/13 for MPI, proc 10/13 for BLACS in position (0,10)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
-rank 11: s=0 t=11
-Hi. Proc 11/13 for MPI, proc 11/13 for BLACS in position (0,11)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
-rank 2: s=0 t=2
-Hi. Proc 2/13 for MPI, proc 2/13 for BLACS in position (0,2)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
 rank 9: s=0 t=9
 Hi. Proc 9/13 for MPI, proc 9/13 for BLACS in position (0,9)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
-rank 6: s=0 t=6
-Hi. Proc 6/13 for MPI, proc 6/13 for BLACS in position (0,6)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
-rank 8: s=0 t=8
-Hi. Proc 8/13 for MPI, proc 8/13 for BLACS in position (0,8)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
 rank 7: s=0 t=7
 Hi. Proc 7/13 for MPI, proc 7/13 for BLACS in position (0,7)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
-rank 1: s=0 t=1
-Hi. Proc 1/13 for MPI, proc 1/13 for BLACS in position (0,1)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
-rank 12: s=0 t=12
-Hi. Proc 12/13 for MPI, proc 12/13 for BLACS in position (0,12)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
-rank 4: s=0 t=4
-Hi. Proc 4/13 for MPI, proc 4/13 for BLACS in position (0,4)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
-rank 5: s=0 t=5
-Hi. Proc 5/13 for MPI, proc 5/13 for BLACS in position (0,5)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
-rank 3: s=0 t=3
-Hi. Proc 3/13 for MPI, proc 3/13 for BLACS in position (0,3)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
+rank 8: s=0 t=8
+Hi. Proc 8/13 for MPI, proc 8/13 for BLACS in position (0,8)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
+rank 6: s=0 t=6
+Hi. Proc 6/13 for MPI, proc 6/13 for BLACS in position (0,6)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
 rank 0: s=0 t=0
 Hi. Proc 0/13 for MPI, proc 0/13 for BLACS in position (0,0)/(1,13) with local matrix 9543x735, global matrix 9543, block size1
+rank 5: s=0 t=5
+Hi. Proc 5/13 for MPI, proc 5/13 for BLACS in position (0,5)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
+rank 11: s=0 t=11
+Hi. Proc 11/13 for MPI, proc 11/13 for BLACS in position (0,11)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
+rank 10: s=0 t=10
+Hi. Proc 10/13 for MPI, proc 10/13 for BLACS in position (0,10)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
+rank 1: s=0 t=1
+Hi. Proc 1/13 for MPI, proc 1/13 for BLACS in position (0,1)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
+rank 4: s=0 t=4
+Hi. Proc 4/13 for MPI, proc 4/13 for BLACS in position (0,4)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
+rank 2: s=0 t=2
+Hi. Proc 2/13 for MPI, proc 2/13 for BLACS in position (0,2)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
+rank 3: s=0 t=3
+Hi. Proc 3/13 for MPI, proc 3/13 for BLACS in position (0,3)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
+rank 12: s=0 t=12
+Hi. Proc 12/13 for MPI, proc 12/13 for BLACS in position (0,12)/(1,13) with local matrix 9543x734, global matrix 9543, block size1
 
 ===================================================================================
 =   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 73053 RUNNING AT eu-a6-006-07
+=   PID 71753 RUNNING AT eu-a6-012-07
 =   EXIT CODE: 139
 =   CLEANING UP REMAINING PROCESSES
 =   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
@@ -82,7 +82,7 @@ Hi. Proc 0/13 for MPI, proc 0/13 for BLACS in position (0,0)/(1,13) with local m
 
 ===================================================================================
 =   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 73053 RUNNING AT eu-a6-006-07
+=   PID 71753 RUNNING AT eu-a6-012-07
 =   EXIT CODE: 11
 =   CLEANING UP REMAINING PROCESSES
 =   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES

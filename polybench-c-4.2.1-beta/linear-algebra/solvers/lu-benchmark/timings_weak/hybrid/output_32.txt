@@ -1,0 +1,292 @@
+Sender: LSF System <lsfadmin@eu-a6-001-07>
+Subject: Job 199717566[32]: <lu_hybrid_weak[32]%36> in cluster <euler> Done
+
+Job <lu_hybrid_weak[32]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:02:31 2022
+Job was executed on host(s) <4*eu-a6-001-07>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 17:30:13 2022
+                            <4*eu-a6-001-05>
+                            <4*eu-a6-008-12>
+                            <4*eu-a6-008-02>
+                            <4*eu-a6-008-20>
+                            <4*eu-a6-008-05>
+                            <4*eu-a6-012-23>
+                            <4*eu-a6-012-22>
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Sat Jan  8 17:30:13 2022
+Terminated at Sat Jan  8 18:40:10 2022
+Results reported at Sat Jan  8 18:40:10 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 8 -ppn 4 ../../bin/lu-hybrid 25 12902
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   75425.00 sec.
+    Max Memory :                                 1418 MB
+    Average Memory :                             1392.67 MB
+    Total Requested Memory :                     32768.00 MB
+    Delta Memory :                               31350.00 MB
+    Max Swap :                                   -
+    Max Processes :                              16
+    Max Threads :                                71
+    Run time :                                   4201 sec.
+    Turnaround time :                            74259 sec.
+
+The output (if any) follows:
+
+Available OpenMP threads: 4
+Available OpenMP threads: 4
+Available OpenMP threads: 4
+Available OpenMP threads: 4
+Available OpenMP threads: 4
+Available OpenMP threads: 4
+Available OpenMP threads: 4
+Available OpenMP threads: 4
+Available MKL threads: 4
+Available MKL threads: 4
+Available MKL threads: 4
+Available MKL threads: 4
+Available MKL threads: 4
+Available MKL threads: 4
+Available MKL threads: 4
+Available MKL threads: 4
+rank 0: s=0 t=0
+rank 1: s=0 t=1
+rank 2: s=1 t=0
+rank 4: s=2 t=0
+rank 3: s=1 t=1
+rank 5: s=2 t=1
+rank 6: s=3 t=0
+rank 7: s=3 t=1
+pid: 0 
+pid: 6 
+pid: 2 
+pid: 3 
+pid: 1 
+pid: 4 
+pid: 5 
+pid: 7 
+finished run 0
+pid: 0 
+pid: 4 
+pid: 1 
+pid: 5 
+pid: 2 
+pid: 3 
+pid: 6 
+pid: 7 
+finished run 1
+pid: 0 
+pid: 4 
+pid: 1 
+pid: 5 
+pid: 2 
+pid: 6 
+pid: 3 
+pid: 7 
+finished run 2
+pid: 0 
+pid: 4 
+pid: 1 
+pid: 5 
+pid: 2 
+pid: 6 
+pid: 3 
+pid: 7 
+finished run 3
+pid: 0 
+pid: 4 
+pid: 1 
+pid: 5 
+pid: 2 
+pid: 3 
+pid: 6 
+pid: 7 
+finished run 4
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 5
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 6
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 7
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 8
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 9
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 10
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 11
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 12
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 13
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 14
+pid: 0 
+pid: 4 
+pid: 1 
+pid: 5 
+pid: 2 
+pid: 6 
+pid: 3 
+pid: 7 
+finished run 15
+pid: 0 
+pid: 4 
+pid: 1 
+pid: 5 
+pid: 2 
+pid: 3 
+pid: 6 
+pid: 7 
+finished run 16
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 17
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 18
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 19
+pid: 0 
+pid: 1 
+pid: 4 
+pid: 2 
+pid: 5 
+pid: 3 
+pid: 6 
+pid: 7 
+finished run 20
+pid: 0 
+pid: 1 
+pid: 2 
+pid: 3 
+pid: 4 
+pid: 5 
+pid: 6 
+pid: 7 
+finished run 21
+pid: 0 
+pid: 4 
+pid: 1 
+pid: 5 
+pid: 2 
+pid: 6 
+pid: 3 
+pid: 7 
+finished run 22
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 23
+pid: 4 
+pid: 0 
+pid: 5 
+pid: 1 
+pid: 6 
+pid: 2 
+pid: 7 
+pid: 3 
+finished run 24
+MKL max threads: 4

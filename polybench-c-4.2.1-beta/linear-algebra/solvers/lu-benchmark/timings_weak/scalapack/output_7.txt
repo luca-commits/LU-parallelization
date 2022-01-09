@@ -1,19 +1,19 @@
-Sender: LSF System <lsfadmin@eu-a6-012-24>
-Subject: Job 199717452[7]: <lu_scalapack_weak[7]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-001-10>
+Subject: Job 199765533[7]: <lu_scalapack_weak[7]%36> in cluster <euler> Exited
 
-Job <lu_scalapack_weak[7]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:01:52 2022
-Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Fri Jan  7 22:30:12 2022
-                            <1*eu-a6-004-22>
-                            <1*eu-a6-004-11>
-                            <1*eu-a6-004-05>
-                            <1*eu-a6-006-15>
-                            <1*eu-a6-006-16>
-                            <1*eu-a6-006-07>
+Job <lu_scalapack_weak[7]%36> was submitted from host <eu-login-12> by user <wolfartl> in cluster <euler> at Sat Jan  8 15:54:28 2022
+Job was executed on host(s) <1*eu-a6-001-10>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 15:55:16 2022
+                            <1*eu-a6-001-05>
+                            <1*eu-a6-012-23>
+                            <1*eu-a6-012-22>
+                            <1*eu-a6-012-24>
+                            <1*eu-a6-012-21>
+                            <1*eu-a6-012-07>
 </cluster/home/wolfartl> was used as the home directory.
 </cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
-Started at Fri Jan  7 22:30:12 2022
-Terminated at Fri Jan  7 22:30:16 2022
-Results reported at Fri Jan  7 22:30:16 2022
+Started at Sat Jan  8 15:55:16 2022
+Terminated at Sat Jan  8 15:55:20 2022
+Results reported at Sat Jan  8 15:55:20 2022
 
 Your job looked like:
 
@@ -26,37 +26,37 @@ Exited with exit code 139.
 
 Resource usage summary:
 
-    CPU time :                                   1.02 sec.
-    Max Memory :                                 36 MB
-    Average Memory :                             -
+    CPU time :                                   0.94 sec.
+    Max Memory :                                 1 MB
+    Average Memory :                             1.00 MB
     Total Requested Memory :                     7168.00 MB
-    Delta Memory :                               7132.00 MB
+    Delta Memory :                               7167.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   4 sec.
-    Turnaround time :                            1704 sec.
+    Max Processes :                              2
+    Max Threads :                                2
+    Run time :                                   0 sec.
+    Turnaround time :                            52 sec.
 
 The output (if any) follows:
 
 rank 5: s=0 t=5
 Hi. Proc 5/7 for MPI, proc 5/7 for BLACS in position (0,5)/(1,7) with local matrix 7741x1106, global matrix 7741, block size1
-rank 6: s=0 t=6
-Hi. Proc 6/7 for MPI, proc 6/7 for BLACS in position (0,6)/(1,7) with local matrix 7741x1105, global matrix 7741, block size1
 rank 4: s=0 t=4
 Hi. Proc 4/7 for MPI, proc 4/7 for BLACS in position (0,4)/(1,7) with local matrix 7741x1106, global matrix 7741, block size1
-rank 1: s=0 t=1
-Hi. Proc 1/7 for MPI, proc 1/7 for BLACS in position (0,1)/(1,7) with local matrix 7741x1106, global matrix 7741, block size1
 rank 2: s=0 t=2
 Hi. Proc 2/7 for MPI, proc 2/7 for BLACS in position (0,2)/(1,7) with local matrix 7741x1106, global matrix 7741, block size1
-rank 0: s=0 t=0
-Hi. Proc 0/7 for MPI, proc 0/7 for BLACS in position (0,0)/(1,7) with local matrix 7741x1106, global matrix 7741, block size1
 rank 3: s=0 t=3
 Hi. Proc 3/7 for MPI, proc 3/7 for BLACS in position (0,3)/(1,7) with local matrix 7741x1106, global matrix 7741, block size1
+rank 0: s=0 t=0
+Hi. Proc 0/7 for MPI, proc 0/7 for BLACS in position (0,0)/(1,7) with local matrix 7741x1106, global matrix 7741, block size1
+rank 1: s=0 t=1
+Hi. Proc 1/7 for MPI, proc 1/7 for BLACS in position (0,1)/(1,7) with local matrix 7741x1106, global matrix 7741, block size1
+rank 6: s=0 t=6
+Hi. Proc 6/7 for MPI, proc 6/7 for BLACS in position (0,6)/(1,7) with local matrix 7741x1105, global matrix 7741, block size1
 
 ===================================================================================
 =   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 4200 RUNNING AT eu-a6-004-11
+=   PID 20444 RUNNING AT eu-a6-012-24
 =   EXIT CODE: 139
 =   CLEANING UP REMAINING PROCESSES
 =   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
@@ -64,7 +64,7 @@ Hi. Proc 3/7 for MPI, proc 3/7 for BLACS in position (0,3)/(1,7) with local matr
 
 ===================================================================================
 =   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 4200 RUNNING AT eu-a6-004-11
+=   PID 20444 RUNNING AT eu-a6-012-24
 =   EXIT CODE: 11
 =   CLEANING UP REMAINING PROCESSES
 =   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES

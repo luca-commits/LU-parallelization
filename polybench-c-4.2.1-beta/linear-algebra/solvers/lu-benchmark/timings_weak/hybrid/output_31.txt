@@ -1,0 +1,959 @@
+Sender: LSF System <lsfadmin@eu-a6-009-16>
+Subject: Job 199717562[31]: <lu_hybrid_weak[31]%36> in cluster <euler> Done
+
+Job <lu_hybrid_weak[31]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:02:30 2022
+Job was executed on host(s) <1*eu-a6-009-16>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 16:30:19 2022
+                            <1*eu-a6-009-04>
+                            <1*eu-a6-009-20>
+                            <1*eu-a6-009-02>
+                            <1*eu-a6-009-15>
+                            <1*eu-a6-009-09>
+                            <1*eu-a6-009-06>
+                            <1*eu-a6-009-11>
+                            <1*eu-a6-009-08>
+                            <1*eu-a6-009-01>
+                            <1*eu-a6-003-08>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-01>
+                            <1*eu-a6-003-20>
+                            <1*eu-a6-003-12>
+                            <1*eu-a6-003-21>
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-003-18>
+                            <1*eu-a6-003-13>
+                            <1*eu-a6-003-17>
+                            <1*eu-a6-003-05>
+                            <1*eu-a6-003-03>
+                            <1*eu-a6-003-02>
+                            <1*eu-a6-003-15>
+                            <1*eu-a6-004-19>
+                            <1*eu-a6-004-07>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-004-03>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-24>
+                            <1*eu-a6-004-08>
+</cluster/home/wolfartl> was used as the home directory.
+</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Sat Jan  8 16:30:19 2022
+Terminated at Sat Jan  8 16:38:15 2022
+Results reported at Sat Jan  8 16:38:15 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 31 -ppn 1 ../../bin/lu-hybrid 25 12779
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   14632.00 sec.
+    Max Memory :                                 2216 MB
+    Average Memory :                             1852.47 MB
+    Total Requested Memory :                     31744.00 MB
+    Delta Memory :                               29528.00 MB
+    Max Swap :                                   -
+    Max Processes :                              68
+    Max Threads :                                104
+    Run time :                                   485 sec.
+    Turnaround time :                            66945 sec.
+
+The output (if any) follows:
+
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available OpenMP threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+Available MKL threads: 1
+rank 23: s=0 t=23
+rank 25: s=0 t=25
+rank 0: s=0 t=0
+rank 16: s=0 t=16
+rank 13: s=0 t=13
+rank 18: s=0 t=18
+rank 19: s=0 t=19
+rank 15: s=0 t=15
+rank 21: s=0 t=21
+rank 5: s=0 t=5
+rank 11: s=0 t=11
+rank 3: s=0 t=3
+rank 26: s=0 t=26
+rank 17: s=0 t=17
+rank 7: s=0 t=7
+rank 1: s=0 t=1
+rank 22: s=0 t=22
+rank 8: s=0 t=8
+rank 2: s=0 t=2
+rank 27: s=0 t=27
+rank 20: s=0 t=20
+rank 24: s=0 t=24
+rank 9: s=0 t=9
+rank 28: s=0 t=28
+rank 10: s=0 t=10
+rank 30: s=0 t=30
+rank 12: s=0 t=12
+rank 4: s=0 t=4
+rank 6: s=0 t=6
+rank 14: s=0 t=14
+rank 29: s=0 t=29
+pid: 10 
+pid: 14 
+pid: 25 
+pid: 13 
+pid: 18 
+pid: 15 
+pid: 5 
+pid: 3 
+pid: 29 
+pid: 1 
+pid: 22 
+pid: 2 
+pid: 24 
+pid: 9 
+pid: 12 
+pid: 6 
+pid: 23 
+pid: 16 
+pid: 19 
+pid: 21 
+pid: 11 
+pid: 17 
+pid: 7 
+pid: 8 
+pid: 27 
+pid: 20 
+pid: 28 
+pid: 30 
+pid: 4 
+pid: 26 
+pid: 0 
+finished run 0
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 1
+pid: 25 
+pid: 0 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 12 
+pid: 6 
+pid: 23 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 4 
+pid: 14 
+pid: 15 
+finished run 2
+pid: 25 
+pid: 0 
+pid: 18 
+pid: 5 
+pid: 3 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 9 
+pid: 12 
+pid: 6 
+pid: 14 
+pid: 23 
+pid: 16 
+pid: 13 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 11 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 20 
+pid: 24 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 4 
+finished run 3
+pid: 25 
+pid: 0 
+pid: 18 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 10 
+pid: 12 
+pid: 14 
+pid: 23 
+pid: 16 
+pid: 13 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 30 
+pid: 4 
+pid: 6 
+finished run 4
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 5
+pid: 23 
+pid: 0 
+pid: 13 
+pid: 15 
+pid: 21 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 4 
+pid: 6 
+pid: 25 
+pid: 16 
+pid: 18 
+pid: 19 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 14 
+finished run 6
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 7
+pid: 23 
+pid: 0 
+pid: 13 
+pid: 15 
+pid: 21 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 25 
+pid: 16 
+pid: 18 
+pid: 19 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 14 
+finished run 8
+pid: 23 
+pid: 0 
+pid: 13 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 29 
+pid: 7 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 25 
+pid: 16 
+pid: 18 
+pid: 19 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 14 
+finished run 9
+pid: 23 
+pid: 0 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 29 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 25 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 14 
+finished run 10
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 11
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 12
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 13
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 14
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 15
+pid: 0 
+pid: 13 
+pid: 21 
+pid: 5 
+pid: 29 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 23 
+pid: 25 
+pid: 16 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 14 
+pid: 20 
+finished run 16
+pid: 0 
+pid: 13 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 29 
+pid: 27 
+pid: 12 
+pid: 6 
+pid: 23 
+pid: 25 
+pid: 16 
+pid: 18 
+pid: 19 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 4 
+pid: 14 
+finished run 17
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 18
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 19
+pid: 0 
+pid: 21 
+pid: 5 
+pid: 3 
+pid: 17 
+pid: 7 
+pid: 27 
+pid: 24 
+pid: 4 
+pid: 6 
+pid: 23 
+pid: 25 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 11 
+pid: 26 
+pid: 29 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 20 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 14 
+finished run 20
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 21
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 22
+pid: 23 
+pid: 0 
+pid: 18 
+pid: 19 
+pid: 8 
+pid: 2 
+pid: 20 
+pid: 9 
+pid: 28 
+pid: 30 
+pid: 12 
+pid: 25 
+pid: 16 
+pid: 13 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 27 
+pid: 24 
+pid: 10 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 23
+pid: 23 
+pid: 25 
+pid: 0 
+pid: 16 
+pid: 13 
+pid: 18 
+pid: 19 
+pid: 15 
+pid: 21 
+pid: 5 
+pid: 11 
+pid: 3 
+pid: 26 
+pid: 17 
+pid: 29 
+pid: 7 
+pid: 1 
+pid: 22 
+pid: 8 
+pid: 2 
+pid: 27 
+pid: 20 
+pid: 24 
+pid: 9 
+pid: 28 
+pid: 10 
+pid: 30 
+pid: 12 
+pid: 4 
+pid: 6 
+pid: 14 
+finished run 24
+MKL max threads: 1

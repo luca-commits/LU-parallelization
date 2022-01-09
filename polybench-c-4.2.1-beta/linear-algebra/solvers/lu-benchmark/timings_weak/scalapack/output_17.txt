@@ -1,29 +1,29 @@
-Sender: LSF System <lsfadmin@eu-a6-012-21>
-Subject: Job 199717499[17]: <lu_scalapack_weak[17]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-001-10>
+Subject: Job 199765545[17]: <lu_scalapack_weak[17]%36> in cluster <euler> Exited
 
-Job <lu_scalapack_weak[17]%36> was submitted from host <eu-login-19> by user <wolfartl> in cluster <euler> at Fri Jan  7 22:02:12 2022
-Job was executed on host(s) <1*eu-a6-012-21>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 01:45:49 2022
-                            <1*eu-a6-006-07>
-                            <1*eu-a6-006-15>
-                            <1*eu-a6-008-05>
+Job <lu_scalapack_weak[17]%36> was submitted from host <eu-login-12> by user <wolfartl> in cluster <euler> at Sat Jan  8 15:54:30 2022
+Job was executed on host(s) <1*eu-a6-001-10>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 16:05:15 2022
+                            <1*eu-a6-001-14>
+                            <1*eu-a6-001-05>
+                            <1*eu-a6-012-22>
+                            <1*eu-a6-012-23>
+                            <1*eu-a6-012-24>
+                            <1*eu-a6-012-21>
+                            <1*eu-a6-012-07>
+                            <1*eu-a6-012-15>
+                            <1*eu-a6-008-14>
                             <1*eu-a6-008-20>
                             <1*eu-a6-008-02>
+                            <1*eu-a6-008-10>
+                            <1*eu-a6-008-05>
                             <1*eu-a6-008-09>
-                            <1*eu-a6-011-22>
-                            <1*eu-a6-011-23>
+                            <1*eu-a6-008-12>
                             <1*eu-a6-011-21>
-                            <1*eu-a6-005-19>
-                            <1*eu-a6-005-07>
-                            <1*eu-a6-009-04>
-                            <1*eu-a6-009-21>
-                            <1*eu-a6-004-16>
-                            <1*eu-a6-004-15>
-                            <1*eu-a6-004-23>
 </cluster/home/wolfartl> was used as the home directory.
 </cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
-Started at Sat Jan  8 01:45:49 2022
-Terminated at Sat Jan  8 01:45:53 2022
-Results reported at Sat Jan  8 01:45:53 2022
+Started at Sat Jan  8 16:05:15 2022
+Terminated at Sat Jan  8 16:05:19 2022
+Results reported at Sat Jan  8 16:05:19 2022
 
 Your job looked like:
 
@@ -36,57 +36,57 @@ Exited with exit code 139.
 
 Resource usage summary:
 
-    CPU time :                                   2.84 sec.
-    Max Memory :                                 42 MB
+    CPU time :                                   2.40 sec.
+    Max Memory :                                 39 MB
     Average Memory :                             -
     Total Requested Memory :                     17408.00 MB
-    Delta Memory :                               17366.00 MB
+    Delta Memory :                               17369.00 MB
     Max Swap :                                   -
     Max Processes :                              -
     Max Threads :                                -
-    Run time :                                   30 sec.
-    Turnaround time :                            13421 sec.
+    Run time :                                   2 sec.
+    Turnaround time :                            649 sec.
 
 The output (if any) follows:
 
-rank 15: s=0 t=15
-Hi. Proc 15/17 for MPI, proc 15/17 for BLACS in position (0,15)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
-rank 14: s=0 t=14
-Hi. Proc 14/17 for MPI, proc 14/17 for BLACS in position (0,14)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
-rank 16: s=0 t=16
-Hi. Proc 16/17 for MPI, proc 16/17 for BLACS in position (0,16)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
-rank 1: s=0 t=1
-Hi. Proc 1/17 for MPI, proc 1/17 for BLACS in position (0,1)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
-rank 9: s=0 t=9
-Hi. Proc 9/17 for MPI, proc 9/17 for BLACS in position (0,9)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
-rank 11: s=0 t=11
-Hi. Proc 11/17 for MPI, proc 11/17 for BLACS in position (0,11)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
-rank 6: s=0 t=6
-Hi. Proc 6/17 for MPI, proc 6/17 for BLACS in position (0,6)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
-rank 4: s=0 t=4
-Hi. Proc 4/17 for MPI, proc 4/17 for BLACS in position (0,4)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
-rank 0: s=0 t=0
-Hi. Proc 0/17 for MPI, proc 0/17 for BLACS in position (0,0)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
-rank 2: s=0 t=2
-Hi. Proc 2/17 for MPI, proc 2/17 for BLACS in position (0,2)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
-rank 5: s=0 t=5
-Hi. Proc 5/17 for MPI, proc 5/17 for BLACS in position (0,5)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
 rank 8: s=0 t=8
 Hi. Proc 8/17 for MPI, proc 8/17 for BLACS in position (0,8)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
-rank 12: s=0 t=12
-Hi. Proc 12/17 for MPI, proc 12/17 for BLACS in position (0,12)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
-rank 13: s=0 t=13
-Hi. Proc 13/17 for MPI, proc 13/17 for BLACS in position (0,13)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
-rank 3: s=0 t=3
-Hi. Proc 3/17 for MPI, proc 3/17 for BLACS in position (0,3)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
-rank 10: s=0 t=10
-Hi. Proc 10/17 for MPI, proc 10/17 for BLACS in position (0,10)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 14: s=0 t=14
+Hi. Proc 14/17 for MPI, proc 14/17 for BLACS in position (0,14)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
 rank 7: s=0 t=7
 Hi. Proc 7/17 for MPI, proc 7/17 for BLACS in position (0,7)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 10: s=0 t=10
+Hi. Proc 10/17 for MPI, proc 10/17 for BLACS in position (0,10)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 13: s=0 t=13
+Hi. Proc 13/17 for MPI, proc 13/17 for BLACS in position (0,13)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 9: s=0 t=9
+Hi. Proc 9/17 for MPI, proc 9/17 for BLACS in position (0,9)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 12: s=0 t=12
+Hi. Proc 12/17 for MPI, proc 12/17 for BLACS in position (0,12)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 11: s=0 t=11
+Hi. Proc 11/17 for MPI, proc 11/17 for BLACS in position (0,11)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 2: s=0 t=2
+Hi. Proc 2/17 for MPI, proc 2/17 for BLACS in position (0,2)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
+rank 16: s=0 t=16
+Hi. Proc 16/17 for MPI, proc 16/17 for BLACS in position (0,16)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 4: s=0 t=4
+Hi. Proc 4/17 for MPI, proc 4/17 for BLACS in position (0,4)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
+rank 5: s=0 t=5
+Hi. Proc 5/17 for MPI, proc 5/17 for BLACS in position (0,5)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
+rank 3: s=0 t=3
+Hi. Proc 3/17 for MPI, proc 3/17 for BLACS in position (0,3)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
+rank 6: s=0 t=6
+Hi. Proc 6/17 for MPI, proc 6/17 for BLACS in position (0,6)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 0: s=0 t=0
+Hi. Proc 0/17 for MPI, proc 0/17 for BLACS in position (0,0)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
+rank 15: s=0 t=15
+Hi. Proc 15/17 for MPI, proc 15/17 for BLACS in position (0,15)/(1,17) with local matrix 10444x614, global matrix 10444, block size1
+rank 1: s=0 t=1
+Hi. Proc 1/17 for MPI, proc 1/17 for BLACS in position (0,1)/(1,17) with local matrix 10444x615, global matrix 10444, block size1
 
 ===================================================================================
 =   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 26399 RUNNING AT eu-a6-006-07
+=   PID 37380 RUNNING AT eu-a6-012-23
 =   EXIT CODE: 139
 =   CLEANING UP REMAINING PROCESSES
 =   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
@@ -94,7 +94,7 @@ Hi. Proc 7/17 for MPI, proc 7/17 for BLACS in position (0,7)/(1,17) with local m
 
 ===================================================================================
 =   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 66648 RUNNING AT eu-a6-009-21
+=   PID 69326 RUNNING AT eu-a6-012-15
 =   EXIT CODE: 11
 =   CLEANING UP REMAINING PROCESSES
 =   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
