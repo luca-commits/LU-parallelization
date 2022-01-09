@@ -177,8 +177,15 @@ do
       omp_ranks=4
     fi
 
+    if [ "$ranks" -le 4 ]
+    then
+      runtime="24:00"
+    else
+      runtime="08:00"
+    fi
+
     export OMP_NUM_THREADS=$omp_ranks
-    bsub -We 04:00 -n $ranks -J "lu_hybrid_strong[$ranks]%36" -R "span[ptile=$omp_ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" "unset LSB_AFFINITY_HOSTFILE ; mpirun -n $mpi_ranks -ppn $omp_ranks ../../bin/jacobi-2d-hybrid $runs $N $tsteps"
+    bsub -We $runtime -n $ranks -J "lu_hybrid_strong[$ranks]%36" -R "span[ptile=$omp_ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" "unset LSB_AFFINITY_HOSTFILE ; mpirun -n $mpi_ranks -ppn $omp_ranks ../../bin/jacobi-2d-hybrid $runs $N $tsteps"
   
     cd ..
   fi
@@ -191,9 +198,9 @@ do
 
       if [ "$ranks" -le 4 ]
       then
-          bsub -W 16:00 -n $ranks -J "jacobi_2d_lu_omp_strong[$ranks]%36" -R "span[ptile=$ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/jacobi-2d-omp $runs $N $tsteps
+          bsub -W 24:00 -n $ranks -J "jacobi_2d_lu_omp_strong[$ranks]%36" -R "span[ptile=$ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/jacobi-2d-omp $runs $N $tsteps
       else
-          bsub -W 04:00 -n $ranks -J "jacobi_2d_lu_omp_strong[$ranks]%36" -R "span[ptile=$ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/jacobi-2d-omp $runs $N $tsteps
+          bsub -W 8:00 -n $ranks -J "jacobi_2d_lu_omp_strong[$ranks]%36" -R "span[ptile=$ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" ../../bin/jacobi-2d-omp $runs $N $tsteps
       fi
 
       cd ..
