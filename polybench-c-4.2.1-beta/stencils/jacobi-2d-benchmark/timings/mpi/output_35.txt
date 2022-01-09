@@ -1,0 +1,209 @@
+Sender: LSF System <lsfadmin@eu-a6-003-12>
+Subject: Job 199743953[35]: <jacobi_2d_mpi_strong[35]%36> in cluster <euler> Done
+
+Job <jacobi_2d_mpi_strong[35]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:40 2022
+Job was executed on host(s) <1*eu-a6-003-12>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 07:55:51 2022
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-01>
+                            <1*eu-a6-003-18>
+                            <1*eu-a6-003-15>
+                            <1*eu-a6-003-11>
+                            <1*eu-a6-003-20>
+                            <1*eu-a6-003-16>
+                            <1*eu-a6-003-23>
+                            <1*eu-a6-003-07>
+                            <1*eu-a6-003-04>
+                            <1*eu-a6-003-08>
+                            <1*eu-a6-003-13>
+                            <1*eu-a6-003-10>
+                            <1*eu-a6-003-21>
+                            <1*eu-a6-003-03>
+                            <1*eu-a6-003-05>
+                            <1*eu-a6-003-14>
+                            <1*eu-a6-009-16>
+                            <1*eu-a6-009-04>
+                            <1*eu-a6-009-17>
+                            <1*eu-a6-009-06>
+                            <1*eu-a6-009-21>
+                            <1*eu-a6-009-20>
+                            <1*eu-a6-009-15>
+                            <1*eu-a6-009-11>
+                            <1*eu-a6-009-01>
+                            <1*eu-a6-009-12>
+                            <1*eu-a6-009-07>
+                            <1*eu-a6-009-09>
+                            <1*eu-a6-009-05>
+                            <1*eu-a6-009-02>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-11>
+</cluster/home/zdana> was used as the home directory.
+</cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
+Started at Sun Jan  9 07:55:51 2022
+Terminated at Sun Jan  9 08:06:40 2022
+Results reported at Sun Jan  9 08:06:40 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 35 ../../bin/jacobi-2d-mpi 25 8192 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   22540.00 sec.
+    Max Memory :                                 1916 MB
+    Average Memory :                             1754.00 MB
+    Total Requested Memory :                     35840.00 MB
+    Delta Memory :                               33924.00 MB
+    Max Swap :                                   -
+    Max Processes :                              76
+    Max Threads :                                116
+    Run time :                                   660 sec.
+    Turnaround time :                            82440 sec.
+
+The output (if any) follows:
+
+Rank 14: 9 19 13 -1
+rank 14: 1170 x 1640
+Rank 20: 15 25 -1 21
+rank 20: 1170 x 1638
+Rank 31: 26 -1 30 32
+rank 31: 1172 x 1638
+Rank 5: 0 10 -1 6
+rank 5: 1170 x 1638
+Rank 19: 14 24 18 -1
+rank 19: 1170 x 1640
+Rank 16: 11 21 15 17
+rank 16: 1170 x 1638
+Rank 7: 2 12 6 8
+rank 7: 1170 x 1638
+Rank 13: 8 18 12 14
+rank 13: 1170 x 1638
+Rank 15: 10 20 -1 16
+rank 15: 1170 x 1638
+Rank 27: 22 32 26 28
+rank 27: 1170 x 1638
+Rank 12: 7 17 11 13
+rank 12: 1170 x 1638
+Rank 4: -1 9 3 -1
+rank 4: 1170 x 1640
+Rank 1: -1 6 0 2
+rank 1: 1170 x 1638
+Rank 33: 28 -1 32 34
+rank 33: 1172 x 1638
+Rank 2: -1 7 1 3
+rank 2: 1170 x 1638
+Rank 8: 3 13 7 9
+rank 8: 1170 x 1638
+Rank 3: -1 8 2 4
+rank 3: 1170 x 1638
+Rank 26: 21 31 25 27
+rank 26: 1170 x 1638
+Rank 28: 23 33 27 29
+rank 28: 1170 x 1638
+Rank 32: 27 -1 31 33
+rank 32: 1172 x 1638
+Rank 29: 24 34 28 -1
+rank 29: 1170 x 1640
+Rank 9: 4 14 8 -1
+rank 9: 1170 x 1640
+Rank 34: 29 -1 33 -1
+rank 34: 1172 x 1640
+Rank 11: 6 16 10 12
+rank 11: 1170 x 1638
+Rank 10: 5 15 -1 11
+rank 10: 1170 x 1638
+Rank 30: 25 -1 -1 31
+rank 30: 1172 x 1638
+Rank 24: 19 29 23 -1
+rank 24: 1170 x 1640
+Rank 21: 16 26 20 22
+rank 21: 1170 x 1638
+Rank 25: 20 30 -1 26
+rank 25: 1170 x 1638
+Rank 22: 17 27 21 23
+rank 22: 1170 x 1638
+Rank 0: -1 5 -1 1
+rank 0: 1170 x 1638
+malloced
+Rank 23: 18 28 22 24
+rank 23: 1170 x 1638
+Rank 18: 13 23 17 19
+rank 18: 1170 x 1638
+Rank 6: 1 11 5 7
+rank 6: 1170 x 1638
+Rank 17: 12 22 16 18
+rank 17: 1170 x 1638
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init

@@ -1,0 +1,233 @@
+Sender: LSF System <lsfadmin@eu-a6-003-15>
+Subject: Job 199743956[36]: <jacobi_2d_mpi_strong[36]%36> in cluster <euler> Exited
+
+Job <jacobi_2d_mpi_strong[36]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:41 2022
+Job was executed on host(s) <1*eu-a6-003-15>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 08:37:32 2022
+                            <1*eu-a6-003-12>
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-003-01>
+                            <1*eu-a6-003-08>
+                            <1*eu-a6-003-10>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-03>
+                            <1*eu-a6-003-23>
+                            <1*eu-a6-003-16>
+                            <1*eu-a6-003-20>
+                            <1*eu-a6-003-21>
+                            <1*eu-a6-003-18>
+                            <1*eu-a6-003-04>
+                            <1*eu-a6-003-07>
+                            <1*eu-a6-003-13>
+                            <1*eu-a6-003-14>
+                            <1*eu-a6-003-05>
+                            <1*eu-a6-003-11>
+                            <1*eu-a6-009-04>
+                            <1*eu-a6-009-16>
+                            <1*eu-a6-009-17>
+                            <1*eu-a6-009-20>
+                            <1*eu-a6-009-05>
+                            <1*eu-a6-009-12>
+                            <1*eu-a6-009-07>
+                            <1*eu-a6-009-11>
+                            <1*eu-a6-009-09>
+                            <1*eu-a6-009-01>
+                            <1*eu-a6-009-06>
+                            <1*eu-a6-009-02>
+                            <1*eu-a6-009-21>
+                            <1*eu-a6-009-15>
+                            <1*eu-a6-004-19>
+                            <1*eu-a6-004-24>
+                            <1*eu-a6-004-22>
+</cluster/home/zdana> was used as the home directory.
+</cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
+Started at Sun Jan  9 08:37:32 2022
+Terminated at Sun Jan  9 08:37:35 2022
+Results reported at Sun Jan  9 08:37:35 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 36 ../../bin/jacobi-2d-mpi 25 8192 1000
+------------------------------------------------------------
+
+Exited with exit code 139.
+
+Resource usage summary:
+
+    CPU time :                                   13.56 sec.
+    Max Memory :                                 74 MB
+    Average Memory :                             -
+    Total Requested Memory :                     36864.00 MB
+    Delta Memory :                               36790.00 MB
+    Max Swap :                                   -
+    Max Processes :                              -
+    Max Threads :                                -
+    Run time :                                   3 sec.
+    Turnaround time :                            84294 sec.
+
+The output (if any) follows:
+
+Rank 33: 27 -1 32 34
+rank 33: 1367 x 1365
+Rank 35: 29 -1 34 -1
+rank 35: 1367 x 1367
+Rank 25: 19 31 24 26
+rank 25: 1365 x 1365
+Rank 11: 5 17 10 -1
+rank 11: 1365 x 1367
+Rank 15: 9 21 14 16
+rank 15: 1365 x 1365
+Rank 9: 3 15 8 10
+rank 9: 1365 x 1365
+malloced
+Rank 27: 21 33 26 28
+rank 27: 1365 x 1365
+malloced
+Rank 6: 0 12 -1 7
+rank 6: 1365 x 1365
+Rank 31: 25 -1 30 32
+rank 31: 1367 x 1365
+malloced
+Rank 13: 7 19 12 14
+rank 13: 1365 x 1365
+Rank 23: 17 29 22 -1
+rank 23: 1365 x 1367
+Rank 3: -1 9 2 4
+rank 3: 1365 x 1365
+malloced
+malloced
+malloced
+malloced
+Rank 2: -1 8 1 3
+rank 2: 1365 x 1365
+malloced
+malloced
+Rank 19: 13 25 18 20
+rank 19: 1365 x 1365
+malloced
+Rank 7: 1 13 6 8
+rank 7: 1365 x 1365
+Rank 21: 15 27 20 22
+rank 21: 1365 x 1365
+Rank 17: 11 23 16 -1
+rank 17: 1365 x 1367
+Rank 29: 23 35 28 -1
+rank 29: 1365 x 1367
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+Rank 24: 18 30 -1 25
+rank 24: 1365 x 1365
+Rank 20: 14 26 19 21
+rank 20: 1365 x 1365
+Rank 0: -1 6 -1 1
+rank 0: 1365 x 1365
+Rank 32: 26 -1 31 33
+rank 32: 1367 x 1365
+Rank 30: 24 -1 -1 31
+rank 30: 1367 x 1365
+Rank 12: 6 18 -1 13
+rank 12: 1365 x 1365
+Rank 10: 4 16 9 11
+rank 10: 1365 x 1365
+Rank 22: 16 28 21 23
+rank 22: 1365 x 1365
+Rank 16: 10 22 15 17
+rank 16: 1365 x 1365
+Rank 1: -1 7 0 2
+rank 1: 1365 x 1365
+Rank 4: -1 10 3 5
+rank 4: 1365 x 1365
+Rank 8: 2 14 7 9
+rank 8: 1365 x 1365
+Rank 5: -1 11 4 -1
+rank 5: 1365 x 1367
+Rank 18: 12 24 -1 19
+rank 18: 1365 x 1365
+Rank 26: 20 32 25 27
+rank 26: 1365 x 1365
+Rank 28: 22 34 27 29
+rank 28: 1365 x 1365
+Rank 14: 8 20 13 15
+rank 14: 1365 x 1365
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+Rank 34: 28 -1 33 35
+rank 34: 1367 x 1365
+malloced
+malloced
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 54082 RUNNING AT eu-a6-004-19
+=   EXIT CODE: 139
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 54082 RUNNING AT eu-a6-004-19
+=   EXIT CODE: 11
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+   Intel(R) MPI Library troubleshooting guide:
+      https://software.intel.com/node/561764
+===================================================================================

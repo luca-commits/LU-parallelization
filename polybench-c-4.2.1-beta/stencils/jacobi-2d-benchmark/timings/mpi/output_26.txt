@@ -1,0 +1,164 @@
+Sender: LSF System <lsfadmin@eu-a6-011-23>
+Subject: Job 199743922[26]: <jacobi_2d_mpi_strong[26]%36> in cluster <euler> Done
+
+Job <jacobi_2d_mpi_strong[26]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:31 2022
+Job was executed on host(s) <1*eu-a6-011-23>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 00:21:07 2022
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-003-12>
+                            <1*eu-a6-003-18>
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-20>
+                            <1*eu-a6-003-21>
+                            <1*eu-a6-003-08>
+                            <1*eu-a6-003-10>
+                            <1*eu-a6-003-16>
+                            <1*eu-a6-003-17>
+                            <1*eu-a6-003-01>
+                            <1*eu-a6-003-03>
+                            <1*eu-a6-003-02>
+                            <1*eu-a6-003-23>
+                            <1*eu-a6-003-15>
+                            <1*eu-a6-003-04>
+                            <1*eu-a6-009-14>
+                            <1*eu-a6-009-06>
+                            <1*eu-a6-009-15>
+                            <1*eu-a6-009-16>
+                            <1*eu-a6-009-09>
+                            <1*eu-a6-009-20>
+                            <1*eu-a6-009-11>
+                            <1*eu-a6-009-02>
+</cluster/home/zdana> was used as the home directory.
+</cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
+Started at Sun Jan  9 00:21:07 2022
+Terminated at Sun Jan  9 00:36:21 2022
+Results reported at Sun Jan  9 00:36:21 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 26 ../../bin/jacobi-2d-mpi 25 8192 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   23633.00 sec.
+    Max Memory :                                 1730 MB
+    Average Memory :                             1534.06 MB
+    Total Requested Memory :                     26624.00 MB
+    Delta Memory :                               24894.00 MB
+    Max Swap :                                   -
+    Max Processes :                              58
+    Max Threads :                                89
+    Run time :                                   935 sec.
+    Turnaround time :                            55430 sec.
+
+The output (if any) follows:
+
+Rank 4: 2 6 -1 5
+rank 4: 630 x 4096
+Rank 15: 13 17 14 -1
+rank 15: 630 x 4096
+Rank 5: 3 7 4 -1
+rank 5: 630 x 4096
+Rank 8: 6 10 -1 9
+rank 8: 630 x 4096
+Rank 17: 15 19 16 -1
+rank 17: 630 x 4096
+Rank 12: 10 14 -1 13
+rank 12: 630 x 4096
+Rank 6: 4 8 -1 7
+rank 6: 630 x 4096
+Rank 9: 7 11 8 -1
+rank 9: 630 x 4096
+Rank 1: -1 3 0 -1
+rank 1: 630 x 4096
+Rank 14: 12 16 -1 15
+rank 14: 630 x 4096
+Rank 10: 8 12 -1 11
+rank 10: 630 x 4096
+Rank 11: 9 13 10 -1
+rank 11: 630 x 4096
+Rank 22: 20 24 -1 23
+rank 22: 630 x 4096
+Rank 21: 19 23 20 -1
+rank 21: 630 x 4096
+Rank 24: 22 -1 -1 25
+rank 24: 632 x 4096
+Rank 18: 16 20 -1 19
+rank 18: 630 x 4096
+Rank 0: -1 2 -1 1
+rank 0: 630 x 4096
+Rank 16: 14 18 -1 17
+rank 16: 630 x 4096
+malloced
+malloced
+Rank 13: 11 15 12 -1
+rank 13: 630 x 4096
+Rank 7: 5 9 6 -1
+rank 7: 630 x 4096
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+Rank 23: 21 25 22 -1
+rank 23: 630 x 4096
+malloced
+malloced
+Rank 19: 17 21 18 -1
+rank 19: 630 x 4096
+malloced
+Rank 2: 0 4 -1 3
+rank 2: 630 x 4096
+malloced
+Rank 3: 1 5 2 -1
+rank 3: 630 x 4096
+malloced
+Rank 20: 18 22 -1 21
+rank 20: 630 x 4096
+Rank 25: 23 -1 24 -1
+rank 25: 632 x 4096
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+malloced
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
+finished init
