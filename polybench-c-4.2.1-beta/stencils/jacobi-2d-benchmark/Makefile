@@ -1,7 +1,7 @@
 include ../../config.mk
 
-EXTRA_FLAGS=-Wall -g #-march=skylake-avx512
-CFLAGS=-std=c99 # -O3
+EXTRA_FLAGS=-Wall -check-pointers=rw #-march=skylake-avx512
+CFLAGS=-std=c99 -O3
 MKL_LINKING_FLAGS=-liomp5 -lpthread -lm -ldl
 
 CC=icc
