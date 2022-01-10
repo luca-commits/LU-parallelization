@@ -1,56 +1,76 @@
 import numpy as np
 import scipy.stats as st
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
+from matplotlib import rc
+import seaborn as sns
 from os import listdir
+from os.path import isdir
+from cycler import cycler
 
-sns.set_theme(style="whitegrid")
+names = {
+    'mpi': 'MPI',
+    'scalapack': 'ScaLAPACK',
+    'hybrid': 'Hybrid',
+    'omp': 'OpenMP'
+}
 
-timings_files = [ file for file in listdir('.') if ".csv" in file ]
+# rc('font',**{'family':'serif','serif':['Times']})
+# rc('text', usetex=True)
 
-df_singles = []
+fig, ax = plt.subplots(figsize=(4 * 0.8, 3 * 0.8), dpi=72)
+# ax.set_prop_cycle('color',[plt.get_cmap('viridis').colors[i] for i in range(0, 192, int(192 / 3))])
+ax.set_prop_cycle('color',plt.get_cmap('Dark2').colors)
 
-for tf in timings_files:
-    df_size = pd.read_csv(f'{tf}').pivot(columns='p', values='time')
-    df_singles.append(df_size)
+experiments = [ dir for dir in listdir('.') if isdir(f'./{dir}') ]
 
-df = pd.concat(df_singles, axis=1)
-df = df.reindex(sorted(df.columns), axis=1)
-df = df.transform(np.sort)
+for experiment in experiments:
 
-print(df)
+    timings_files = [ file for file in listdir(f'{experiment}/.') if ".csv" in file ]
 
-n = df.shape[0]
-size = df.shape[1]
-alpha = 0.05
+    df_singles = []
 
-conf_intervals = np.zeros((size, 2))
+    for tf in timings_files:
+        df_size = pd.read_csv(f'{experiment}/{tf}').pivot(columns='p', values='time')
+        df_singles.append(df_size)
 
-print(st.norm.isf(0.025))
-# lower_ci_idx = int(np.floor(0.5 * (n - st.norm.isf(0.5 * alpha) * np.sqrt(n))))
-# upper_ci_idx = int(np.ceil(1 + 0.5 * (n + st.norm.isf(0.5 * alpha) * np.sqrt(n))))
+    df = pd.concat(df_singles, axis=1)
+    df = df.reindex(sorted(df.columns), axis=1)
+    df = df.transform(np.sort)
 
-lower_ci_idx = 7
-upper_ci_idx = 18
+    n = df.shape[0]
+    size = df.shape[1]
+    alpha = 0.05
 
-print([lower_ci_idx, upper_ci_idx])
+    medians = df.median(axis=0)
 
-# for col in df:
-#     lower_ci = df[col].iloc[lower_ci_idx]
-#     upper_ci = df[col].iloc[upper_ci_idx]
+    conf_intervals = pd.DataFrame()
+    lower_ci_idx = 7
+    upper_ci_idx = 18
 
-#     conf_intervals[col - 1, :] = [lower_ci, upper_ci]
+    for col in df:
+        lower_ci = medians[col] - df[col].iloc[lower_ci_idx]
+        upper_ci = df[col].iloc[upper_ci_idx] - medians[col]
 
-print(df.values.T.shape)
-print(conf_intervals.shape)
+        conf_intervals[col] = [lower_ci, upper_ci]
 
-# ax = sns.boxplot(x='p', y='value', data=pd.melt(df), notch=True, conf_intervals=conf_intervals)
-# ax = sns.boxplot(x='p', y='value', data=pd.melt(df), notch=True)
-# ax = sns.boxplot(x=df.values, notch=True, conf_intervals=conf_intervals.T)
-# ax = df.boxplot(notch=True, conf_intervals=conf_intervals)
-ax = df.boxplot(notch=True, showfliers=False)
+
+    # ax.boxplot(df, widths=0.5, showfliers=False)
+
+    ax.errorbar(medians.index, medians.values, label=names[experiment], yerr=conf_intervals.values, marker='.', linewidth=0.0, elinewidth=1.0, capsize=2.0)
+
 ax.set_xlabel('number of ranks')
 ax.set_ylabel('runtime [s]')
+# ax.set_title('Number of ranks vs. Runtime [s]')
+ax.set_yscale('log')
+ax.set_facecolor('whitesmoke')
+ax.grid(axis='y', color='white')
 
-plt.show()
+fig.legend(ncol=2, loc=1, bbox_to_anchor=(1,1), fontsize=8, handlelength=2)
+fig.tight_layout(pad=0.0)
+
+
+
+plt.savefig('plot.pdf', bbox_inches='tight', pad_inches=0.025)
+plt.savefig('plot.png', bbox_inches='tight', pad_inches=0.025)
+# plt.show()
