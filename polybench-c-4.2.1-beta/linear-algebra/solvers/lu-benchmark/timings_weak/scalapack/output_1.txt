@@ -1,13 +1,13 @@
-Sender: LSF System <lsfadmin@eu-a6-004-22>
-Subject: Job 199765525[1]: <lu_scalapack_weak[1]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199894214[1]: <lu_scalapack_weak[1]%36> in cluster <euler> Done
 
-Job <lu_scalapack_weak[1]%36> was submitted from host <eu-login-12> by user <wolfartl> in cluster <euler> at Sat Jan  8 15:54:27 2022
-Job was executed on host(s) <eu-a6-004-22>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 15:54:46 2022
-</cluster/home/wolfartl> was used as the home directory.
-</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
-Started at Sat Jan  8 15:54:46 2022
-Terminated at Sat Jan  8 15:55:33 2022
-Results reported at Sat Jan  8 15:55:33 2022
+Job <lu_scalapack_weak[1]%36> was submitted from host <eu-login-34> by user <sniall> in cluster <euler> at Mon Jan 10 16:19:23 2022
+Job was executed on host(s) <eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Mon Jan 10 16:19:50 2022
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
+Started at Mon Jan 10 16:19:50 2022
+Terminated at Mon Jan 10 16:20:40 2022
+Results reported at Mon Jan 10 16:20:40 2022
 
 Your job looked like:
 
@@ -20,16 +20,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   45.00 sec.
-    Max Memory :                                 183 MB
-    Average Memory :                             182.50 MB
+    CPU time :                                   48.15 sec.
+    Max Memory :                                 162 MB
+    Average Memory :                             161.25 MB
     Total Requested Memory :                     1024.00 MB
-    Delta Memory :                               841.00 MB
+    Delta Memory :                               862.00 MB
     Max Swap :                                   -
     Max Processes :                              8
     Max Threads :                                10
-    Run time :                                   46 sec.
-    Turnaround time :                            66 sec.
+    Run time :                                   78 sec.
+    Turnaround time :                            77 sec.
 
 The output (if any) follows:
 

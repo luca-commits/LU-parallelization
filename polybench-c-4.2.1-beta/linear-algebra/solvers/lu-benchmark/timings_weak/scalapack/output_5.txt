@@ -1,17 +1,17 @@
-Sender: LSF System <lsfadmin@eu-a6-001-05>
-Subject: Job 199765531[5]: <lu_scalapack_weak[5]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-012-19>
+Subject: Job 199894218[5]: <lu_scalapack_weak[5]%36> in cluster <euler> Done
 
-Job <lu_scalapack_weak[5]%36> was submitted from host <eu-login-12> by user <wolfartl> in cluster <euler> at Sat Jan  8 15:54:27 2022
-Job was executed on host(s) <1*eu-a6-001-05>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 15:54:46 2022
-                            <1*eu-a6-012-23>
-                            <1*eu-a6-012-22>
+Job <lu_scalapack_weak[5]%36> was submitted from host <eu-login-34> by user <sniall> in cluster <euler> at Mon Jan 10 16:19:24 2022
+Job was executed on host(s) <1*eu-a6-012-19>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Mon Jan 10 16:19:50 2022
                             <1*eu-a6-012-21>
-                            <1*eu-a6-012-24>
-</cluster/home/wolfartl> was used as the home directory.
-</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
-Started at Sat Jan  8 15:54:46 2022
-Terminated at Sat Jan  8 15:54:49 2022
-Results reported at Sat Jan  8 15:54:49 2022
+                            <1*eu-a6-012-15>
+                            <1*eu-a6-012-07>
+                            <1*eu-a6-012-05>
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
+Started at Mon Jan 10 16:19:50 2022
+Terminated at Mon Jan 10 16:20:36 2022
+Results reported at Mon Jan 10 16:20:36 2022
 
 Your job looked like:
 
@@ -20,49 +20,30 @@ Your job looked like:
 mpirun -n 5 ../../bin/lu-scalapack 25 6922
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   0.66 sec.
-    Max Memory :                                 2 MB
-    Average Memory :                             2.00 MB
+    CPU time :                                   220.00 sec.
+    Max Memory :                                 500 MB
+    Average Memory :                             80.50 MB
     Total Requested Memory :                     5120.00 MB
-    Delta Memory :                               5118.00 MB
+    Delta Memory :                               4620.00 MB
     Max Swap :                                   -
-    Max Processes :                              1
-    Max Threads :                                1
-    Run time :                                   0 sec.
-    Turnaround time :                            22 sec.
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   44 sec.
+    Turnaround time :                            72 sec.
 
 The output (if any) follows:
 
-rank 4: s=0 t=4
-Hi. Proc 4/5 for MPI, proc 4/5 for BLACS in position (0,4)/(1,5) with local matrix 6922x1384, global matrix 6922, block size1
-rank 2: s=0 t=2
-Hi. Proc 2/5 for MPI, proc 2/5 for BLACS in position (0,2)/(1,5) with local matrix 6922x1384, global matrix 6922, block size1
 rank 0: s=0 t=0
 Hi. Proc 0/5 for MPI, proc 0/5 for BLACS in position (0,0)/(1,5) with local matrix 6922x1385, global matrix 6922, block size1
-rank 3: s=0 t=3
-Hi. Proc 3/5 for MPI, proc 3/5 for BLACS in position (0,3)/(1,5) with local matrix 6922x1384, global matrix 6922, block size1
 rank 1: s=0 t=1
 Hi. Proc 1/5 for MPI, proc 1/5 for BLACS in position (0,1)/(1,5) with local matrix 6922x1385, global matrix 6922, block size1
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 20235 RUNNING AT eu-a6-012-24
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 20235 RUNNING AT eu-a6-012-24
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 2: s=0 t=2
+Hi. Proc 2/5 for MPI, proc 2/5 for BLACS in position (0,2)/(1,5) with local matrix 6922x1384, global matrix 6922, block size1
+rank 3: s=0 t=3
+Hi. Proc 3/5 for MPI, proc 3/5 for BLACS in position (0,3)/(1,5) with local matrix 6922x1384, global matrix 6922, block size1
+rank 4: s=0 t=4
+Hi. Proc 4/5 for MPI, proc 4/5 for BLACS in position (0,4)/(1,5) with local matrix 6922x1384, global matrix 6922, block size1
