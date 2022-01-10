@@ -1,23 +1,23 @@
-Sender: LSF System <lsfadmin@eu-a6-001-05>
-Subject: Job 199765537[11]: <lu_scalapack_weak[11]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-012-22>
+Subject: Job 199894226[11]: <lu_scalapack_weak[11]%36> in cluster <euler> Done
 
-Job <lu_scalapack_weak[11]%36> was submitted from host <eu-login-12> by user <wolfartl> in cluster <euler> at Sat Jan  8 15:54:29 2022
-Job was executed on host(s) <1*eu-a6-001-05>, in queue <normal.4h>, as user <wolfartl> in cluster <euler> at Sat Jan  8 15:58:46 2022
-                            <1*eu-a6-001-10>
-                            <1*eu-a6-001-14>
-                            <1*eu-a6-012-23>
-                            <1*eu-a6-012-22>
+Job <lu_scalapack_weak[11]%36> was submitted from host <eu-login-34> by user <sniall> in cluster <euler> at Mon Jan 10 16:19:26 2022
+Job was executed on host(s) <1*eu-a6-012-22>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Mon Jan 10 16:20:50 2022
                             <1*eu-a6-012-24>
                             <1*eu-a6-012-21>
                             <1*eu-a6-012-07>
+                            <1*eu-a6-012-19>
                             <1*eu-a6-012-15>
-                            <1*eu-a6-008-02>
-                            <1*eu-a6-008-09>
-</cluster/home/wolfartl> was used as the home directory.
-</cluster/home/wolfartl/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
-Started at Sat Jan  8 15:58:46 2022
-Terminated at Sat Jan  8 15:58:49 2022
-Results reported at Sat Jan  8 15:58:49 2022
+                            <1*eu-a6-012-05>
+                            <1*eu-a6-012-02>
+                            <1*eu-a6-002-15>
+                            <1*eu-a6-008-14>
+                            <1*eu-a6-008-01>
+</cluster/home/sniall> was used as the home directory.
+</cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings_weak/scalapack> was used as the working directory.
+Started at Mon Jan 10 16:20:50 2022
+Terminated at Mon Jan 10 16:21:39 2022
+Results reported at Mon Jan 10 16:21:39 2022
 
 Your job looked like:
 
@@ -26,61 +26,42 @@ Your job looked like:
 mpirun -n 11 ../../bin/lu-scalapack 25 9011
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   1.50 sec.
-    Max Memory :                                 32 MB
-    Average Memory :                             -
+    CPU time :                                   510.30 sec.
+    Max Memory :                                 989 MB
+    Average Memory :                             92.67 MB
     Total Requested Memory :                     11264.00 MB
-    Delta Memory :                               11232.00 MB
+    Delta Memory :                               10275.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   15 sec.
-    Turnaround time :                            260 sec.
+    Max Processes :                              8
+    Max Threads :                                11
+    Run time :                                   50 sec.
+    Turnaround time :                            133 sec.
 
 The output (if any) follows:
 
-rank 7: s=0 t=7
-Hi. Proc 7/11 for MPI, proc 7/11 for BLACS in position (0,7)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
-rank 6: s=0 t=6
-Hi. Proc 6/11 for MPI, proc 6/11 for BLACS in position (0,6)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
-rank 0: s=0 t=0
-Hi. Proc 0/11 for MPI, proc 0/11 for BLACS in position (0,0)/(1,11) with local matrix 9011x820, global matrix 9011, block size1
-rank 8: s=0 t=8
-Hi. Proc 8/11 for MPI, proc 8/11 for BLACS in position (0,8)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
-rank 10: s=0 t=10
-Hi. Proc 10/11 for MPI, proc 10/11 for BLACS in position (0,10)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
 rank 9: s=0 t=9
 Hi. Proc 9/11 for MPI, proc 9/11 for BLACS in position (0,9)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
+rank 7: s=0 t=7
+Hi. Proc 7/11 for MPI, proc 7/11 for BLACS in position (0,7)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
 rank 5: s=0 t=5
 Hi. Proc 5/11 for MPI, proc 5/11 for BLACS in position (0,5)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
 rank 1: s=0 t=1
 Hi. Proc 1/11 for MPI, proc 1/11 for BLACS in position (0,1)/(1,11) with local matrix 9011x820, global matrix 9011, block size1
-rank 2: s=0 t=2
-Hi. Proc 2/11 for MPI, proc 2/11 for BLACS in position (0,2)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
+rank 8: s=0 t=8
+Hi. Proc 8/11 for MPI, proc 8/11 for BLACS in position (0,8)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
+rank 6: s=0 t=6
+Hi. Proc 6/11 for MPI, proc 6/11 for BLACS in position (0,6)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
 rank 4: s=0 t=4
 Hi. Proc 4/11 for MPI, proc 4/11 for BLACS in position (0,4)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
+rank 2: s=0 t=2
+Hi. Proc 2/11 for MPI, proc 2/11 for BLACS in position (0,2)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
 rank 3: s=0 t=3
 Hi. Proc 3/11 for MPI, proc 3/11 for BLACS in position (0,3)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 32397 RUNNING AT eu-a6-012-22
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 32397 RUNNING AT eu-a6-012-22
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 0: s=0 t=0
+Hi. Proc 0/11 for MPI, proc 0/11 for BLACS in position (0,0)/(1,11) with local matrix 9011x820, global matrix 9011, block size1
+rank 10: s=0 t=10
+Hi. Proc 10/11 for MPI, proc 10/11 for BLACS in position (0,10)/(1,11) with local matrix 9011x819, global matrix 9011, block size1
