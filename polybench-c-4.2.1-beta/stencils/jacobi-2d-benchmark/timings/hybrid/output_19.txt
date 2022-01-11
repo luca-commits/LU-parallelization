@@ -1,31 +1,31 @@
-Sender: LSF System <lsfadmin@eu-a6-008-12>
-Subject: Job 199743899[19]: <lu_hybrid_strong[19]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-005-11>
+Subject: Job 199821976[19]: <lu_hybrid_strong[19]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[19]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:26 2022
-Job was executed on host(s) <1*eu-a6-008-12>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sat Jan  8 20:14:12 2022
-                            <1*eu-a6-008-10>
+Job <lu_hybrid_strong[19]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:04 2022
+Job was executed on host(s) <1*eu-a6-005-11>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Sun Jan  9 23:34:26 2022
+                            <1*eu-a6-005-15>
                             <1*eu-a6-008-14>
-                            <1*eu-a6-008-05>
                             <1*eu-a6-008-02>
-                            <1*eu-a6-008-09>
+                            <1*eu-a6-008-10>
+                            <1*eu-a6-008-12>
+                            <1*eu-a6-008-05>
                             <1*eu-a6-008-20>
-                            <1*eu-a6-012-19>
-                            <1*eu-a6-012-15>
+                            <1*eu-a6-008-09>
+                            <1*eu-a6-008-06>
+                            <1*eu-a6-012-21>
+                            <1*eu-a6-012-20>
                             <1*eu-a6-012-22>
                             <1*eu-a6-012-23>
-                            <1*eu-a6-012-16>
+                            <1*eu-a6-012-24>
                             <1*eu-a6-012-07>
-                            <1*eu-a6-006-14>
-                            <1*eu-a6-009-08>
-                            <1*eu-a6-009-22>
-                            <1*eu-a6-009-10>
-                            <1*eu-a6-009-06>
-                            <1*eu-a6-005-05>
+                            <1*eu-a6-012-15>
+                            <1*eu-a6-012-19>
+                            <1*eu-a6-012-05>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/hybrid> was used as the working directory.
-Started at Sat Jan  8 20:14:12 2022
-Terminated at Sat Jan  8 20:14:16 2022
-Results reported at Sat Jan  8 20:14:16 2022
+Started at Sun Jan  9 23:34:26 2022
+Terminated at Sun Jan  9 23:51:13 2022
+Results reported at Sun Jan  9 23:51:13 2022
 
 Your job looked like:
 
@@ -34,115 +34,39 @@ Your job looked like:
 unset LSB_AFFINITY_HOSTFILE ; mpirun -n 19 -ppn 1 ../../bin/jacobi-2d-hybrid 25 8192 1000
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   9.34 sec.
-    Max Memory :                                 141 MB
-    Average Memory :                             -
+    CPU time :                                   19032.00 sec.
+    Max Memory :                                 1435 MB
+    Average Memory :                             1322.74 MB
     Total Requested Memory :                     19456.00 MB
-    Delta Memory :                               19315.00 MB
+    Delta Memory :                               18021.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   28 sec.
-    Turnaround time :                            39710 sec.
+    Max Processes :                              44
+    Max Threads :                                68
+    Run time :                                   1011 sec.
+    Turnaround time :                            24249 sec.
 
 The output (if any) follows:
 
-Rank 16: 15 17 -1 -1
-rank 16: 431 x 8192
-Rank 13: 12 14 -1 -1
-rank 13: 431 x 8192
-Rank 15: 14 16 -1 -1
-rank 15: 431 x 8192
-Rank 0: -1 1 -1 -1
-rank 0: 431 x 8192
-Rank 17: 16 18 -1 -1
-rank 17: 431 x 8192
-Rank 6: 5 7 -1 -1
-rank 6: 431 x 8192
-Rank 2: 1 3 -1 -1
-rank 2: 431 x 8192
-Rank 12: 11 13 -1 -1
-rank 12: 431 x 8192
-Rank 14: 13 15 -1 -1
-rank 14: 431 x 8192
-Rank 10: 9 11 -1 -1
-rank 10: 431 x 8192
-Rank 5: 4 6 -1 -1
 rank 5: 431 x 8192
-Rank 3: 2 4 -1 -1
-rank 3: 431 x 8192
-Rank 18: 17 -1 -1 -1
-rank 18: 434 x 8192
-Rank 11: 10 12 -1 -1
-rank 11: 431 x 8192
-Rank 1: 0 2 -1 -1
-rank 1: 431 x 8192
-Rank 9: 8 10 -1 -1
-rank 9: 431 x 8192
-Rank 7: 6 8 -1 -1
-rank 7: 431 x 8192
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-Rank 8: 7 9 -1 -1
 rank 8: 431 x 8192
-Rank 4: 3 5 -1 -1
+rank 18: 434 x 8192
+rank 7: 431 x 8192
+rank 2: 431 x 8192
+rank 0: 431 x 8192
+rank 1: 431 x 8192
+rank 12: 431 x 8192
+rank 9: 431 x 8192
+rank 14: 431 x 8192
+rank 3: 431 x 8192
 rank 4: 431 x 8192
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 52263 RUNNING AT eu-a6-012-07
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 52263 RUNNING AT eu-a6-012-07
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 13: 431 x 8192
+rank 15: 431 x 8192
+rank 16: 431 x 8192
+rank 17: 431 x 8192
+rank 10: 431 x 8192
+rank 11: 431 x 8192
+rank 6: 431 x 8192

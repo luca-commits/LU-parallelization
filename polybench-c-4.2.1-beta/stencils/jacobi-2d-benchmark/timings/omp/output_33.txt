@@ -1,13 +1,13 @@
-Sender: LSF System <lsfadmin@eu-a6-003-18>
-Subject: Job 199743947[33]: <jacobi_2d_lu_omp_strong[33]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-007-03>
+Subject: Job 199822051[33]: <jacobi_2d_lu_omp_strong[33]%36> in cluster <euler> Done
 
-Job <jacobi_2d_lu_omp_strong[33]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:39 2022
-Job was executed on host(s) <33*eu-a6-003-18>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 06:36:52 2022
+Job <jacobi_2d_lu_omp_strong[33]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:18 2022
+Job was executed on host(s) <33*eu-a6-007-03>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Mon Jan 10 07:37:01 2022
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/omp> was used as the working directory.
-Started at Sun Jan  9 06:36:52 2022
-Terminated at Sun Jan  9 07:08:19 2022
-Results reported at Sun Jan  9 07:08:19 2022
+Started at Mon Jan 10 07:37:01 2022
+Terminated at Mon Jan 10 07:45:21 2022
+Results reported at Mon Jan 10 07:45:21 2022
 
 Your job looked like:
 
@@ -20,16 +20,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   61944.61 sec.
-    Max Memory :                                 1029 MB
-    Average Memory :                             1029.00 MB
+    CPU time :                                   16407.76 sec.
+    Max Memory :                                 1032 MB
+    Average Memory :                             1031.00 MB
     Total Requested Memory :                     33792.00 MB
-    Delta Memory :                               32763.00 MB
+    Delta Memory :                               32760.00 MB
     Max Swap :                                   -
     Max Processes :                              3
     Max Threads :                                36
-    Run time :                                   1913 sec.
-    Turnaround time :                            78940 sec.
+    Run time :                                   518 sec.
+    Turnaround time :                            52683 sec.
 
 The output (if any) follows:
 

@@ -1,13 +1,13 @@
-Sender: LSF System <lsfadmin@eu-a6-009-06>
-Subject: Job 199743903[20]: <jacobi_2d_lu_omp_strong[20]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199821983[20]: <jacobi_2d_lu_omp_strong[20]%36> in cluster <euler> Done
 
-Job <jacobi_2d_lu_omp_strong[20]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:27 2022
-Job was executed on host(s) <20*eu-a6-009-06>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sat Jan  8 20:39:17 2022
+Job <jacobi_2d_lu_omp_strong[20]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:05 2022
+Job was executed on host(s) <20*eu-a6-012-24>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Sun Jan  9 23:51:23 2022
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/omp> was used as the working directory.
-Started at Sat Jan  8 20:39:17 2022
-Terminated at Sat Jan  8 21:30:44 2022
-Results reported at Sat Jan  8 21:30:44 2022
+Started at Sun Jan  9 23:51:23 2022
+Terminated at Mon Jan 10 00:04:26 2022
+Results reported at Mon Jan 10 00:04:26 2022
 
 Your job looked like:
 
@@ -20,7 +20,7 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   61534.81 sec.
+    CPU time :                                   15572.72 sec.
     Max Memory :                                 1032 MB
     Average Memory :                             1032.00 MB
     Total Requested Memory :                     20480.00 MB
@@ -28,8 +28,8 @@ Resource usage summary:
     Max Swap :                                   -
     Max Processes :                              3
     Max Threads :                                23
-    Run time :                                   3090 sec.
-    Turnaround time :                            44297 sec.
+    Run time :                                   791 sec.
+    Turnaround time :                            25041 sec.
 
 The output (if any) follows:
 
