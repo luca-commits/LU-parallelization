@@ -1,13 +1,13 @@
-Sender: LSF System <lsfadmin@eu-a6-001-10>
-Subject: Job 199743840[1]: <jacobi_2d_lu_omp_strong[1]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-004-22>
+Subject: Job 199821915[1]: <jacobi_2d_lu_omp_strong[1]%36> in cluster <euler> Done
 
-Job <jacobi_2d_lu_omp_strong[1]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:08 2022
-Job was executed on host(s) <eu-a6-001-10>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Sat Jan  8 09:12:28 2022
+Job <jacobi_2d_lu_omp_strong[1]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:06:48 2022
+Job was executed on host(s) <eu-a6-004-22>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Sun Jan  9 17:06:55 2022
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/omp> was used as the working directory.
-Started at Sat Jan  8 09:12:28 2022
-Terminated at Sun Jan  9 01:12:40 2022
-Results reported at Sun Jan  9 01:12:40 2022
+Started at Sun Jan  9 17:06:55 2022
+Terminated at Sun Jan  9 20:37:13 2022
+Results reported at Sun Jan  9 20:37:13 2022
 
 Your job looked like:
 
@@ -16,12 +16,11 @@ Your job looked like:
 ../../bin/jacobi-2d-omp 25 8192 1000
 ------------------------------------------------------------
 
-TERM_RUNLIMIT: job killed after reaching LSF run time limit.
-Exited with exit code 140.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   57428.02 sec.
+    CPU time :                                   12580.29 sec.
     Max Memory :                                 1028 MB
     Average Memory :                             1028.00 MB
     Total Requested Memory :                     1024.00 MB
@@ -29,9 +28,8 @@ Resource usage summary:
     Max Swap :                                   -
     Max Processes :                              3
     Max Threads :                                4
-    Run time :                                   57630 sec.
-    Turnaround time :                            57632 sec.
+    Run time :                                   12636 sec.
+    Turnaround time :                            12625 sec.
 
 The output (if any) follows:
 
-User defined signal 2

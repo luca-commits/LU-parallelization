@@ -1,26 +1,26 @@
-Sender: LSF System <lsfadmin@eu-a6-001-21>
-Subject: Job 199743880[14]: <jacobi_2d_mpi_strong[14]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-008-05>
+Subject: Job 199821952[14]: <jacobi_2d_mpi_strong[14]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[14]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:22 2022
-Job was executed on host(s) <1*eu-a6-001-21>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sat Jan  8 16:18:17 2022
-                            <1*eu-a6-001-14>
-                            <1*eu-a6-001-10>
-                            <1*eu-a6-001-05>
-                            <1*eu-a6-012-23>
-                            <1*eu-a6-012-22>
-                            <1*eu-a6-012-21>
-                            <1*eu-a6-012-24>
-                            <1*eu-a6-012-07>
-                            <1*eu-a6-012-15>
-                            <1*eu-a6-008-09>
-                            <1*eu-a6-008-10>
-                            <1*eu-a6-008-14>
+Job <jacobi_2d_mpi_strong[14]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:01 2022
+Job was executed on host(s) <1*eu-a6-008-05>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 18:58:52 2022
                             <1*eu-a6-008-20>
+                            <1*eu-a6-008-10>
+                            <1*eu-a6-008-12>
+                            <1*eu-a6-008-02>
+                            <1*eu-a6-008-06>
+                            <1*eu-a6-012-19>
+                            <1*eu-a6-012-15>
+                            <1*eu-a6-012-02>
+                            <1*eu-a6-012-16>
+                            <1*eu-a6-012-05>
+                            <1*eu-a6-012-07>
+                            <1*eu-a6-012-12>
+                            <1*eu-a6-001-14>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Sat Jan  8 16:18:17 2022
-Terminated at Sat Jan  8 16:47:06 2022
-Results reported at Sat Jan  8 16:47:06 2022
+Started at Sun Jan  9 18:58:52 2022
+Terminated at Sun Jan  9 19:05:09 2022
+Results reported at Sun Jan  9 19:05:09 2022
 
 Your job looked like:
 
@@ -33,72 +33,30 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   24118.00 sec.
-    Max Memory :                                 1351 MB
-    Average Memory :                             1279.14 MB
+    CPU time :                                   5208.00 sec.
+    Max Memory :                                 1298 MB
+    Average Memory :                             941.69 MB
     Total Requested Memory :                     14336.00 MB
-    Delta Memory :                               12985.00 MB
+    Delta Memory :                               13038.00 MB
     Max Swap :                                   -
     Max Processes :                              34
     Max Threads :                                53
-    Run time :                                   1740 sec.
-    Turnaround time :                            27284 sec.
+    Run time :                                   374 sec.
+    Turnaround time :                            7088 sec.
 
 The output (if any) follows:
 
-Rank 12: 10 -1 -1 13
-rank 12: 1172 x 4096
-Rank 0: -1 2 -1 1
-rank 0: 1170 x 4096
-Rank 9: 7 11 8 -1
-rank 9: 1170 x 4096
-malloced
-Rank 10: 8 12 -1 11
 rank 10: 1170 x 4096
-Rank 13: 11 -1 12 -1
-rank 13: 1172 x 4096
-Rank 8: 6 10 -1 9
-rank 8: 1170 x 4096
-Rank 7: 5 9 6 -1
 rank 7: 1170 x 4096
-Rank 11: 9 13 10 -1
 rank 11: 1170 x 4096
-Rank 2: 0 4 -1 3
-rank 2: 1170 x 4096
-Rank 4: 2 6 -1 5
-rank 4: 1170 x 4096
-Rank 6: 4 8 -1 7
-rank 6: 1170 x 4096
-Rank 3: 1 5 2 -1
 rank 3: 1170 x 4096
-Rank 5: 3 7 4 -1
 rank 5: 1170 x 4096
-Rank 1: -1 3 0 -1
+rank 12: 1172 x 4096
+rank 6: 1170 x 4096
+rank 0: 1170 x 4096
+rank 4: 1170 x 4096
 rank 1: 1170 x 4096
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
+rank 9: 1170 x 4096
+rank 8: 1170 x 4096
+rank 2: 1170 x 4096
+rank 13: 1172 x 4096

@@ -1,13 +1,13 @@
-Sender: LSF System <lsfadmin@eu-a6-012-21>
-Subject: Job 199743837[1]: <jacobi_2d_mpi_strong[1]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-004-22>
+Subject: Job 199821913[1]: <jacobi_2d_mpi_strong[1]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[1]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:06 2022
-Job was executed on host(s) <eu-a6-012-21>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sat Jan  8 09:12:27 2022
+Job <jacobi_2d_mpi_strong[1]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:06:48 2022
+Job was executed on host(s) <eu-a6-004-22>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 17:06:55 2022
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Sat Jan  8 09:12:27 2022
-Terminated at Sat Jan  8 13:12:32 2022
-Results reported at Sat Jan  8 13:12:32 2022
+Started at Sun Jan  9 17:06:55 2022
+Terminated at Sun Jan  9 18:20:18 2022
+Results reported at Sun Jan  9 18:20:18 2022
 
 Your job looked like:
 
@@ -16,26 +16,21 @@ Your job looked like:
 mpirun -n 1 ../../bin/jacobi-2d-mpi 25 8192 1000
 ------------------------------------------------------------
 
-TERM_RUNLIMIT: job killed after reaching LSF run time limit.
-Exited with exit code 140.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   14334.00 sec.
-    Max Memory :                                 1035 MB
-    Average Memory :                             1034.16 MB
+    CPU time :                                   4406.00 sec.
+    Max Memory :                                 1046 MB
+    Average Memory :                             1046.00 MB
     Total Requested Memory :                     1024.00 MB
-    Delta Memory :                               -11.00 MB
+    Delta Memory :                               -22.00 MB
     Max Swap :                                   -
     Max Processes :                              8
     Max Threads :                                12
-    Run time :                                   14435 sec.
-    Turnaround time :                            14426 sec.
+    Run time :                                   4421 sec.
+    Turnaround time :                            4410 sec.
 
 The output (if any) follows:
 
-Rank 0: -1 -1 -1 -1
 rank 0: 8192 x 8192
-malloced
-finished init
-User defined signal 2

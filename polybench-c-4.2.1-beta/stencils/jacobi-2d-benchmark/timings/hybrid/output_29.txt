@@ -1,41 +1,41 @@
-Sender: LSF System <lsfadmin@eu-a6-009-04>
-Subject: Job 199743932[29]: <lu_hybrid_strong[29]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-009-16>
+Subject: Job 199822037[29]: <lu_hybrid_strong[29]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[29]%36> was submitted from host <eu-login-31> by user <zdana> in cluster <euler> at Sat Jan  8 09:12:33 2022
-Job was executed on host(s) <1*eu-a6-009-04>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 03:30:45 2022
-                            <1*eu-a6-009-06>
-                            <1*eu-a6-009-16>
+Job <lu_hybrid_strong[29]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:16 2022
+Job was executed on host(s) <1*eu-a6-009-16>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Mon Jan 10 05:52:29 2022
+                            <1*eu-a6-009-04>
                             <1*eu-a6-009-09>
                             <1*eu-a6-009-17>
-                            <1*eu-a6-009-01>
+                            <1*eu-a6-009-24>
                             <1*eu-a6-009-15>
-                            <1*eu-a6-009-20>
+                            <1*eu-a6-009-01>
+                            <1*eu-a6-009-03>
                             <1*eu-a6-009-05>
-                            <1*eu-a6-009-14>
                             <1*eu-a6-009-21>
                             <1*eu-a6-009-07>
-                            <1*eu-a6-009-12>
+                            <1*eu-a6-009-18>
                             <1*eu-a6-009-11>
-                            <1*eu-a6-009-02>
-                            <1*eu-a6-009-03>
-                            <1*eu-a6-003-09>
-                            <1*eu-a6-003-18>
-                            <1*eu-a6-003-01>
-                            <1*eu-a6-003-12>
-                            <1*eu-a6-003-08>
-                            <1*eu-a6-003-15>
-                            <1*eu-a6-003-04>
-                            <1*eu-a6-003-17>
-                            <1*eu-a6-003-10>
-                            <1*eu-a6-003-16>
-                            <1*eu-a6-003-22>
-                            <1*eu-a6-003-21>
-                            <1*eu-a6-003-13>
+                            <1*eu-a6-009-13>
+                            <1*eu-a6-010-11>
+                            <1*eu-a6-010-20>
+                            <1*eu-a6-010-08>
+                            <1*eu-a6-010-22>
+                            <1*eu-a6-010-06>
+                            <1*eu-a6-010-19>
+                            <1*eu-a6-010-07>
+                            <1*eu-a6-007-21>
+                            <1*eu-a6-007-13>
+                            <1*eu-a6-007-03>
+                            <1*eu-a6-007-12>
+                            <1*eu-a6-007-07>
+                            <1*eu-a6-007-11>
+                            <1*eu-a6-007-19>
+                            <1*eu-a6-007-20>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/hybrid> was used as the working directory.
-Started at Sun Jan  9 03:30:45 2022
-Terminated at Sun Jan  9 03:30:49 2022
-Results reported at Sun Jan  9 03:30:49 2022
+Started at Mon Jan 10 05:52:29 2022
+Terminated at Mon Jan 10 06:02:29 2022
+Results reported at Mon Jan 10 06:02:29 2022
 
 Your job looked like:
 
@@ -44,155 +44,49 @@ Your job looked like:
 unset LSB_AFFINITY_HOSTFILE ; mpirun -n 29 -ppn 1 ../../bin/jacobi-2d-hybrid 25 8192 1000
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   11.58 sec.
-    Max Memory :                                 2228 MB
-    Average Memory :                             -
+    CPU time :                                   17240.01 sec.
+    Max Memory :                                 1818 MB
+    Average Memory :                             1646.19 MB
     Total Requested Memory :                     29696.00 MB
-    Delta Memory :                               27468.00 MB
+    Delta Memory :                               27878.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   9 sec.
-    Turnaround time :                            65896 sec.
+    Max Processes :                              64
+    Max Threads :                                98
+    Run time :                                   622 sec.
+    Turnaround time :                            46513 sec.
 
 The output (if any) follows:
 
-Rank 21: 20 22 -1 -1
-rank 21: 282 x 8192
-Rank 28: 27 -1 -1 -1
-rank 28: 296 x 8192
-Rank 8: 7 9 -1 -1
-rank 8: 282 x 8192
-Rank 16: 15 17 -1 -1
-rank 16: 282 x 8192
-Rank 7: 6 8 -1 -1
-rank 7: 282 x 8192
-Rank 9: 8 10 -1 -1
-rank 9: 282 x 8192
-Rank 15: 14 16 -1 -1
-rank 15: 282 x 8192
-Rank 25: 24 26 -1 -1
-rank 25: 282 x 8192
-Rank 3: 2 4 -1 -1
-rank 3: 282 x 8192
-Rank 27: 26 28 -1 -1
-rank 27: 282 x 8192
-Rank 2: 1 3 -1 -1
-rank 2: 282 x 8192
-Rank 13: 12 14 -1 -1
-rank 13: 282 x 8192
-Rank 6: 5 7 -1 -1
-rank 6: 282 x 8192
-Rank 5: 4 6 -1 -1
-rank 5: 282 x 8192
-Rank 20: 19 21 -1 -1
 rank 20: 282 x 8192
-Rank 23: 22 24 -1 -1
-rank 23: 282 x 8192
-Rank 22: 21 23 -1 -1
-rank 22: 282 x 8192
-Rank 26: 25 27 -1 -1
-rank 26: 282 x 8192
-Rank 12: 11 13 -1 -1
-rank 12: 282 x 8192
-Rank 17: 16 18 -1 -1
-rank 17: 282 x 8192
-Rank 4: 3 5 -1 -1
-rank 4: 282 x 8192
-Rank 14: 13 15 -1 -1
-rank 14: 282 x 8192
-Rank 24: 23 25 -1 -1
-rank 24: 282 x 8192
-Rank 18: 17 19 -1 -1
-rank 18: 282 x 8192
-Rank 11: 10 12 -1 -1
-rank 11: 282 x 8192
-Rank 10: 9 11 -1 -1
-rank 10: 282 x 8192
-Rank 19: 18 20 -1 -1
-rank 19: 282 x 8192
-Rank 1: 0 2 -1 -1
+rank 13: 282 x 8192
+rank 5: 282 x 8192
+rank 21: 282 x 8192
 rank 1: 282 x 8192
-Rank 0: -1 1 -1 -1
 rank 0: 282 x 8192
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-malloced
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-finished init
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 6228 RUNNING AT eu-a6-003-12
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 6228 RUNNING AT eu-a6-003-12
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 4: 282 x 8192
+rank 9: 282 x 8192
+rank 12: 282 x 8192
+rank 25: 282 x 8192
+rank 17: 282 x 8192
+rank 16: 282 x 8192
+rank 8: 282 x 8192
+rank 27: 282 x 8192
+rank 24: 282 x 8192
+rank 22: 282 x 8192
+rank 14: 282 x 8192
+rank 6: 282 x 8192
+rank 7: 282 x 8192
+rank 15: 282 x 8192
+rank 23: 282 x 8192
+rank 28: 296 x 8192
+rank 19: 282 x 8192
+rank 18: 282 x 8192
+rank 10: 282 x 8192
+rank 11: 282 x 8192
+rank 2: 282 x 8192
+rank 3: 282 x 8192
+rank 26: 282 x 8192
