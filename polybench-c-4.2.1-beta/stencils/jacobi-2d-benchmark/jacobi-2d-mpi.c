@@ -164,7 +164,40 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
     /* Wait for all communication to finish */
     int err = MPI_Waitall(8, requests, statuses);
 
+    // top neighbour
     if (neighbours[0] != MPI_PROC_NULL) {
+      i = 1;
+
+#ifdef HYBRID
+#pragma omp parallel for
+#endif
+      for (j = y_bound_low; j < y_bound_high; j++) {
+        B[(ny_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
+             A[(ny_local + 2) * i + 1 + j] + A[(ny_local + 2) * (1 + i) + j] +
+             A[(ny_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    // bottom neighbour
+    if (neighbours[1] != MPI_PROC_NULL) {
+      i = nx_local;
+
+#ifdef HYBRID
+#pragma omp parallel for
+#endif
+      for (j = y_bound_low; j < y_bound_high; j++) {
+        B[(ny_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
+             A[(ny_local + 2) * i + 1 + j] + A[(ny_local + 2) * (1 + i) + j] +
+             A[(ny_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    // left neighbour
+    if (neighbours[2] != MPI_PROC_NULL) {
       j = 1;
 
 #ifdef HYBRID
@@ -179,43 +212,14 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       }
     }
 
-    if (neighbours[1] != MPI_PROC_NULL) {
+    // right neighbour
+    if (neighbours[3] != MPI_PROC_NULL) {
       j = ny_local;
 
 #ifdef HYBRID
 #pragma omp parallel for
 #endif
       for (i = x_bound_low; i < x_bound_high; i++) {
-        B[(ny_local + 2) * i + j] =
-            SCALAR_VAL(0.2) *
-            (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
-             A[(ny_local + 2) * i + 1 + j] + A[(ny_local + 2) * (1 + i) + j] +
-             A[(ny_local + 2) * (i - 1) + j]);
-      }
-    }
-
-    if (neighbours[2] != MPI_PROC_NULL) {
-      i = 1;
-
-#ifdef HYBRID
-#pragma omp parallel for
-#endif
-      for (j = x_bound_low; j < x_bound_high; j++) {
-        B[(ny_local + 2) * i + j] =
-            SCALAR_VAL(0.2) *
-            (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
-             A[(ny_local + 2) * i + 1 + j] + A[(ny_local + 2) * (1 + i) + j] +
-             A[(ny_local + 2) * (i - 1) + j]);
-      }
-    }
-
-    if (neighbours[3] != MPI_PROC_NULL) {
-      i = nx_local;
-
-#ifdef HYBRID
-#pragma omp parallel for
-#endif
-      for (j = y_bound_low; j < y_bound_high; j++) {
         B[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (A[(ny_local + 2) * i + j] + A[(ny_local + 2) * i + j - 1] +
@@ -240,37 +244,8 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
     /* Wait for all communication to finish */
     err = MPI_Waitall(8, requests, statuses);
 
+    // top neighbour
     if (neighbours[0] != MPI_PROC_NULL) {
-      j = 1;
-
-#ifdef HYBRID
-#pragma omp parallel for
-#endif
-      for (i = x_bound_low; i < x_bound_high; i++) {
-        A[(ny_local + 2) * i + j] =
-            SCALAR_VAL(0.2) *
-            (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
-             B[(ny_local + 2) * i + 1 + j] + B[(ny_local + 2) * (1 + i) + j] +
-             B[(ny_local + 2) * (i - 1) + j]);
-      }
-    }
-
-    if (neighbours[1] != MPI_PROC_NULL) {
-      j = ny_local;
-
-#ifdef HYBRID
-#pragma omp parallel for
-#endif
-      for (i = x_bound_low; i < x_bound_high; i++) {
-        A[(ny_local + 2) * i + j] =
-            SCALAR_VAL(0.2) *
-            (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
-             B[(ny_local + 2) * i + 1 + j] + B[(ny_local + 2) * (1 + i) + j] +
-             B[(ny_local + 2) * (i - 1) + j]);
-      }
-    }
-
-    if (neighbours[2] != MPI_PROC_NULL) {
       i = 1;
 
 #ifdef HYBRID
@@ -285,13 +260,46 @@ static void kernel_jacobi_2d(int tsteps, int nx_local, int ny_local, double* A,
       }
     }
 
-    if (neighbours[3] != MPI_PROC_NULL) {
-      i = ny_local;
+    // bottom neighbour
+    if (neighbours[1] != MPI_PROC_NULL) {
+      i = nx_local;
 
 #ifdef HYBRID
 #pragma omp parallel for
 #endif
       for (j = y_bound_low; j < y_bound_high; j++) {
+        A[(ny_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
+             B[(ny_local + 2) * i + 1 + j] + B[(ny_local + 2) * (1 + i) + j] +
+             B[(ny_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    // left neighbour
+    if (neighbours[2] != MPI_PROC_NULL) {
+      j = 1;
+
+#ifdef HYBRID
+#pragma omp parallel for
+#endif
+      for (i = x_bound_low; i < x_bound_high; i++) {
+        A[(ny_local + 2) * i + j] =
+            SCALAR_VAL(0.2) *
+            (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
+             B[(ny_local + 2) * i + 1 + j] + B[(ny_local + 2) * (1 + i) + j] +
+             B[(ny_local + 2) * (i - 1) + j]);
+      }
+    }
+
+    // right neighbour
+    if (neighbours[3] != MPI_PROC_NULL) {
+      j = ny_local;
+
+#ifdef HYBRID
+#pragma omp parallel for
+#endif
+      for (i = x_bound_low; i < x_bound_high; i++) {
         A[(ny_local + 2) * i + j] =
             SCALAR_VAL(0.2) *
             (B[(ny_local + 2) * i + j] + B[(ny_local + 2) * i + j - 1] +
