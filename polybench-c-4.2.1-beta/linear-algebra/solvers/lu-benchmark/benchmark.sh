@@ -179,7 +179,7 @@ do
 
     export OMP_NUM_THREADS=$omp_ranks
     export I_MPI_PIN_DOMAIN=omp
-    bsub -We 04:00 -n $ranks -J "lu_hybrid_strong[$ranks]%36" -R "span[ptile=$omp_ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" "unset LSB_AFFINITY_HOSTFILE ; mpirun -n $mpi_ranks -ppn $omp_ranks ../../bin/lu-hybrid $runs $N"
+    bsub -We 04:00 -n $ranks -J "lu_hybrid_strong[$ranks]%36" -R "span[ptile=$omp_ranks]" -R "rusage[mem=$mem]" -R "select[model=$model]" -oo "output_$ranks.txt" "unset LSB_AFFINITY_HOSTFILE ; mpirun -n $mpi_ranks ../../bin/lu-hybrid $runs $N"
   
     cd ..
   fi
