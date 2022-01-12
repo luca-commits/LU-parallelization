@@ -1,0 +1,56 @@
+Sender: LSF System <lsfadmin@eu-a6-001-05>
+Subject: Job 200039498[22]: <lu_hybrid_strong[22]%36> in cluster <euler> Done
+
+Job <lu_hybrid_strong[22]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:36:19 2022
+Job was executed on host(s) <2*eu-a6-001-05>, in queue <normal.24h>, as user <sklampt> in cluster <euler> at Wed Jan 12 04:04:02 2022
+                            <2*eu-a6-001-20>
+                            <2*eu-a6-001-03>
+                            <2*eu-a6-001-04>
+                            <2*eu-a6-009-07>
+                            <2*eu-a6-004-11>
+                            <2*eu-a6-004-13>
+                            <2*eu-a6-004-03>
+                            <2*eu-a6-004-04>
+                            <2*eu-a6-004-07>
+                            <2*eu-a6-004-08>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Wed Jan 12 04:04:02 2022
+Terminated at Wed Jan 12 04:40:11 2022
+Results reported at Wed Jan 12 04:40:11 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 11 -ppn 2 ../../bin/jacobi-2d-hybrid 25 9605 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   47481.00 sec.
+    Max Memory :                                 1581 MB
+    Average Memory :                             1520.33 MB
+    Total Requested Memory :                     22528.00 MB
+    Delta Memory :                               20947.00 MB
+    Max Swap :                                   -
+    Max Processes :                              23
+    Max Threads :                                54
+    Run time :                                   2169 sec.
+    Turnaround time :                            18232 sec.
+
+The output (if any) follows:
+
+rank 10: 875 x 9605
+rank 6: 873 x 9605
+rank 0: 873 x 9605
+rank 8: 873 x 9605
+rank 2: 873 x 9605
+rank 4: 873 x 9605
+rank 7: 873 x 9605
+rank 1: 873 x 9605
+rank 9: 873 x 9605
+rank 3: 873 x 9605
+rank 5: 873 x 9605

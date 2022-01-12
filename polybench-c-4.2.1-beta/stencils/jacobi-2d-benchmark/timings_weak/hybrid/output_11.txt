@@ -1,0 +1,56 @@
+Sender: LSF System <lsfadmin@eu-a6-004-19>
+Subject: Job 200039484[11]: <lu_hybrid_strong[11]%36> in cluster <euler> Done
+
+Job <lu_hybrid_strong[11]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:36:14 2022
+Job was executed on host(s) <1*eu-a6-004-19>, in queue <normal.24h>, as user <sklampt> in cluster <euler> at Wed Jan 12 00:53:16 2022
+                            <1*eu-a6-004-13>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-03>
+                            <1*eu-a6-004-23>
+                            <1*eu-a6-004-07>
+                            <1*eu-a6-004-04>
+                            <1*eu-a6-004-08>
+                            <1*eu-a6-006-15>
+                            <1*eu-a6-006-17>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Wed Jan 12 00:53:16 2022
+Terminated at Wed Jan 12 01:13:31 2022
+Results reported at Wed Jan 12 01:13:31 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 11 -ppn 1 ../../bin/jacobi-2d-hybrid 25 6778 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   13287.00 sec.
+    Max Memory :                                 958 MB
+    Average Memory :                             916.67 MB
+    Total Requested Memory :                     11264.00 MB
+    Delta Memory :                               10306.00 MB
+    Max Swap :                                   -
+    Max Processes :                              28
+    Max Threads :                                44
+    Run time :                                   1215 sec.
+    Turnaround time :                            5837 sec.
+
+The output (if any) follows:
+
+rank 0: 616 x 6778
+rank 4: 616 x 6778
+rank 9: 616 x 6778
+rank 5: 616 x 6778
+rank 7: 616 x 6778
+rank 1: 616 x 6778
+rank 3: 616 x 6778
+rank 6: 616 x 6778
+rank 8: 616 x 6778
+rank 2: 616 x 6778
+rank 10: 618 x 6778

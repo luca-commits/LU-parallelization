@@ -1,0 +1,52 @@
+Sender: LSF System <lsfadmin@eu-a6-009-17>
+Subject: Job 200039504[27]: <lu_hybrid_strong[27]%36> in cluster <euler> Done
+
+Job <lu_hybrid_strong[27]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:36:20 2022
+Job was executed on host(s) <3*eu-a6-009-17>, in queue <normal.24h>, as user <sklampt> in cluster <euler> at Wed Jan 12 06:47:10 2022
+                            <3*eu-a6-009-24>
+                            <3*eu-a6-009-07>
+                            <3*eu-a6-004-13>
+                            <3*eu-a6-004-11>
+                            <3*eu-a6-004-03>
+                            <3*eu-a6-004-04>
+                            <3*eu-a6-004-08>
+                            <3*eu-a6-008-20>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Wed Jan 12 06:47:10 2022
+Terminated at Wed Jan 12 08:11:39 2022
+Results reported at Wed Jan 12 08:11:39 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 9 -ppn 3 ../../bin/jacobi-2d-hybrid 25 10629 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   95135.00 sec.
+    Max Memory :                                 1889 MB
+    Average Memory :                             1873.89 MB
+    Total Requested Memory :                     27648.00 MB
+    Delta Memory :                               25759.00 MB
+    Max Swap :                                   -
+    Max Processes :                              18
+    Max Threads :                                60
+    Run time :                                   5090 sec.
+    Turnaround time :                            30919 sec.
+
+The output (if any) follows:
+
+rank 6: 3543 x 3543
+rank 0: 3543 x 3543
+rank 3: 3543 x 3543
+rank 7: 3543 x 3543
+rank 1: 3543 x 3543
+rank 4: 3543 x 3543
+rank 8: 3543 x 3543
+rank 2: 3543 x 3543
+rank 5: 3543 x 3543

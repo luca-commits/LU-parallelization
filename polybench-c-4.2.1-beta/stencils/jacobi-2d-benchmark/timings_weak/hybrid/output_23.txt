@@ -1,0 +1,80 @@
+Sender: LSF System <lsfadmin@eu-a6-001-03>
+Subject: Job 200039499[23]: <lu_hybrid_strong[23]%36> in cluster <euler> Done
+
+Job <lu_hybrid_strong[23]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:36:19 2022
+Job was executed on host(s) <1*eu-a6-001-03>, in queue <normal.24h>, as user <sklampt> in cluster <euler> at Wed Jan 12 04:41:11 2022
+                            <1*eu-a6-001-05>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-04>
+                            <1*eu-a6-001-20>
+                            <1*eu-a6-008-18>
+                            <1*eu-a6-008-20>
+                            <1*eu-a6-008-12>
+                            <1*eu-a6-008-23>
+                            <1*eu-a6-008-10>
+                            <1*eu-a6-008-02>
+                            <1*eu-a6-008-04>
+                            <1*eu-a6-008-22>
+                            <1*eu-a6-008-14>
+                            <1*eu-a6-008-13>
+                            <1*eu-a6-008-09>
+                            <1*eu-a6-008-06>
+                            <1*eu-a6-008-05>
+                            <1*eu-a6-009-07>
+                            <1*eu-a6-009-24>
+                            <1*eu-a6-009-17>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-004-19>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Wed Jan 12 04:41:11 2022
+Terminated at Wed Jan 12 05:01:21 2022
+Results reported at Wed Jan 12 05:01:21 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 23 -ppn 1 ../../bin/jacobi-2d-hybrid 25 9809 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   27672.00 sec.
+    Max Memory :                                 2059 MB
+    Average Memory :                             1899.98 MB
+    Total Requested Memory :                     23552.00 MB
+    Delta Memory :                               21493.00 MB
+    Max Swap :                                   -
+    Max Processes :                              52
+    Max Threads :                                80
+    Run time :                                   1210 sec.
+    Turnaround time :                            19502 sec.
+
+The output (if any) follows:
+
+rank 0: 426 x 9809
+rank 13: 426 x 9809
+rank 21: 426 x 9809
+rank 17: 426 x 9809
+rank 16: 426 x 9809
+rank 6: 426 x 9809
+rank 15: 426 x 9809
+rank 12: 426 x 9809
+rank 14: 426 x 9809
+rank 22: 437 x 9809
+rank 9: 426 x 9809
+rank 11: 426 x 9809
+rank 5: 426 x 9809
+rank 19: 426 x 9809
+rank 3: 426 x 9809
+rank 4: 426 x 9809
+rank 1: 426 x 9809
+rank 8: 426 x 9809
+rank 7: 426 x 9809
+rank 18: 426 x 9809
+rank 10: 426 x 9809
+rank 20: 426 x 9809
+rank 2: 426 x 9809

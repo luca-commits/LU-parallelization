@@ -1,0 +1,68 @@
+Sender: LSF System <lsfadmin@eu-a6-009-24>
+Subject: Job 200039491[17]: <lu_hybrid_strong[17]%36> in cluster <euler> Done
+
+Job <lu_hybrid_strong[17]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:36:16 2022
+Job was executed on host(s) <1*eu-a6-009-24>, in queue <normal.24h>, as user <sklampt> in cluster <euler> at Wed Jan 12 02:23:25 2022
+                            <1*eu-a6-009-17>
+                            <1*eu-a6-009-07>
+                            <1*eu-a6-004-13>
+                            <1*eu-a6-004-04>
+                            <1*eu-a6-004-07>
+                            <1*eu-a6-004-03>
+                            <1*eu-a6-004-19>
+                            <1*eu-a6-004-24>
+                            <1*eu-a6-004-08>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-001-06>
+                            <1*eu-a6-001-15>
+                            <1*eu-a6-001-24>
+                            <1*eu-a6-001-11>
+                            <1*eu-a6-001-21>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Wed Jan 12 02:23:25 2022
+Terminated at Wed Jan 12 02:43:22 2022
+Results reported at Wed Jan 12 02:43:22 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 17 -ppn 1 ../../bin/jacobi-2d-hybrid 25 8437 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   20232.00 sec.
+    Max Memory :                                 1505 MB
+    Average Memory :                             1386.05 MB
+    Total Requested Memory :                     17408.00 MB
+    Delta Memory :                               15903.00 MB
+    Max Swap :                                   -
+    Max Processes :                              40
+    Max Threads :                                62
+    Run time :                                   1196 sec.
+    Turnaround time :                            11226 sec.
+
+The output (if any) follows:
+
+rank 10: 496 x 8437
+rank 12: 496 x 8437
+rank 6: 496 x 8437
+rank 16: 501 x 8437
+rank 2: 496 x 8437
+rank 4: 496 x 8437
+rank 14: 496 x 8437
+rank 5: 496 x 8437
+rank 7: 496 x 8437
+rank 11: 496 x 8437
+rank 8: 496 x 8437
+rank 9: 496 x 8437
+rank 1: 496 x 8437
+rank 15: 496 x 8437
+rank 13: 496 x 8437
+rank 3: 496 x 8437
+rank 0: 496 x 8437

@@ -1,0 +1,96 @@
+Sender: LSF System <lsfadmin@eu-a6-012-18>
+Subject: Job 200039509[31]: <lu_hybrid_strong[31]%36> in cluster <euler> Done
+
+Job <lu_hybrid_strong[31]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:36:21 2022
+Job was executed on host(s) <1*eu-a6-012-18>, in queue <normal.24h>, as user <sklampt> in cluster <euler> at Wed Jan 12 08:40:46 2022
+                            <1*eu-a6-012-14>
+                            <1*eu-a6-012-05>
+                            <1*eu-a6-012-09>
+                            <1*eu-a6-012-06>
+                            <1*eu-a6-012-23>
+                            <1*eu-a6-012-19>
+                            <1*eu-a6-012-07>
+                            <1*eu-a6-012-01>
+                            <1*eu-a6-012-04>
+                            <1*eu-a6-012-20>
+                            <1*eu-a6-012-10>
+                            <1*eu-a6-012-22>
+                            <1*eu-a6-012-13>
+                            <1*eu-a6-012-15>
+                            <1*eu-a6-003-13>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-19>
+                            <1*eu-a6-003-11>
+                            <1*eu-a6-003-01>
+                            <1*eu-a6-003-05>
+                            <1*eu-a6-003-18>
+                            <1*eu-a6-003-08>
+                            <1*eu-a6-003-21>
+                            <1*eu-a6-003-03>
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-010-22>
+                            <1*eu-a6-010-11>
+                            <1*eu-a6-010-08>
+                            <1*eu-a6-010-20>
+                            <1*eu-a6-002-07>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Wed Jan 12 08:40:46 2022
+Terminated at Wed Jan 12 09:09:24 2022
+Results reported at Wed Jan 12 09:09:24 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 31 -ppn 1 ../../bin/jacobi-2d-hybrid 25 11386 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   53022.00 sec.
+    Max Memory :                                 2848 MB
+    Average Memory :                             2664.85 MB
+    Total Requested Memory :                     31744.00 MB
+    Delta Memory :                               28896.00 MB
+    Max Swap :                                   -
+    Max Processes :                              68
+    Max Threads :                                104
+    Run time :                                   1736 sec.
+    Turnaround time :                            34383 sec.
+
+The output (if any) follows:
+
+rank 14: 367 x 11386
+rank 23: 367 x 11386
+rank 13: 367 x 11386
+rank 11: 367 x 11386
+rank 22: 367 x 11386
+rank 0: 367 x 11386
+rank 9: 367 x 11386
+rank 12: 367 x 11386
+rank 20: 367 x 11386
+rank 21: 367 x 11386
+rank 30: 376 x 11386
+rank 19: 367 x 11386
+rank 2: 367 x 11386
+rank 3: 367 x 11386
+rank 25: 367 x 11386
+rank 8: 367 x 11386
+rank 7: 367 x 11386
+rank 27: 367 x 11386
+rank 24: 367 x 11386
+rank 10: 367 x 11386
+rank 4: 367 x 11386
+rank 29: 367 x 11386
+rank 6: 367 x 11386
+rank 5: 367 x 11386
+rank 16: 367 x 11386
+rank 28: 367 x 11386
+rank 26: 367 x 11386
+rank 1: 367 x 11386
+rank 18: 367 x 11386
+rank 15: 367 x 11386
+rank 17: 367 x 11386

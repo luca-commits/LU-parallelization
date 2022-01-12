@@ -1,0 +1,48 @@
+Sender: LSF System <lsfadmin@eu-a6-004-13>
+Subject: Job 200039488[14]: <lu_hybrid_strong[14]%36> in cluster <euler> Done
+
+Job <lu_hybrid_strong[14]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:36:15 2022
+Job was executed on host(s) <2*eu-a6-004-13>, in queue <normal.24h>, as user <sklampt> in cluster <euler> at Wed Jan 12 01:47:54 2022
+                            <2*eu-a6-004-07>
+                            <2*eu-a6-004-08>
+                            <2*eu-a6-004-24>
+                            <2*eu-a6-004-11>
+                            <2*eu-a6-004-03>
+                            <2*eu-a6-004-04>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/hybrid> was used as the working directory.
+Started at Wed Jan 12 01:47:54 2022
+Terminated at Wed Jan 12 02:23:06 2022
+Results reported at Wed Jan 12 02:23:06 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 7 -ppn 2 ../../bin/jacobi-2d-hybrid 25 7659 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   29427.00 sec.
+    Max Memory :                                 1035 MB
+    Average Memory :                             979.80 MB
+    Total Requested Memory :                     14336.00 MB
+    Delta Memory :                               13301.00 MB
+    Max Swap :                                   -
+    Max Processes :                              17
+    Max Threads :                                40
+    Run time :                                   2116 sec.
+    Turnaround time :                            10011 sec.
+
+The output (if any) follows:
+
+rank 4: 1094 x 7659
+rank 5: 1094 x 7659
+rank 1: 1094 x 7659
+rank 0: 1094 x 7659
+rank 2: 1094 x 7659
+rank 3: 1094 x 7659
+rank 6: 1095 x 7659
