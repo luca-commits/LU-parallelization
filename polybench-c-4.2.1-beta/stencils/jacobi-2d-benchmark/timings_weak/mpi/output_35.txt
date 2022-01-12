@@ -1,0 +1,104 @@
+Sender: LSF System <lsfadmin@eu-a6-012-01>
+Subject: Job 200039468[35]: <jacobi_2d_mpi_strong[35]%36> in cluster <euler> Done
+
+Job <jacobi_2d_mpi_strong[35]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:36:01 2022
+Job was executed on host(s) <1*eu-a6-012-01>, in queue <normal.4h>, as user <sklampt> in cluster <euler> at Wed Jan 12 01:51:25 2022
+                            <1*eu-a6-012-04>
+                            <1*eu-a6-012-10>
+                            <1*eu-a6-012-07>
+                            <1*eu-a6-012-18>
+                            <1*eu-a6-012-05>
+                            <1*eu-a6-012-14>
+                            <1*eu-a6-012-23>
+                            <1*eu-a6-012-19>
+                            <1*eu-a6-012-06>
+                            <1*eu-a6-012-09>
+                            <1*eu-a6-012-22>
+                            <1*eu-a6-012-20>
+                            <1*eu-a6-012-13>
+                            <1*eu-a6-012-15>
+                            <1*eu-a6-007-14>
+                            <1*eu-a6-007-02>
+                            <1*eu-a6-007-21>
+                            <1*eu-a6-007-09>
+                            <1*eu-a6-007-07>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-003-11>
+                            <1*eu-a6-003-05>
+                            <1*eu-a6-003-08>
+                            <1*eu-a6-003-21>
+                            <1*eu-a6-003-18>
+                            <1*eu-a6-003-01>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-011-20>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-011-14>
+                            <1*eu-a6-002-01>
+                            <1*eu-a6-002-07>
+                            <1*eu-a6-002-04>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/mpi> was used as the working directory.
+Started at Wed Jan 12 01:51:25 2022
+Terminated at Wed Jan 12 01:59:19 2022
+Results reported at Wed Jan 12 01:59:19 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 35 ../../bin/jacobi-2d-mpi 25 12103 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   16383.00 sec.
+    Max Memory :                                 3247 MB
+    Average Memory :                             2612.06 MB
+    Total Requested Memory :                     35840.00 MB
+    Delta Memory :                               32593.00 MB
+    Max Swap :                                   -
+    Max Processes :                              76
+    Max Threads :                                116
+    Run time :                                   474 sec.
+    Turnaround time :                            8598 sec.
+
+The output (if any) follows:
+
+rank 25: 1729 x 2420
+rank 17: 1729 x 2420
+rank 31: 1729 x 2420
+rank 4: 1729 x 2423
+rank 2: 1729 x 2420
+rank 23: 1729 x 2420
+rank 26: 1729 x 2420
+rank 21: 1729 x 2420
+rank 14: 1729 x 2423
+rank 15: 1729 x 2420
+rank 10: 1729 x 2420
+rank 24: 1729 x 2423
+rank 7: 1729 x 2420
+rank 9: 1729 x 2423
+rank 19: 1729 x 2423
+rank 20: 1729 x 2420
+rank 18: 1729 x 2420
+rank 32: 1729 x 2420
+rank 13: 1729 x 2420
+rank 12: 1729 x 2420
+rank 22: 1729 x 2420
+rank 8: 1729 x 2420
+rank 27: 1729 x 2420
+rank 16: 1729 x 2420
+rank 30: 1729 x 2420
+rank 3: 1729 x 2420
+rank 5: 1729 x 2420
+rank 6: 1729 x 2420
+rank 29: 1729 x 2423
+rank 28: 1729 x 2420
+rank 34: 1729 x 2423
+rank 33: 1729 x 2420
+rank 1: 1729 x 2420
+rank 11: 1729 x 2420
+rank 0: 1729 x 2420

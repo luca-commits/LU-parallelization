@@ -1,0 +1,48 @@
+Sender: LSF System <lsfadmin@eu-a6-002-22>
+Subject: Job 200039437[7]: <jacobi_2d_mpi_strong[7]%36> in cluster <euler> Done
+
+Job <jacobi_2d_mpi_strong[7]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:35:52 2022
+Job was executed on host(s) <1*eu-a6-002-22>, in queue <normal.4h>, as user <sklampt> in cluster <euler> at Tue Jan 11 23:36:16 2022
+                            <1*eu-a6-002-07>
+                            <1*eu-a6-002-04>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-011-14>
+                            <1*eu-a6-011-10>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/mpi> was used as the working directory.
+Started at Tue Jan 11 23:36:16 2022
+Terminated at Tue Jan 11 23:47:38 2022
+Results reported at Tue Jan 11 23:47:38 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 7 ../../bin/jacobi-2d-mpi 25 5406 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   4749.00 sec.
+    Max Memory :                                 531 MB
+    Average Memory :                             468.73 MB
+    Total Requested Memory :                     7168.00 MB
+    Delta Memory :                               6637.00 MB
+    Max Swap :                                   -
+    Max Processes :                              20
+    Max Threads :                                32
+    Run time :                                   680 sec.
+    Turnaround time :                            706 sec.
+
+The output (if any) follows:
+
+rank 5: 772 x 5406
+rank 6: 774 x 5406
+rank 0: 772 x 5406
+rank 2: 772 x 5406
+rank 3: 772 x 5406
+rank 1: 772 x 5406
+rank 4: 772 x 5406

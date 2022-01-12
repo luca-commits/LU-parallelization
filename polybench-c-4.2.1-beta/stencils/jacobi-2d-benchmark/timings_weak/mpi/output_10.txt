@@ -1,0 +1,54 @@
+Sender: LSF System <lsfadmin@eu-a6-002-22>
+Subject: Job 200039440[10]: <jacobi_2d_mpi_strong[10]%36> in cluster <euler> Done
+
+Job <jacobi_2d_mpi_strong[10]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:35:53 2022
+Job was executed on host(s) <1*eu-a6-002-22>, in queue <normal.4h>, as user <sklampt> in cluster <euler> at Tue Jan 11 23:36:16 2022
+                            <1*eu-a6-002-07>
+                            <1*eu-a6-002-04>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-011-10>
+                            <1*eu-a6-011-20>
+                            <1*eu-a6-011-24>
+                            <1*eu-a6-011-22>
+                            <1*eu-a6-004-07>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/mpi> was used as the working directory.
+Started at Tue Jan 11 23:36:16 2022
+Terminated at Tue Jan 11 23:47:38 2022
+Results reported at Tue Jan 11 23:47:38 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 10 ../../bin/jacobi-2d-mpi 25 6471 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   6773.00 sec.
+    Max Memory :                                 801 MB
+    Average Memory :                             712.00 MB
+    Total Requested Memory :                     10240.00 MB
+    Delta Memory :                               9439.00 MB
+    Max Swap :                                   -
+    Max Processes :                              26
+    Max Threads :                                41
+    Run time :                                   679 sec.
+    Turnaround time :                            705 sec.
+
+The output (if any) follows:
+
+rank 9: 1295 x 3236
+rank 8: 1295 x 3235
+rank 7: 1294 x 3236
+rank 6: 1294 x 3235
+rank 2: 1294 x 3235
+rank 3: 1294 x 3236
+rank 1: 1294 x 3236
+rank 0: 1294 x 3235
+rank 5: 1294 x 3236
+rank 4: 1294 x 3235

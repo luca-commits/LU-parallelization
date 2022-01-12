@@ -1,0 +1,35 @@
+Sender: LSF System <lsfadmin@eu-a6-011-14>
+Subject: Job 199865238[19]: <jacobi_2d_lu_omp_strong[19]%36> in cluster <euler> Done
+
+Job <jacobi_2d_lu_omp_strong[19]%36> was submitted from host <eu-login-26> by user <sklampt> in cluster <euler> at Mon Jan 10 10:05:15 2022
+Job was executed on host(s) <19*eu-a6-011-14>, in queue <normal.24h>, as user <sklampt> in cluster <euler> at Mon Jan 10 14:43:42 2022
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/omp> was used as the working directory.
+Started at Mon Jan 10 14:43:42 2022
+Terminated at Mon Jan 10 14:59:23 2022
+Results reported at Mon Jan 10 14:59:23 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+../../bin/jacobi-2d-omp 25 8908 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   17793.03 sec.
+    Max Memory :                                 1218 MB
+    Average Memory :                             1218.00 MB
+    Total Requested Memory :                     19456.00 MB
+    Delta Memory :                               18238.00 MB
+    Max Swap :                                   -
+    Max Processes :                              3
+    Max Threads :                                22
+    Run time :                                   967 sec.
+    Turnaround time :                            17648 sec.
+
+The output (if any) follows:
+

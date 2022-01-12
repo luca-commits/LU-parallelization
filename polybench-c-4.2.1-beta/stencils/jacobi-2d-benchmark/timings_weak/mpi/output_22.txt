@@ -1,0 +1,78 @@
+Sender: LSF System <lsfadmin@eu-a6-004-24>
+Subject: Job 200039454[22]: <jacobi_2d_mpi_strong[22]%36> in cluster <euler> Done
+
+Job <jacobi_2d_mpi_strong[22]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:35:56 2022
+Job was executed on host(s) <1*eu-a6-004-24>, in queue <normal.4h>, as user <sklampt> in cluster <euler> at Wed Jan 12 00:25:12 2022
+                            <1*eu-a6-004-19>
+                            <1*eu-a6-004-03>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-004-23>
+                            <1*eu-a6-004-13>
+                            <1*eu-a6-004-04>
+                            <1*eu-a6-004-07>
+                            <1*eu-a6-004-08>
+                            <1*eu-a6-008-01>
+                            <1*eu-a6-008-18>
+                            <1*eu-a6-008-02>
+                            <1*eu-a6-008-12>
+                            <1*eu-a6-008-22>
+                            <1*eu-a6-008-09>
+                            <1*eu-a6-008-20>
+                            <1*eu-a6-008-14>
+                            <1*eu-a6-008-23>
+                            <1*eu-a6-008-13>
+                            <1*eu-a6-008-04>
+                            <1*eu-a6-008-10>
+                            <1*eu-a6-008-06>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/mpi> was used as the working directory.
+Started at Wed Jan 12 00:25:12 2022
+Terminated at Wed Jan 12 00:30:56 2022
+Results reported at Wed Jan 12 00:30:56 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 22 ../../bin/jacobi-2d-mpi 25 9605 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   7465.45 sec.
+    Max Memory :                                 1965 MB
+    Average Memory :                             1678.00 MB
+    Total Requested Memory :                     22528.00 MB
+    Delta Memory :                               20563.00 MB
+    Max Swap :                                   -
+    Max Processes :                              50
+    Max Threads :                                77
+    Run time :                                   363 sec.
+    Turnaround time :                            3300 sec.
+
+The output (if any) follows:
+
+rank 8: 873 x 4802
+rank 18: 873 x 4802
+rank 1: 873 x 4803
+rank 0: 873 x 4802
+rank 14: 873 x 4802
+rank 9: 873 x 4803
+rank 11: 873 x 4803
+rank 20: 875 x 4802
+rank 16: 873 x 4802
+rank 21: 875 x 4803
+rank 2: 873 x 4802
+rank 13: 873 x 4803
+rank 7: 873 x 4803
+rank 17: 873 x 4803
+rank 4: 873 x 4802
+rank 3: 873 x 4803
+rank 12: 873 x 4802
+rank 5: 873 x 4803
+rank 6: 873 x 4802
+rank 19: 873 x 4803
+rank 10: 873 x 4802
+rank 15: 873 x 4803

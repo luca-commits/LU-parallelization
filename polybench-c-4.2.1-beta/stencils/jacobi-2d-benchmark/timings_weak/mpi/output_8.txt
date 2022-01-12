@@ -1,0 +1,50 @@
+Sender: LSF System <lsfadmin@eu-a6-002-22>
+Subject: Job 200039438[8]: <jacobi_2d_mpi_strong[8]%36> in cluster <euler> Done
+
+Job <jacobi_2d_mpi_strong[8]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:35:52 2022
+Job was executed on host(s) <1*eu-a6-002-22>, in queue <normal.4h>, as user <sklampt> in cluster <euler> at Tue Jan 11 23:36:16 2022
+                            <1*eu-a6-002-07>
+                            <1*eu-a6-002-04>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-011-14>
+                            <1*eu-a6-011-10>
+                            <1*eu-a6-011-20>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/mpi> was used as the working directory.
+Started at Tue Jan 11 23:36:16 2022
+Terminated at Tue Jan 11 23:47:51 2022
+Results reported at Tue Jan 11 23:47:51 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 8 ../../bin/jacobi-2d-mpi 25 5775 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   5529.00 sec.
+    Max Memory :                                 611 MB
+    Average Memory :                             546.09 MB
+    Total Requested Memory :                     8192.00 MB
+    Delta Memory :                               7581.00 MB
+    Max Swap :                                   -
+    Max Processes :                              22
+    Max Threads :                                35
+    Run time :                                   693 sec.
+    Turnaround time :                            719 sec.
+
+The output (if any) follows:
+
+rank 7: 1446 x 2888
+rank 2: 1443 x 2887
+rank 3: 1443 x 2888
+rank 6: 1446 x 2887
+rank 1: 1443 x 2888
+rank 0: 1443 x 2887
+rank 5: 1443 x 2888
+rank 4: 1443 x 2887

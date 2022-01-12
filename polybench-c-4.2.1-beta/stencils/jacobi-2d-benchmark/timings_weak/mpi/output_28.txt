@@ -1,0 +1,90 @@
+Sender: LSF System <lsfadmin@eu-a6-007-14>
+Subject: Job 200039461[28]: <jacobi_2d_mpi_strong[28]%36> in cluster <euler> Done
+
+Job <jacobi_2d_mpi_strong[28]%36> was submitted from host <eu-login-28> by user <sklampt> in cluster <euler> at Tue Jan 11 23:35:58 2022
+Job was executed on host(s) <1*eu-a6-007-14>, in queue <normal.4h>, as user <sklampt> in cluster <euler> at Wed Jan 12 00:50:46 2022
+                            <1*eu-a6-007-12>
+                            <1*eu-a6-007-02>
+                            <1*eu-a6-007-09>
+                            <1*eu-a6-007-07>
+                            <1*eu-a6-007-21>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-003-11>
+                            <1*eu-a6-003-01>
+                            <1*eu-a6-003-08>
+                            <1*eu-a6-003-18>
+                            <1*eu-a6-003-05>
+                            <1*eu-a6-003-21>
+                            <1*eu-a6-012-22>
+                            <1*eu-a6-012-01>
+                            <1*eu-a6-012-04>
+                            <1*eu-a6-012-07>
+                            <1*eu-a6-012-05>
+                            <1*eu-a6-012-16>
+                            <1*eu-a6-012-02>
+                            <1*eu-a6-012-06>
+                            <1*eu-a6-012-10>
+                            <1*eu-a6-012-19>
+                            <1*eu-a6-012-14>
+                            <1*eu-a6-012-24>
+                            <1*eu-a6-012-15>
+                            <1*eu-a6-012-18>
+</cluster/home/sklampt> was used as the home directory.
+</cluster/home/sklampt/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings_weak/mpi> was used as the working directory.
+Started at Wed Jan 12 00:50:46 2022
+Terminated at Wed Jan 12 00:57:21 2022
+Results reported at Wed Jan 12 00:57:21 2022
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+mpirun -n 28 ../../bin/jacobi-2d-mpi 25 10833 1000
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   10923.00 sec.
+    Max Memory :                                 2488 MB
+    Average Memory :                             1952.50 MB
+    Total Requested Memory :                     28672.00 MB
+    Delta Memory :                               26184.00 MB
+    Max Swap :                                   -
+    Max Processes :                              62
+    Max Threads :                                95
+    Run time :                                   404 sec.
+    Turnaround time :                            4883 sec.
+
+The output (if any) follows:
+
+rank 5: 773 x 5417
+rank 10: 773 x 5416
+rank 12: 773 x 5416
+rank 0: 773 x 5416
+rank 11: 773 x 5417
+rank 9: 773 x 5417
+rank 26: 784 x 5416
+rank 22: 773 x 5416
+rank 21: 773 x 5417
+rank 25: 773 x 5417
+rank 19: 773 x 5417
+rank 23: 773 x 5417
+rank 13: 773 x 5417
+rank 7: 773 x 5417
+rank 4: 773 x 5416
+rank 27: 784 x 5417
+rank 24: 773 x 5416
+rank 20: 773 x 5416
+rank 6: 773 x 5416
+rank 2: 773 x 5416
+rank 3: 773 x 5417
+rank 18: 773 x 5416
+rank 15: 773 x 5417
+rank 1: 773 x 5417
+rank 8: 773 x 5416
+rank 14: 773 x 5416
+rank 17: 773 x 5417
+rank 16: 773 x 5416
