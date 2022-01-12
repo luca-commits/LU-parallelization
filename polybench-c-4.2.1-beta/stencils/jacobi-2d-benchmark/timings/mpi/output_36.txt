@@ -1,48 +1,48 @@
-Sender: LSF System <lsfadmin@eu-a6-009-04>
-Subject: Job 199822058[36]: <jacobi_2d_mpi_strong[36]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-003-22>
+Subject: Job 199966998[36]: <jacobi_2d_mpi_strong[36]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[36]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:22 2022
-Job was executed on host(s) <1*eu-a6-009-04>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Mon Jan 10 01:45:31 2022
-                            <1*eu-a6-009-16>
-                            <1*eu-a6-009-09>
-                            <1*eu-a6-009-17>
-                            <1*eu-a6-009-01>
-                            <1*eu-a6-009-21>
-                            <1*eu-a6-009-11>
-                            <1*eu-a6-009-20>
+Job <jacobi_2d_mpi_strong[36]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:22 2022
+Job was executed on host(s) <1*eu-a6-003-22>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Tue Jan 11 16:50:58 2022
+                            <1*eu-a6-003-11>
+                            <1*eu-a6-003-05>
                             <1*eu-a6-009-03>
-                            <1*eu-a6-009-07>
-                            <1*eu-a6-009-05>
-                            <1*eu-a6-009-15>
-                            <1*eu-a6-007-21>
-                            <1*eu-a6-007-11>
-                            <1*eu-a6-007-03>
-                            <1*eu-a6-007-19>
-                            <1*eu-a6-007-15>
-                            <1*eu-a6-007-09>
-                            <1*eu-a6-007-02>
-                            <1*eu-a6-007-13>
-                            <1*eu-a6-007-07>
-                            <1*eu-a6-007-20>
-                            <1*eu-a6-007-24>
-                            <1*eu-a6-007-17>
+                            <1*eu-a6-009-02>
+                            <1*eu-a6-010-11>
                             <1*eu-a6-010-19>
                             <1*eu-a6-010-20>
-                            <1*eu-a6-010-11>
                             <1*eu-a6-010-22>
+                            <1*eu-a6-010-06>
                             <1*eu-a6-010-07>
-                            <1*eu-a6-004-19>
-                            <1*eu-a6-004-22>
-                            <1*eu-a6-004-24>
-                            <1*eu-a6-004-11>
-                            <1*eu-a6-004-07>
-                            <1*eu-a6-004-03>
-                            <1*eu-a6-004-08>
+                            <1*eu-a6-006-13>
+                            <1*eu-a6-002-22>
+                            <1*eu-a6-001-08>
+                            <1*eu-a6-001-23>
+                            <1*eu-a6-001-13>
+                            <1*eu-a6-001-17>
+                            <1*eu-a6-001-14>
+                            <1*eu-a6-001-21>
+                            <1*eu-a6-001-19>
+                            <1*eu-a6-001-09>
+                            <1*eu-a6-001-18>
+                            <1*eu-a6-001-24>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-11>
+                            <1*eu-a6-001-02>
+                            <1*eu-a6-001-12>
+                            <1*eu-a6-001-05>
+                            <1*eu-a6-001-10>
+                            <1*eu-a6-001-16>
+                            <1*eu-a6-001-15>
+                            <1*eu-a6-001-04>
+                            <1*eu-a6-001-22>
+                            <1*eu-a6-001-20>
+                            <1*eu-a6-011-20>
+                            <1*eu-a6-011-23>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Mon Jan 10 01:45:31 2022
-Terminated at Mon Jan 10 01:47:38 2022
-Results reported at Mon Jan 10 01:47:38 2022
+Started at Tue Jan 11 16:50:58 2022
+Terminated at Tue Jan 11 16:53:55 2022
+Results reported at Tue Jan 11 16:53:55 2022
 
 Your job looked like:
 
@@ -55,52 +55,52 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   4429.00 sec.
-    Max Memory :                                 2029 MB
-    Average Memory :                             1136.67 MB
+    CPU time :                                   6193.00 sec.
+    Max Memory :                                 2019 MB
+    Average Memory :                             1268.29 MB
     Total Requested Memory :                     36864.00 MB
-    Delta Memory :                               34835.00 MB
+    Delta Memory :                               34845.00 MB
     Max Swap :                                   -
     Max Processes :                              78
     Max Threads :                                119
-    Run time :                                   135 sec.
-    Turnaround time :                            31216 sec.
+    Run time :                                   204 sec.
+    Turnaround time :                            20913 sec.
 
 The output (if any) follows:
 
-rank 16: 1365 x 1365
-rank 26: 1365 x 1365
-rank 1: 1365 x 1365
-rank 5: 1365 x 1367
-rank 14: 1365 x 1365
-rank 4: 1365 x 1365
-rank 12: 1365 x 1365
-rank 32: 1367 x 1365
-rank 34: 1367 x 1365
-rank 28: 1365 x 1365
-rank 22: 1365 x 1365
 rank 10: 1365 x 1365
-rank 8: 1365 x 1365
-rank 24: 1365 x 1365
-rank 30: 1367 x 1365
-rank 20: 1365 x 1365
+rank 32: 1367 x 1365
 rank 18: 1365 x 1365
-rank 0: 1365 x 1365
-rank 19: 1365 x 1365
-rank 25: 1365 x 1365
-rank 33: 1367 x 1365
-rank 9: 1365 x 1365
-rank 17: 1365 x 1367
-rank 6: 1365 x 1365
-rank 29: 1365 x 1367
-rank 11: 1365 x 1367
-rank 3: 1365 x 1365
-rank 23: 1365 x 1367
-rank 7: 1365 x 1365
-rank 27: 1365 x 1365
-rank 35: 1367 x 1367
-rank 2: 1365 x 1365
-rank 15: 1365 x 1365
-rank 21: 1365 x 1365
+rank 8: 1365 x 1365
+rank 20: 1365 x 1365
 rank 31: 1367 x 1365
 rank 13: 1365 x 1365
+rank 33: 1367 x 1365
+rank 12: 1365 x 1365
+rank 4: 1365 x 1365
+rank 19: 1365 x 1365
+rank 28: 1365 x 1365
+rank 23: 1365 x 1367
+rank 0: 1365 x 1365
+rank 34: 1367 x 1365
+rank 7: 1365 x 1365
+rank 6: 1365 x 1365
+rank 2: 1365 x 1365
+rank 15: 1365 x 1365
+rank 3: 1365 x 1365
+rank 9: 1365 x 1365
+rank 30: 1367 x 1365
+rank 25: 1365 x 1365
+rank 22: 1365 x 1365
+rank 35: 1367 x 1367
+rank 11: 1365 x 1367
+rank 1: 1365 x 1365
+rank 21: 1365 x 1365
+rank 16: 1365 x 1365
+rank 24: 1365 x 1365
+rank 27: 1365 x 1365
+rank 14: 1365 x 1365
+rank 17: 1365 x 1367
+rank 29: 1365 x 1367
+rank 26: 1365 x 1365
+rank 5: 1365 x 1367

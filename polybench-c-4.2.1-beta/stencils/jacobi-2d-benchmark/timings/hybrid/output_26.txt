@@ -1,25 +1,25 @@
-Sender: LSF System <lsfadmin@eu-a6-012-07>
-Subject: Job 199822016[26]: <lu_hybrid_strong[26]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-002-01>
+Subject: Job 199966881[26]: <lu_hybrid_strong[26]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[26]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:10 2022
-Job was executed on host(s) <2*eu-a6-012-07>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Mon Jan 10 03:23:03 2022
-                            <2*eu-a6-012-19>
-                            <2*eu-a6-012-15>
-                            <2*eu-a6-012-05>
-                            <2*eu-a6-008-10>
-                            <2*eu-a6-008-22>
-                            <2*eu-a6-008-14>
-                            <2*eu-a6-008-12>
-                            <2*eu-a6-008-20>
-                            <2*eu-a6-008-05>
-                            <2*eu-a6-008-02>
-                            <2*eu-a6-008-06>
-                            <2*eu-a6-003-18>
+Job <lu_hybrid_strong[26]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:02 2022
+Job was executed on host(s) <2*eu-a6-002-01>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Tue Jan 11 21:23:27 2022
+                            <2*eu-a6-002-07>
+                            <2*eu-a6-002-04>
+                            <2*eu-a6-005-15>
+                            <2*eu-a6-005-11>
+                            <2*eu-a6-011-10>
+                            <2*eu-a6-011-23>
+                            <2*eu-a6-011-20>
+                            <2*eu-a6-011-21>
+                            <2*eu-a6-011-14>
+                            <2*eu-a6-011-24>
+                            <2*eu-a6-011-05>
+                            <2*eu-a6-011-22>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/hybrid> was used as the working directory.
-Started at Mon Jan 10 03:23:03 2022
-Terminated at Mon Jan 10 03:45:40 2022
-Results reported at Mon Jan 10 03:45:40 2022
+Started at Tue Jan 11 21:23:27 2022
+Terminated at Tue Jan 11 21:45:53 2022
+Results reported at Tue Jan 11 21:45:53 2022
 
 Your job looked like:
 
@@ -32,29 +32,29 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   35118.00 sec.
-    Max Memory :                                 1219 MB
-    Average Memory :                             1163.36 MB
+    CPU time :                                   34821.00 sec.
+    Max Memory :                                 1245 MB
+    Average Memory :                             1156.82 MB
     Total Requested Memory :                     26624.00 MB
-    Delta Memory :                               25405.00 MB
+    Delta Memory :                               25379.00 MB
     Max Swap :                                   -
     Max Processes :                              26
     Max Threads :                                61
-    Run time :                                   1357 sec.
-    Turnaround time :                            38310 sec.
+    Run time :                                   1369 sec.
+    Turnaround time :                            38451 sec.
 
 The output (if any) follows:
 
-rank 4: 630 x 8192
-rank 10: 630 x 8192
-rank 0: 630 x 8192
-rank 5: 630 x 8192
-rank 12: 632 x 8192
-rank 11: 630 x 8192
 rank 2: 630 x 8192
-rank 6: 630 x 8192
 rank 8: 630 x 8192
-rank 1: 630 x 8192
+rank 10: 630 x 8192
+rank 6: 630 x 8192
+rank 4: 630 x 8192
+rank 12: 632 x 8192
+rank 0: 630 x 8192
 rank 3: 630 x 8192
-rank 7: 630 x 8192
 rank 9: 630 x 8192
+rank 11: 630 x 8192
+rank 7: 630 x 8192
+rank 5: 630 x 8192
+rank 1: 630 x 8192

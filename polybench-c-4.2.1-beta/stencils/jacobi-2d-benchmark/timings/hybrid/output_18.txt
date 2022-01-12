@@ -1,18 +1,18 @@
-Sender: LSF System <lsfadmin@eu-a6-005-11>
-Subject: Job 199821972[18]: <lu_hybrid_strong[18]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-004-03>
+Subject: Job 199966867[18]: <lu_hybrid_strong[18]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[18]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:04 2022
-Job was executed on host(s) <3*eu-a6-005-11>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Sun Jan  9 23:21:19 2022
-                            <3*eu-a6-005-15>
-                            <3*eu-a6-008-02>
-                            <3*eu-a6-008-14>
-                            <3*eu-a6-008-20>
-                            <3*eu-a6-008-10>
+Job <lu_hybrid_strong[18]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:01 2022
+Job was executed on host(s) <3*eu-a6-004-03>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Tue Jan 11 16:54:28 2022
+                            <3*eu-a6-004-08>
+                            <3*eu-a6-004-04>
+                            <3*eu-a6-012-13>
+                            <3*eu-a6-012-14>
+                            <3*eu-a6-012-09>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/hybrid> was used as the working directory.
-Started at Sun Jan  9 23:21:19 2022
-Terminated at Sun Jan  9 23:21:24 2022
-Results reported at Sun Jan  9 23:21:24 2022
+Started at Tue Jan 11 16:54:28 2022
+Terminated at Tue Jan 11 18:02:54 2022
+Results reported at Tue Jan 11 18:02:54 2022
 
 Your job looked like:
 
@@ -21,20 +21,20 @@ Your job looked like:
 unset LSB_AFFINITY_HOSTFILE ; mpirun -n 6 -ppn 3 ../../bin/jacobi-2d-hybrid 25 8192 1000
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   8.30 sec.
-    Max Memory :                                 1738 MB
-    Average Memory :                             -
+    CPU time :                                   52554.00 sec.
+    Max Memory :                                 1135 MB
+    Average Memory :                             1125.69 MB
     Total Requested Memory :                     18432.00 MB
-    Delta Memory :                               16694.00 MB
+    Delta Memory :                               17297.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   11 sec.
-    Turnaround time :                            22460 sec.
+    Max Processes :                              14
+    Max Threads :                                47
+    Run time :                                   4131 sec.
+    Turnaround time :                            25073 sec.
 
 The output (if any) follows:
 
@@ -42,16 +42,5 @@ rank 3: 2730 x 4096
 rank 0: 2730 x 4096
 rank 4: 2732 x 4096
 rank 1: 2730 x 4096
-rank 2: 2730 x 4096
 rank 5: 2732 x 4096
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 28834 RUNNING AT eu-a6-005-15
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 2: 2730 x 4096

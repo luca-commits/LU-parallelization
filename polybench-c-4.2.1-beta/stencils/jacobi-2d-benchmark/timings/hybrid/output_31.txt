@@ -1,43 +1,43 @@
-Sender: LSF System <lsfadmin@eu-a6-009-04>
-Subject: Job 199822044[31]: <lu_hybrid_strong[31]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-007-12>
+Subject: Job 199966890[31]: <lu_hybrid_strong[31]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[31]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:17 2022
-Job was executed on host(s) <1*eu-a6-009-04>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Mon Jan 10 06:24:14 2022
-                            <1*eu-a6-009-16>
-                            <1*eu-a6-009-17>
-                            <1*eu-a6-009-09>
-                            <1*eu-a6-009-24>
-                            <1*eu-a6-009-05>
-                            <1*eu-a6-009-03>
-                            <1*eu-a6-009-13>
-                            <1*eu-a6-009-21>
-                            <1*eu-a6-009-11>
-                            <1*eu-a6-009-07>
-                            <1*eu-a6-009-01>
-                            <1*eu-a6-009-18>
-                            <1*eu-a6-009-15>
-                            <1*eu-a6-007-21>
-                            <1*eu-a6-007-09>
-                            <1*eu-a6-007-20>
-                            <1*eu-a6-007-19>
-                            <1*eu-a6-007-17>
-                            <1*eu-a6-007-07>
-                            <1*eu-a6-007-13>
-                            <1*eu-a6-007-10>
+Job <lu_hybrid_strong[31]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:03 2022
+Job was executed on host(s) <1*eu-a6-007-12>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Wed Jan 12 00:55:44 2022
+                            <1*eu-a6-007-14>
                             <1*eu-a6-007-02>
-                            <1*eu-a6-007-03>
-                            <1*eu-a6-007-11>
-                            <1*eu-a6-007-15>
-                            <1*eu-a6-007-12>
-                            <1*eu-a6-007-24>
-                            <1*eu-a6-010-22>
-                            <1*eu-a6-010-19>
-                            <1*eu-a6-010-20>
+                            <1*eu-a6-007-07>
+                            <1*eu-a6-007-09>
+                            <1*eu-a6-007-21>
+                            <1*eu-a6-012-05>
+                            <1*eu-a6-012-06>
+                            <1*eu-a6-012-14>
+                            <1*eu-a6-012-04>
+                            <1*eu-a6-012-02>
+                            <1*eu-a6-012-01>
+                            <1*eu-a6-012-16>
+                            <1*eu-a6-012-07>
+                            <1*eu-a6-012-10>
+                            <1*eu-a6-012-19>
+                            <1*eu-a6-012-22>
+                            <1*eu-a6-012-18>
+                            <1*eu-a6-012-23>
+                            <1*eu-a6-012-15>
+                            <1*eu-a6-012-09>
+                            <1*eu-a6-012-03>
+                            <1*eu-a6-012-20>
+                            <1*eu-a6-012-08>
+                            <1*eu-a6-012-11>
+                            <1*eu-a6-012-13>
+                            <1*eu-a6-012-17>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-003-11>
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-003-01>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/hybrid> was used as the working directory.
-Started at Mon Jan 10 06:24:14 2022
-Terminated at Mon Jan 10 06:33:35 2022
-Results reported at Mon Jan 10 06:33:35 2022
+Started at Wed Jan 12 00:55:44 2022
+Terminated at Wed Jan 12 01:06:41 2022
+Results reported at Wed Jan 12 01:06:41 2022
 
 Your job looked like:
 
@@ -50,47 +50,47 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   17271.62 sec.
-    Max Memory :                                 1891 MB
-    Average Memory :                             1534.30 MB
+    CPU time :                                   20213.00 sec.
+    Max Memory :                                 1851 MB
+    Average Memory :                             1670.09 MB
     Total Requested Memory :                     31744.00 MB
-    Delta Memory :                               29853.00 MB
-    Max Swap :                                   -
+    Delta Memory :                               29893.00 MB
+    Max Swap :                                   2 MB
     Max Processes :                              68
     Max Threads :                                104
-    Run time :                                   575 sec.
-    Turnaround time :                            48378 sec.
+    Run time :                                   669 sec.
+    Turnaround time :                            50498 sec.
 
 The output (if any) follows:
 
-rank 25: 264 x 8192
-rank 0: 264 x 8192
-rank 10: 264 x 8192
-rank 14: 264 x 8192
-rank 8: 264 x 8192
-rank 20: 264 x 8192
-rank 15: 264 x 8192
-rank 16: 264 x 8192
-rank 1: 264 x 8192
-rank 30: 272 x 8192
-rank 7: 264 x 8192
-rank 29: 264 x 8192
-rank 9: 264 x 8192
-rank 11: 264 x 8192
-rank 3: 264 x 8192
-rank 4: 264 x 8192
-rank 19: 264 x 8192
-rank 12: 264 x 8192
-rank 23: 264 x 8192
-rank 26: 264 x 8192
-rank 27: 264 x 8192
-rank 17: 264 x 8192
-rank 22: 264 x 8192
-rank 2: 264 x 8192
-rank 13: 264 x 8192
-rank 6: 264 x 8192
-rank 28: 264 x 8192
-rank 5: 264 x 8192
 rank 21: 264 x 8192
-rank 18: 264 x 8192
+rank 23: 264 x 8192
+rank 29: 264 x 8192
+rank 19: 264 x 8192
+rank 3: 264 x 8192
+rank 25: 264 x 8192
+rank 26: 264 x 8192
+rank 17: 264 x 8192
 rank 24: 264 x 8192
+rank 0: 264 x 8192
+rank 20: 264 x 8192
+rank 30: 272 x 8192
+rank 1: 264 x 8192
+rank 27: 264 x 8192
+rank 28: 264 x 8192
+rank 16: 264 x 8192
+rank 5: 264 x 8192
+rank 4: 264 x 8192
+rank 11: 264 x 8192
+rank 14: 264 x 8192
+rank 7: 264 x 8192
+rank 6: 264 x 8192
+rank 2: 264 x 8192
+rank 8: 264 x 8192
+rank 18: 264 x 8192
+rank 15: 264 x 8192
+rank 10: 264 x 8192
+rank 12: 264 x 8192
+rank 9: 264 x 8192
+rank 22: 264 x 8192
+rank 13: 264 x 8192

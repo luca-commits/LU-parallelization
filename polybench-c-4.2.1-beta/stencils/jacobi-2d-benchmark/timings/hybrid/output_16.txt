@@ -1,16 +1,16 @@
-Sender: LSF System <lsfadmin@eu-a6-005-11>
-Subject: Job 199821964[16]: <lu_hybrid_strong[16]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-16>
+Subject: Job 199966863[16]: <lu_hybrid_strong[16]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[16]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:02 2022
-Job was executed on host(s) <4*eu-a6-005-11>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Sun Jan  9 22:18:39 2022
-                            <4*eu-a6-005-15>
-                            <4*eu-a6-008-09>
-                            <4*eu-a6-008-12>
+Job <lu_hybrid_strong[16]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:00 2022
+Job was executed on host(s) <4*eu-a6-012-16>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Tue Jan 11 15:11:05 2022
+                            <4*eu-a6-012-09>
+                            <4*eu-a6-012-04>
+                            <4*eu-a6-012-14>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/hybrid> was used as the working directory.
-Started at Sun Jan  9 22:18:39 2022
-Terminated at Sun Jan  9 23:33:50 2022
-Results reported at Sun Jan  9 23:33:50 2022
+Started at Tue Jan 11 15:11:05 2022
+Terminated at Tue Jan 11 16:21:43 2022
+Results reported at Tue Jan 11 16:21:43 2022
 
 Your job looked like:
 
@@ -23,16 +23,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   37590.00 sec.
-    Max Memory :                                 1077 MB
-    Average Memory :                             1076.89 MB
+    CPU time :                                   34337.00 sec.
+    Max Memory :                                 1076 MB
+    Average Memory :                             1073.02 MB
     Total Requested Memory :                     16384.00 MB
-    Delta Memory :                               15307.00 MB
+    Delta Memory :                               15308.00 MB
     Max Swap :                                   -
     Max Processes :                              11
     Max Threads :                                42
-    Run time :                                   4511 sec.
-    Turnaround time :                            23208 sec.
+    Run time :                                   4253 sec.
+    Turnaround time :                            19003 sec.
 
 The output (if any) follows:
 

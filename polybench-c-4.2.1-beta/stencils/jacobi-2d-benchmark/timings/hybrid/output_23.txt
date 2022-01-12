@@ -1,35 +1,35 @@
-Sender: LSF System <lsfadmin@eu-a6-012-22>
-Subject: Job 199822000[23]: <lu_hybrid_strong[23]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-19>
+Subject: Job 199966875[23]: <lu_hybrid_strong[23]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[23]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:08 2022
-Job was executed on host(s) <1*eu-a6-012-22>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Mon Jan 10 01:18:59 2022
-                            <1*eu-a6-012-21>
-                            <1*eu-a6-012-07>
-                            <1*eu-a6-012-15>
-                            <1*eu-a6-012-19>
-                            <1*eu-a6-012-05>
-                            <1*eu-a6-008-20>
-                            <1*eu-a6-008-01>
-                            <1*eu-a6-008-14>
-                            <1*eu-a6-008-13>
+Job <lu_hybrid_strong[23]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:02 2022
+Job was executed on host(s) <1*eu-a6-012-19>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Tue Jan 11 17:12:28 2022
+                            <1*eu-a6-012-16>
+                            <1*eu-a6-008-18>
                             <1*eu-a6-008-10>
-                            <1*eu-a6-008-09>
-                            <1*eu-a6-008-12>
-                            <1*eu-a6-008-05>
-                            <1*eu-a6-008-22>
-                            <1*eu-a6-008-06>
-                            <1*eu-a6-005-11>
-                            <1*eu-a6-005-15>
-                            <1*eu-a6-003-01>
-                            <1*eu-a6-003-05>
-                            <1*eu-a6-003-18>
-                            <1*eu-a6-003-22>
-                            <1*eu-a6-003-08>
+                            <1*eu-a6-001-10>
+                            <1*eu-a6-001-12>
+                            <1*eu-a6-001-13>
+                            <1*eu-a6-001-21>
+                            <1*eu-a6-001-11>
+                            <1*eu-a6-001-15>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-04>
+                            <1*eu-a6-001-24>
+                            <1*eu-a6-001-20>
+                            <1*eu-a6-010-22>
+                            <1*eu-a6-010-07>
+                            <1*eu-a6-002-22>
+                            <1*eu-a6-007-09>
+                            <1*eu-a6-007-02>
+                            <1*eu-a6-007-21>
+                            <1*eu-a6-007-12>
+                            <1*eu-a6-006-13>
+                            <1*eu-a6-011-23>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/hybrid> was used as the working directory.
-Started at Mon Jan 10 01:18:59 2022
-Terminated at Mon Jan 10 01:32:57 2022
-Results reported at Mon Jan 10 01:32:57 2022
+Started at Tue Jan 11 17:12:28 2022
+Terminated at Tue Jan 11 17:26:10 2022
+Results reported at Tue Jan 11 17:26:10 2022
 
 Your job looked like:
 
@@ -42,39 +42,39 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   19148.00 sec.
-    Max Memory :                                 1568 MB
-    Average Memory :                             1422.83 MB
+    CPU time :                                   18775.08 sec.
+    Max Memory :                                 1656 MB
+    Average Memory :                             1476.14 MB
     Total Requested Memory :                     23552.00 MB
-    Delta Memory :                               21984.00 MB
+    Delta Memory :                               21896.00 MB
     Max Swap :                                   -
     Max Processes :                              52
     Max Threads :                                80
-    Run time :                                   845 sec.
-    Turnaround time :                            30349 sec.
+    Run time :                                   846 sec.
+    Turnaround time :                            22868 sec.
 
 The output (if any) follows:
 
-rank 11: 356 x 8192
+rank 19: 356 x 8192
 rank 17: 356 x 8192
-rank 9: 356 x 8192
-rank 5: 356 x 8192
-rank 14: 356 x 8192
-rank 15: 356 x 8192
-rank 20: 356 x 8192
 rank 21: 356 x 8192
+rank 14: 356 x 8192
 rank 18: 356 x 8192
-rank 0: 356 x 8192
-rank 12: 356 x 8192
-rank 7: 356 x 8192
-rank 22: 360 x 8192
-rank 8: 356 x 8192
 rank 6: 356 x 8192
 rank 1: 356 x 8192
-rank 10: 356 x 8192
-rank 2: 356 x 8192
+rank 5: 356 x 8192
 rank 3: 356 x 8192
+rank 0: 356 x 8192
+rank 7: 356 x 8192
 rank 16: 356 x 8192
-rank 4: 356 x 8192
-rank 19: 356 x 8192
+rank 15: 356 x 8192
+rank 12: 356 x 8192
+rank 10: 356 x 8192
+rank 22: 360 x 8192
+rank 20: 356 x 8192
+rank 8: 356 x 8192
 rank 13: 356 x 8192
+rank 4: 356 x 8192
+rank 11: 356 x 8192
+rank 9: 356 x 8192
+rank 2: 356 x 8192

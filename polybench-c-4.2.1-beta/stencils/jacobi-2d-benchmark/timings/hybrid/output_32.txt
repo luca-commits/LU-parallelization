@@ -1,20 +1,20 @@
-Sender: LSF System <lsfadmin@eu-a6-012-05>
-Subject: Job 199822047[32]: <lu_hybrid_strong[32]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-004-13>
+Subject: Job 199966892[32]: <lu_hybrid_strong[32]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[32]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:18 2022
-Job was executed on host(s) <4*eu-a6-012-05>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Mon Jan 10 06:42:59 2022
-                            <4*eu-a6-012-22>
-                            <4*eu-a6-012-21>
-                            <4*eu-a6-012-15>
-                            <4*eu-a6-012-19>
-                            <4*eu-a6-012-07>
-                            <4*eu-a6-008-22>
-                            <4*eu-a6-008-01>
+Job <lu_hybrid_strong[32]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:03 2022
+Job was executed on host(s) <4*eu-a6-004-13>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Wed Jan 12 01:07:14 2022
+                            <4*eu-a6-004-07>
+                            <4*eu-a6-004-03>
+                            <4*eu-a6-004-04>
+                            <4*eu-a6-004-08>
+                            <4*eu-a6-006-07>
+                            <4*eu-a6-008-18>
+                            <4*eu-a6-008-20>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/hybrid> was used as the working directory.
-Started at Mon Jan 10 06:42:59 2022
-Terminated at Mon Jan 10 06:43:04 2022
-Results reported at Mon Jan 10 06:43:04 2022
+Started at Wed Jan 12 01:07:14 2022
+Terminated at Wed Jan 12 01:48:16 2022
+Results reported at Wed Jan 12 01:48:16 2022
 
 Your job looked like:
 
@@ -23,47 +23,28 @@ Your job looked like:
 unset LSB_AFFINITY_HOSTFILE ; mpirun -n 8 -ppn 4 ../../bin/jacobi-2d-hybrid 25 8192 1000
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   9.25 sec.
-    Max Memory :                                 1793 MB
-    Average Memory :                             -
+    CPU time :                                   40344.00 sec.
+    Max Memory :                                 1150 MB
+    Average Memory :                             1130.80 MB
     Total Requested Memory :                     32768.00 MB
-    Delta Memory :                               30975.00 MB
+    Delta Memory :                               31618.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   30 sec.
-    Turnaround time :                            48946 sec.
+    Max Processes :                              16
+    Max Threads :                                71
+    Run time :                                   2487 sec.
+    Turnaround time :                            52993 sec.
 
 The output (if any) follows:
 
-rank 0: 2048 x 4096
-rank 1: 2048 x 4096
 rank 4: 2048 x 4096
 rank 2: 2048 x 4096
 rank 5: 2048 x 4096
-rank 3: 2048 x 4096
+rank 0: 2048 x 4096
 rank 6: 2048 x 4096
+rank 1: 2048 x 4096
 rank 7: 2048 x 4096
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 34631 RUNNING AT eu-a6-012-05
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 34631 RUNNING AT eu-a6-012-05
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 3: 2048 x 4096

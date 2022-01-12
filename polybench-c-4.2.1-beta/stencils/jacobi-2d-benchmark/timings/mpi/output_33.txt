@@ -1,45 +1,45 @@
-Sender: LSF System <lsfadmin@eu-a6-003-22>
-Subject: Job 199822049[33]: <jacobi_2d_mpi_strong[33]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-003-05>
+Subject: Job 199966991[33]: <jacobi_2d_mpi_strong[33]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[33]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:18 2022
-Job was executed on host(s) <1*eu-a6-003-22>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 21:34:38 2022
-                            <1*eu-a6-003-08>
-                            <1*eu-a6-003-09>
-                            <1*eu-a6-003-01>
-                            <1*eu-a6-003-21>
-                            <1*eu-a6-003-13>
-                            <1*eu-a6-003-16>
-                            <1*eu-a6-003-07>
-                            <1*eu-a6-003-15>
-                            <1*eu-a6-003-04>
-                            <1*eu-a6-003-18>
-                            <1*eu-a6-003-12>
-                            <1*eu-a6-003-20>
+Job <jacobi_2d_mpi_strong[33]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:21 2022
+Job was executed on host(s) <1*eu-a6-003-05>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Tue Jan 11 16:41:29 2022
                             <1*eu-a6-003-11>
-                            <1*eu-a6-003-03>
-                            <1*eu-a6-003-19>
-                            <1*eu-a6-003-23>
-                            <1*eu-a6-003-14>
-                            <1*eu-a6-006-15>
-                            <1*eu-a6-006-07>
-                            <1*eu-a6-006-20>
-                            <1*eu-a6-006-23>
-                            <1*eu-a6-006-04>
-                            <1*eu-a6-006-09>
-                            <1*eu-a6-006-22>
-                            <1*eu-a6-006-18>
-                            <1*eu-a6-006-01>
-                            <1*eu-a6-006-08>
-                            <1*eu-a6-006-05>
-                            <1*eu-a6-006-21>
-                            <1*eu-a6-009-16>
-                            <1*eu-a6-009-04>
-                            <1*eu-a6-009-17>
+                            <1*eu-a6-003-22>
+                            <1*eu-a6-009-03>
+                            <1*eu-a6-009-02>
+                            <1*eu-a6-010-20>
+                            <1*eu-a6-010-11>
+                            <1*eu-a6-010-22>
+                            <1*eu-a6-010-07>
+                            <1*eu-a6-010-19>
+                            <1*eu-a6-010-06>
+                            <1*eu-a6-006-13>
+                            <1*eu-a6-002-07>
+                            <1*eu-a6-002-22>
+                            <1*eu-a6-001-08>
+                            <1*eu-a6-001-14>
+                            <1*eu-a6-001-09>
+                            <1*eu-a6-001-24>
+                            <1*eu-a6-001-12>
+                            <1*eu-a6-001-17>
+                            <1*eu-a6-001-23>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-10>
+                            <1*eu-a6-001-16>
+                            <1*eu-a6-001-02>
+                            <1*eu-a6-001-15>
+                            <1*eu-a6-001-22>
+                            <1*eu-a6-001-20>
+                            <1*eu-a6-011-20>
+                            <1*eu-a6-011-23>
+                            <1*eu-a6-011-10>
+                            <1*eu-a6-011-21>
+                            <1*eu-a6-005-11>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Sun Jan  9 21:34:38 2022
-Terminated at Sun Jan  9 21:34:42 2022
-Results reported at Sun Jan  9 21:34:42 2022
+Started at Tue Jan 11 16:41:29 2022
+Terminated at Tue Jan 11 16:44:12 2022
+Results reported at Tue Jan 11 16:44:12 2022
 
 Your job looked like:
 
@@ -48,72 +48,53 @@ Your job looked like:
 mpirun -n 33 ../../bin/jacobi-2d-mpi 25 8192 1000
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   9.84 sec.
-    Max Memory :                                 123 MB
-    Average Memory :                             -
+    CPU time :                                   5182.00 sec.
+    Max Memory :                                 1981 MB
+    Average Memory :                             1189.83 MB
     Total Requested Memory :                     33792.00 MB
-    Delta Memory :                               33669.00 MB
+    Delta Memory :                               31811.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   24 sec.
-    Turnaround time :                            16044 sec.
+    Max Processes :                              72
+    Max Threads :                                110
+    Run time :                                   180 sec.
+    Turnaround time :                            20331 sec.
 
 The output (if any) follows:
 
-rank 4: 744 x 2730
-rank 10: 744 x 2730
-rank 5: 744 x 2732
-rank 6: 744 x 2730
-rank 0: 744 x 2730
-rank 3: 744 x 2730
-rank 15: 744 x 2730
-rank 18: 744 x 2730
-rank 29: 744 x 2732
-rank 21: 744 x 2730
-rank 14: 744 x 2732
-rank 17: 744 x 2732
-rank 2: 744 x 2732
-rank 28: 744 x 2730
-rank 1: 744 x 2730
-rank 23: 744 x 2732
-rank 8: 744 x 2732
-rank 13: 744 x 2730
-rank 7: 744 x 2730
-rank 20: 744 x 2732
-rank 22: 744 x 2730
-rank 11: 744 x 2732
-rank 19: 744 x 2730
 rank 9: 744 x 2730
-rank 30: 752 x 2730
 rank 12: 744 x 2730
-rank 31: 752 x 2730
-rank 27: 744 x 2730
-rank 26: 744 x 2732
-rank 16: 744 x 2730
-rank 24: 744 x 2730
-rank 25: 744 x 2730
+rank 3: 744 x 2730
 rank 32: 752 x 2732
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 20454 RUNNING AT eu-a6-006-08
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 20454 RUNNING AT eu-a6-006-08
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 28: 744 x 2730
+rank 4: 744 x 2730
+rank 7: 744 x 2730
+rank 16: 744 x 2730
+rank 14: 744 x 2732
+rank 0: 744 x 2730
+rank 8: 744 x 2732
+rank 5: 744 x 2732
+rank 31: 752 x 2730
+rank 10: 744 x 2730
+rank 11: 744 x 2732
+rank 13: 744 x 2730
+rank 20: 744 x 2732
+rank 1: 744 x 2730
+rank 2: 744 x 2732
+rank 29: 744 x 2732
+rank 30: 752 x 2730
+rank 26: 744 x 2732
+rank 17: 744 x 2732
+rank 25: 744 x 2730
+rank 24: 744 x 2730
+rank 19: 744 x 2730
+rank 22: 744 x 2730
+rank 27: 744 x 2730
+rank 15: 744 x 2730
+rank 23: 744 x 2732
+rank 18: 744 x 2730
+rank 21: 744 x 2730
+rank 6: 744 x 2730

@@ -1,25 +1,25 @@
-Sender: LSF System <lsfadmin@eu-a6-008-05>
-Subject: Job 199821949[13]: <jacobi_2d_mpi_strong[13]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-004-19>
+Subject: Job 199966954[13]: <jacobi_2d_mpi_strong[13]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[13]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:00 2022
-Job was executed on host(s) <1*eu-a6-008-05>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 18:52:23 2022
-                            <1*eu-a6-008-12>
-                            <1*eu-a6-008-14>
-                            <1*eu-a6-008-09>
-                            <1*eu-a6-008-10>
-                            <1*eu-a6-008-20>
-                            <1*eu-a6-008-06>
-                            <1*eu-a6-012-16>
-                            <1*eu-a6-012-19>
-                            <1*eu-a6-012-15>
-                            <1*eu-a6-012-07>
-                            <1*eu-a6-012-02>
-                            <1*eu-a6-012-05>
+Job <jacobi_2d_mpi_strong[13]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:16 2022
+Job was executed on host(s) <1*eu-a6-004-19>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Tue Jan 11 11:42:12 2022
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-24>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-001-13>
+                            <1*eu-a6-001-23>
+                            <1*eu-a6-001-08>
+                            <1*eu-a6-001-22>
+                            <1*eu-a6-001-10>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-17>
+                            <1*eu-a6-001-11>
+                            <1*eu-a6-001-05>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Sun Jan  9 18:52:23 2022
-Terminated at Sun Jan  9 18:58:33 2022
-Results reported at Sun Jan  9 18:58:33 2022
+Started at Tue Jan 11 11:42:12 2022
+Terminated at Tue Jan 11 11:49:02 2022
+Results reported at Tue Jan 11 11:49:02 2022
 
 Your job looked like:
 
@@ -32,29 +32,29 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   4758.00 sec.
-    Max Memory :                                 1202 MB
-    Average Memory :                             932.91 MB
+    CPU time :                                   5285.00 sec.
+    Max Memory :                                 1236 MB
+    Average Memory :                             1089.75 MB
     Total Requested Memory :                     13312.00 MB
-    Delta Memory :                               12110.00 MB
+    Delta Memory :                               12076.00 MB
     Max Swap :                                   -
     Max Processes :                              32
     Max Threads :                                50
-    Run time :                                   369 sec.
-    Turnaround time :                            6693 sec.
+    Run time :                                   437 sec.
+    Turnaround time :                            2626 sec.
 
 The output (if any) follows:
 
-rank 5: 630 x 8192
-rank 10: 630 x 8192
-rank 9: 630 x 8192
-rank 11: 630 x 8192
-rank 6: 630 x 8192
-rank 1: 630 x 8192
 rank 2: 630 x 8192
-rank 7: 630 x 8192
-rank 8: 630 x 8192
+rank 1: 630 x 8192
+rank 11: 630 x 8192
+rank 5: 630 x 8192
+rank 12: 632 x 8192
+rank 9: 630 x 8192
+rank 0: 630 x 8192
 rank 4: 630 x 8192
 rank 3: 630 x 8192
-rank 0: 630 x 8192
-rank 12: 632 x 8192
+rank 8: 630 x 8192
+rank 10: 630 x 8192
+rank 6: 630 x 8192
+rank 7: 630 x 8192

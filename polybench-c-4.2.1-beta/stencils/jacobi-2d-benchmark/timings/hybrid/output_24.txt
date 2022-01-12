@@ -1,18 +1,18 @@
-Sender: LSF System <lsfadmin@eu-a6-012-15>
-Subject: Job 199822006[24]: <lu_hybrid_strong[24]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-004-08>
+Subject: Job 199966877[24]: <lu_hybrid_strong[24]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[24]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:08 2022
-Job was executed on host(s) <4*eu-a6-012-15>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Mon Jan 10 01:33:31 2022
-                            <4*eu-a6-012-22>
-                            <4*eu-a6-012-24>
-                            <4*eu-a6-012-21>
-                            <4*eu-a6-012-19>
-                            <4*eu-a6-012-07>
+Job <lu_hybrid_strong[24]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:02 2022
+Job was executed on host(s) <4*eu-a6-004-08>, in queue <normal.24h>, as user <zdana> in cluster <euler> at Tue Jan 11 19:04:47 2022
+                            <4*eu-a6-004-03>
+                            <4*eu-a6-004-23>
+                            <4*eu-a6-005-11>
+                            <4*eu-a6-005-15>
+                            <4*eu-a6-008-05>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/hybrid> was used as the working directory.
-Started at Mon Jan 10 01:33:31 2022
-Terminated at Mon Jan 10 01:33:36 2022
-Results reported at Mon Jan 10 01:33:36 2022
+Started at Tue Jan 11 19:04:47 2022
+Terminated at Tue Jan 11 19:52:57 2022
+Results reported at Tue Jan 11 19:52:57 2022
 
 Your job looked like:
 
@@ -21,45 +21,26 @@ Your job looked like:
 unset LSB_AFFINITY_HOSTFILE ; mpirun -n 6 -ppn 4 ../../bin/jacobi-2d-hybrid 25 8192 1000
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   10.64 sec.
-    Max Memory :                                 1702 MB
-    Average Memory :                             -
+    CPU time :                                   46518.00 sec.
+    Max Memory :                                 1113 MB
+    Average Memory :                             1097.73 MB
     Total Requested Memory :                     24576.00 MB
-    Delta Memory :                               22874.00 MB
+    Delta Memory :                               23463.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   7 sec.
-    Turnaround time :                            30388 sec.
+    Max Processes :                              14
+    Max Threads :                                61
+    Run time :                                   2913 sec.
+    Turnaround time :                            31675 sec.
 
 The output (if any) follows:
 
-rank 0: 2730 x 4096
 rank 4: 2732 x 4096
-rank 1: 2730 x 4096
+rank 0: 2730 x 4096
 rank 5: 2732 x 4096
+rank 1: 2730 x 4096
 rank 2: 2730 x 4096
 rank 3: 2730 x 4096
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 24284 RUNNING AT eu-a6-012-22
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 24284 RUNNING AT eu-a6-012-22
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================

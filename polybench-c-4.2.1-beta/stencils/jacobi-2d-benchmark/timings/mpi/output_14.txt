@@ -1,26 +1,26 @@
-Sender: LSF System <lsfadmin@eu-a6-008-05>
-Subject: Job 199821952[14]: <jacobi_2d_mpi_strong[14]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-004-07>
+Subject: Job 199966956[14]: <jacobi_2d_mpi_strong[14]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[14]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:01 2022
-Job was executed on host(s) <1*eu-a6-008-05>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 18:58:52 2022
-                            <1*eu-a6-008-20>
-                            <1*eu-a6-008-10>
-                            <1*eu-a6-008-12>
-                            <1*eu-a6-008-02>
-                            <1*eu-a6-008-06>
-                            <1*eu-a6-012-19>
-                            <1*eu-a6-012-15>
-                            <1*eu-a6-012-02>
-                            <1*eu-a6-012-16>
-                            <1*eu-a6-012-05>
-                            <1*eu-a6-012-07>
-                            <1*eu-a6-012-12>
+Job <jacobi_2d_mpi_strong[14]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:16 2022
+Job was executed on host(s) <1*eu-a6-004-07>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Tue Jan 11 11:49:13 2022
+                            <1*eu-a6-004-24>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-03>
+                            <1*eu-a6-004-19>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-001-18>
+                            <1*eu-a6-001-22>
+                            <1*eu-a6-001-15>
+                            <1*eu-a6-001-13>
                             <1*eu-a6-001-14>
+                            <1*eu-a6-001-17>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-10>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Sun Jan  9 18:58:52 2022
-Terminated at Sun Jan  9 19:05:09 2022
-Results reported at Sun Jan  9 19:05:09 2022
+Started at Tue Jan 11 11:49:13 2022
+Terminated at Tue Jan 11 11:57:20 2022
+Results reported at Tue Jan 11 11:57:20 2022
 
 Your job looked like:
 
@@ -33,30 +33,30 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   5208.00 sec.
-    Max Memory :                                 1298 MB
-    Average Memory :                             941.69 MB
+    CPU time :                                   6775.00 sec.
+    Max Memory :                                 1264 MB
+    Average Memory :                             1016.22 MB
     Total Requested Memory :                     14336.00 MB
-    Delta Memory :                               13038.00 MB
+    Delta Memory :                               13072.00 MB
     Max Swap :                                   -
     Max Processes :                              34
     Max Threads :                                53
-    Run time :                                   374 sec.
-    Turnaround time :                            7088 sec.
+    Run time :                                   498 sec.
+    Turnaround time :                            3124 sec.
 
 The output (if any) follows:
 
-rank 10: 1170 x 4096
-rank 7: 1170 x 4096
-rank 11: 1170 x 4096
-rank 3: 1170 x 4096
-rank 5: 1170 x 4096
-rank 12: 1172 x 4096
-rank 6: 1170 x 4096
 rank 0: 1170 x 4096
 rank 4: 1170 x 4096
-rank 1: 1170 x 4096
-rank 9: 1170 x 4096
-rank 8: 1170 x 4096
 rank 2: 1170 x 4096
+rank 1: 1170 x 4096
+rank 5: 1170 x 4096
+rank 3: 1170 x 4096
+rank 9: 1170 x 4096
+rank 11: 1170 x 4096
 rank 13: 1172 x 4096
+rank 7: 1170 x 4096
+rank 10: 1170 x 4096
+rank 8: 1170 x 4096
+rank 6: 1170 x 4096
+rank 12: 1172 x 4096

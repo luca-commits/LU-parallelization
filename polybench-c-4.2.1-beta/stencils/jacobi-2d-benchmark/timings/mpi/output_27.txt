@@ -1,39 +1,39 @@
-Sender: LSF System <lsfadmin@eu-a6-003-09>
-Subject: Job 199822021[27]: <jacobi_2d_mpi_strong[27]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-003-18>
+Subject: Job 199966981[27]: <jacobi_2d_mpi_strong[27]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[27]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:11 2022
-Job was executed on host(s) <1*eu-a6-003-09>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 20:18:00 2022
-                            <1*eu-a6-003-22>
-                            <1*eu-a6-003-12>
-                            <1*eu-a6-003-08>
-                            <1*eu-a6-003-11>
-                            <1*eu-a6-003-03>
-                            <1*eu-a6-003-23>
-                            <1*eu-a6-003-05>
-                            <1*eu-a6-003-16>
-                            <1*eu-a6-003-15>
-                            <1*eu-a6-003-13>
-                            <1*eu-a6-003-18>
-                            <1*eu-a6-003-21>
-                            <1*eu-a6-003-07>
-                            <1*eu-a6-003-20>
+Job <jacobi_2d_mpi_strong[27]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:20 2022
+Job was executed on host(s) <1*eu-a6-003-18>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Tue Jan 11 13:01:25 2022
                             <1*eu-a6-003-01>
-                            <1*eu-a6-003-04>
-                            <1*eu-a6-003-14>
-                            <1*eu-a6-006-16>
-                            <1*eu-a6-006-15>
-                            <1*eu-a6-006-07>
-                            <1*eu-a6-006-09>
-                            <1*eu-a6-006-05>
-                            <1*eu-a6-006-01>
-                            <1*eu-a6-006-22>
-                            <1*eu-a6-006-18>
-                            <1*eu-a6-006-20>
+                            <1*eu-a6-003-09>
+                            <1*eu-a6-011-10>
+                            <1*eu-a6-002-22>
+                            <1*eu-a6-010-06>
+                            <1*eu-a6-010-07>
+                            <1*eu-a6-009-16>
+                            <1*eu-a6-009-04>
+                            <1*eu-a6-009-02>
+                            <1*eu-a6-001-13>
+                            <1*eu-a6-001-14>
+                            <1*eu-a6-001-18>
+                            <1*eu-a6-001-03>
+                            <1*eu-a6-001-10>
+                            <1*eu-a6-001-08>
+                            <1*eu-a6-001-09>
+                            <1*eu-a6-001-02>
+                            <1*eu-a6-001-22>
+                            <1*eu-a6-001-05>
+                            <1*eu-a6-001-04>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-17>
+                            <1*eu-a6-001-15>
+                            <1*eu-a6-001-19>
+                            <1*eu-a6-001-11>
+                            <1*eu-a6-001-20>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Sun Jan  9 20:18:00 2022
-Terminated at Sun Jan  9 20:18:03 2022
-Results reported at Sun Jan  9 20:18:03 2022
+Started at Tue Jan 11 13:01:25 2022
+Terminated at Tue Jan 11 13:04:25 2022
+Results reported at Tue Jan 11 13:04:25 2022
 
 Your job looked like:
 
@@ -42,66 +42,47 @@ Your job looked like:
 mpirun -n 27 ../../bin/jacobi-2d-mpi 25 8192 1000
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   9.47 sec.
-    Max Memory :                                 135 MB
-    Average Memory :                             -
+    CPU time :                                   4803.00 sec.
+    Max Memory :                                 1783 MB
+    Average Memory :                             847.57 MB
     Total Requested Memory :                     27648.00 MB
-    Delta Memory :                               27513.00 MB
+    Delta Memory :                               25865.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   7 sec.
-    Turnaround time :                            11452 sec.
+    Max Processes :                              60
+    Max Threads :                                92
+    Run time :                                   195 sec.
+    Turnaround time :                            7145 sec.
 
 The output (if any) follows:
 
+rank 5: 910 x 2732
+rank 25: 912 x 2730
+rank 7: 910 x 2730
+rank 23: 910 x 2732
+rank 24: 912 x 2730
 rank 0: 910 x 2730
+rank 6: 910 x 2730
+rank 2: 910 x 2732
+rank 4: 910 x 2730
+rank 10: 910 x 2730
+rank 9: 910 x 2730
+rank 14: 910 x 2732
+rank 3: 910 x 2730
+rank 18: 910 x 2730
+rank 8: 910 x 2732
+rank 20: 910 x 2732
+rank 17: 910 x 2732
+rank 16: 910 x 2730
+rank 1: 910 x 2730
+rank 13: 910 x 2730
 rank 22: 910 x 2730
 rank 11: 910 x 2732
-rank 18: 910 x 2730
-rank 7: 910 x 2730
-rank 8: 910 x 2732
-rank 4: 910 x 2730
-rank 16: 910 x 2730
-rank 17: 910 x 2732
-rank 9: 910 x 2730
-rank 23: 910 x 2732
-rank 26: 912 x 2732
-rank 10: 910 x 2730
-rank 3: 910 x 2730
-rank 12: 910 x 2730
-rank 1: 910 x 2730
-rank 24: 912 x 2730
-rank 2: 910 x 2732
-rank 14: 910 x 2732
-rank 21: 910 x 2730
-rank 6: 910 x 2730
-rank 20: 910 x 2732
 rank 19: 910 x 2730
-rank 5: 910 x 2732
-rank 13: 910 x 2730
-rank 25: 912 x 2730
 rank 15: 910 x 2730
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 4500 RUNNING AT eu-a6-006-15
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 4500 RUNNING AT eu-a6-006-15
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 26: 912 x 2732
+rank 21: 910 x 2730
+rank 12: 910 x 2730

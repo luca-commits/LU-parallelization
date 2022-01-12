@@ -1,23 +1,23 @@
-Sender: LSF System <lsfadmin@eu-a6-008-05>
-Subject: Job 199821943[11]: <jacobi_2d_mpi_strong[11]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-004-19>
+Subject: Job 199966951[11]: <jacobi_2d_mpi_strong[11]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[11]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:06:58 2022
-Job was executed on host(s) <1*eu-a6-008-05>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 18:31:26 2022
-                            <1*eu-a6-008-14>
-                            <1*eu-a6-008-12>
-                            <1*eu-a6-008-10>
-                            <1*eu-a6-008-20>
-                            <1*eu-a6-008-06>
-                            <1*eu-a6-012-16>
-                            <1*eu-a6-012-15>
-                            <1*eu-a6-012-19>
-                            <1*eu-a6-012-07>
-                            <1*eu-a6-012-05>
+Job <jacobi_2d_mpi_strong[11]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:16 2022
+Job was executed on host(s) <1*eu-a6-004-19>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Tue Jan 11 11:26:31 2022
+                            <1*eu-a6-004-03>
+                            <1*eu-a6-004-07>
+                            <1*eu-a6-004-23>
+                            <1*eu-a6-004-24>
+                            <1*eu-a6-004-22>
+                            <1*eu-a6-004-11>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-20>
+                            <1*eu-a6-001-14>
+                            <1*eu-a6-001-19>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Sun Jan  9 18:31:26 2022
-Terminated at Sun Jan  9 18:38:34 2022
-Results reported at Sun Jan  9 18:38:34 2022
+Started at Tue Jan 11 11:26:31 2022
+Terminated at Tue Jan 11 11:34:21 2022
+Results reported at Tue Jan 11 11:34:21 2022
 
 Your job looked like:
 
@@ -30,27 +30,27 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   4665.00 sec.
-    Max Memory :                                 1195 MB
-    Average Memory :                             994.38 MB
+    CPU time :                                   5124.00 sec.
+    Max Memory :                                 1180 MB
+    Average Memory :                             1048.12 MB
     Total Requested Memory :                     11264.00 MB
-    Delta Memory :                               10069.00 MB
+    Delta Memory :                               10084.00 MB
     Max Swap :                                   -
     Max Processes :                              28
     Max Threads :                                44
-    Run time :                                   429 sec.
-    Turnaround time :                            5496 sec.
+    Run time :                                   497 sec.
+    Turnaround time :                            1745 sec.
 
 The output (if any) follows:
 
-rank 10: 752 x 8192
-rank 4: 744 x 8192
-rank 5: 744 x 8192
-rank 1: 744 x 8192
-rank 6: 744 x 8192
-rank 9: 744 x 8192
-rank 8: 744 x 8192
-rank 2: 744 x 8192
 rank 0: 744 x 8192
+rank 2: 744 x 8192
+rank 4: 744 x 8192
+rank 6: 744 x 8192
+rank 5: 744 x 8192
+rank 8: 744 x 8192
 rank 3: 744 x 8192
+rank 10: 752 x 8192
+rank 9: 744 x 8192
 rank 7: 744 x 8192
+rank 1: 744 x 8192

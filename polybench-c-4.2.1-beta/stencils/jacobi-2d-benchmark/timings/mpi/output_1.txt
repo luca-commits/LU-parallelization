@@ -1,13 +1,13 @@
 Sender: LSF System <lsfadmin@eu-a6-004-22>
-Subject: Job 199821913[1]: <jacobi_2d_mpi_strong[1]%36> in cluster <euler> Done
+Subject: Job 199966933[1]: <jacobi_2d_mpi_strong[1]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[1]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:06:48 2022
-Job was executed on host(s) <eu-a6-004-22>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 17:06:55 2022
+Job <jacobi_2d_mpi_strong[1]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:11 2022
+Job was executed on host(s) <eu-a6-004-22>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Tue Jan 11 11:05:30 2022
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Sun Jan  9 17:06:55 2022
-Terminated at Sun Jan  9 18:20:18 2022
-Results reported at Sun Jan  9 18:20:18 2022
+Started at Tue Jan 11 11:05:30 2022
+Terminated at Tue Jan 11 12:19:21 2022
+Results reported at Tue Jan 11 12:19:21 2022
 
 Your job looked like:
 
@@ -20,16 +20,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   4406.00 sec.
-    Max Memory :                                 1046 MB
-    Average Memory :                             1046.00 MB
+    CPU time :                                   4433.00 sec.
+    Max Memory :                                 1042 MB
+    Average Memory :                             1040.42 MB
     Total Requested Memory :                     1024.00 MB
-    Delta Memory :                               -22.00 MB
+    Delta Memory :                               -18.00 MB
     Max Swap :                                   -
     Max Processes :                              8
     Max Threads :                                12
-    Run time :                                   4421 sec.
-    Turnaround time :                            4410 sec.
+    Run time :                                   4449 sec.
+    Turnaround time :                            4450 sec.
 
 The output (if any) follows:
 

@@ -1,33 +1,33 @@
-Sender: LSF System <lsfadmin@eu-a6-008-12>
-Subject: Job 199821988[21]: <jacobi_2d_mpi_strong[21]%36> in cluster <euler> Exited
+Sender: LSF System <lsfadmin@eu-a6-004-11>
+Subject: Job 199966969[21]: <jacobi_2d_mpi_strong[21]%36> in cluster <euler> Done
 
-Job <jacobi_2d_mpi_strong[21]%36> was submitted from host <eu-login-32> by user <zdana> in cluster <euler> at Sun Jan  9 17:07:06 2022
-Job was executed on host(s) <1*eu-a6-008-12>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Sun Jan  9 20:02:01 2022
-                            <1*eu-a6-008-09>
-                            <1*eu-a6-008-14>
-                            <1*eu-a6-008-02>
-                            <1*eu-a6-008-20>
-                            <1*eu-a6-008-10>
-                            <1*eu-a6-008-05>
-                            <1*eu-a6-008-06>
-                            <1*eu-a6-012-15>
-                            <1*eu-a6-012-19>
-                            <1*eu-a6-012-07>
-                            <1*eu-a6-012-05>
-                            <1*eu-a6-012-02>
-                            <1*eu-a6-001-13>
-                            <1*eu-a6-001-03>
-                            <1*eu-a6-001-14>
-                            <1*eu-a6-001-19>
-                            <1*eu-a6-001-10>
-                            <1*eu-a6-001-02>
-                            <1*eu-a6-001-16>
+Job <jacobi_2d_mpi_strong[21]%36> was submitted from host <eu-login-18> by user <zdana> in cluster <euler> at Tue Jan 11 11:05:18 2022
+Job was executed on host(s) <1*eu-a6-004-11>, in queue <normal.4h>, as user <zdana> in cluster <euler> at Tue Jan 11 12:34:20 2022
+                            <1*eu-a6-004-03>
+                            <1*eu-a6-004-07>
+                            <1*eu-a6-004-24>
+                            <1*eu-a6-004-23>
+                            <1*eu-a6-004-19>
+                            <1*eu-a6-004-22>
                             <1*eu-a6-001-18>
+                            <1*eu-a6-001-09>
+                            <1*eu-a6-001-20>
+                            <1*eu-a6-001-22>
+                            <1*eu-a6-001-13>
+                            <1*eu-a6-001-07>
+                            <1*eu-a6-001-17>
+                            <1*eu-a6-001-14>
+                            <1*eu-a6-001-10>
+                            <1*eu-a6-001-05>
+                            <1*eu-a6-001-23>
+                            <1*eu-a6-001-04>
+                            <1*eu-a6-001-08>
+                            <1*eu-a6-001-15>
 </cluster/home/zdana> was used as the home directory.
 </cluster/home/zdana/dphpc-project/polybench-c-4.2.1-beta/stencils/jacobi-2d-benchmark/timings/mpi> was used as the working directory.
-Started at Sun Jan  9 20:02:01 2022
-Terminated at Sun Jan  9 20:02:04 2022
-Results reported at Sun Jan  9 20:02:04 2022
+Started at Tue Jan 11 12:34:20 2022
+Terminated at Tue Jan 11 12:38:29 2022
+Results reported at Tue Jan 11 12:38:29 2022
 
 Your job looked like:
 
@@ -36,60 +36,41 @@ Your job looked like:
 mpirun -n 21 ../../bin/jacobi-2d-mpi 25 8192 1000
 ------------------------------------------------------------
 
-Exited with exit code 139.
+Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   7.23 sec.
-    Max Memory :                                 72 MB
-    Average Memory :                             -
+    CPU time :                                   5188.00 sec.
+    Max Memory :                                 1486 MB
+    Average Memory :                             1192.40 MB
     Total Requested Memory :                     21504.00 MB
-    Delta Memory :                               21432.00 MB
+    Delta Memory :                               20018.00 MB
     Max Swap :                                   -
-    Max Processes :                              -
-    Max Threads :                                -
-    Run time :                                   12 sec.
-    Turnaround time :                            10498 sec.
+    Max Processes :                              48
+    Max Threads :                                74
+    Run time :                                   256 sec.
+    Turnaround time :                            5591 sec.
 
 The output (if any) follows:
 
-rank 12: 1170 x 2730
-rank 11: 1170 x 2732
-rank 1: 1170 x 2730
-rank 8: 1170 x 2732
-rank 2: 1170 x 2732
-rank 4: 1170 x 2730
-rank 3: 1170 x 2730
-rank 10: 1170 x 2730
-rank 9: 1170 x 2730
-rank 20: 1172 x 2732
 rank 17: 1170 x 2732
-rank 0: 1170 x 2730
-rank 7: 1170 x 2730
-rank 13: 1170 x 2730
-rank 5: 1170 x 2732
-rank 15: 1170 x 2730
-rank 14: 1170 x 2732
-rank 16: 1170 x 2730
-rank 19: 1172 x 2730
-rank 18: 1172 x 2730
 rank 6: 1170 x 2730
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 32926 RUNNING AT eu-a6-001-19
-=   EXIT CODE: 139
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-
-===================================================================================
-=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
-=   PID 32926 RUNNING AT eu-a6-001-19
-=   EXIT CODE: 11
-=   CLEANING UP REMAINING PROCESSES
-=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
-===================================================================================
-   Intel(R) MPI Library troubleshooting guide:
-      https://software.intel.com/node/561764
-===================================================================================
+rank 19: 1172 x 2730
+rank 20: 1172 x 2732
+rank 18: 1172 x 2730
+rank 4: 1170 x 2730
+rank 2: 1170 x 2732
+rank 1: 1170 x 2730
+rank 15: 1170 x 2730
+rank 8: 1170 x 2732
+rank 9: 1170 x 2730
+rank 10: 1170 x 2730
+rank 16: 1170 x 2730
+rank 0: 1170 x 2730
+rank 5: 1170 x 2732
+rank 11: 1170 x 2732
+rank 7: 1170 x 2730
+rank 14: 1170 x 2732
+rank 12: 1170 x 2730
+rank 13: 1170 x 2730
+rank 3: 1170 x 2730
