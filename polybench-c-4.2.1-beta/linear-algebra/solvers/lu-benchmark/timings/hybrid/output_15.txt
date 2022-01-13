@@ -1,39 +1,39 @@
-Sender: LSF System <lsfadmin@eu-a6-011-10>
-Subject: Job 199987951[15]: <lu_hybrid_strong[15]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199707144[15]: <lu_hybrid_strong[15]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[15]%36> was submitted from host <eu-login-40> by user <sniall> in cluster <euler> at Tue Jan 11 14:40:05 2022
-Job was executed on host(s) <3*eu-a6-011-10>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Tue Jan 11 15:29:07 2022
-                            <3*eu-a6-012-16>
-                            <3*eu-a6-012-13>
-                            <3*eu-a6-007-21>
-                            <3*eu-a6-007-12>
+Job <lu_hybrid_strong[15]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:39 2022
+Job was executed on host(s) <3*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 19:22:34 2022
+                            <3*eu-a6-011-23>
+                            <3*eu-a6-004-16>
+                            <3*eu-a6-004-11>
+                            <3*eu-a6-004-05>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/hybrid> was used as the working directory.
-Started at Tue Jan 11 15:29:07 2022
-Terminated at Tue Jan 11 15:54:09 2022
-Results reported at Tue Jan 11 15:54:09 2022
+Started at Fri Jan  7 19:22:34 2022
+Terminated at Fri Jan  7 19:45:17 2022
+Results reported at Fri Jan  7 19:45:17 2022
 
 Your job looked like:
 
 ------------------------------------------------------------
 # LSBATCH: User input
-unset LSB_AFFINITY_HOSTFILE ; mpirun -n 5 ../../bin/lu-hybrid 25 8192
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 5 -ppn 3 ../../bin/lu-hybrid 25 8192
 ------------------------------------------------------------
 
 Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   15120.00 sec.
-    Max Memory :                                 603 MB
-    Average Memory :                             578.72 MB
+    CPU time :                                   16499.00 sec.
+    Max Memory :                                 601 MB
+    Average Memory :                             588.91 MB
     Total Requested Memory :                     15360.00 MB
-    Delta Memory :                               14757.00 MB
+    Delta Memory :                               14759.00 MB
     Max Swap :                                   -
     Max Processes :                              13
     Max Threads :                                43
-    Run time :                                   1501 sec.
-    Turnaround time :                            4444 sec.
+    Run time :                                   1381 sec.
+    Turnaround time :                            10058 sec.
 
 The output (if any) follows:
 
@@ -48,14 +48,14 @@ Available MKL threads: 3
 Available MKL threads: 3
 Available MKL threads: 3
 rank 0: s=0 t=0
+rank 4: s=0 t=4
 rank 1: s=0 t=1
 rank 3: s=0 t=3
 rank 2: s=0 t=2
-rank 4: s=0 t=4
-pid: 3 
 pid: 0 
-pid: 4 
 pid: 2 
+pid: 3 
+pid: 4 
 pid: 1 
 finished run 0
 pid: 3 
@@ -65,46 +65,46 @@ pid: 1
 pid: 2 
 finished run 1
 pid: 3 
-pid: 0 
 pid: 4 
+pid: 0 
 pid: 1 
 pid: 2 
 finished run 2
-pid: 3 
 pid: 0 
-pid: 4 
+pid: 3 
 pid: 1 
+pid: 4 
 pid: 2 
 finished run 3
-pid: 3 
 pid: 0 
-pid: 4 
+pid: 3 
 pid: 1 
+pid: 4 
 pid: 2 
 finished run 4
-pid: 3 
 pid: 0 
-pid: 4 
+pid: 3 
 pid: 1 
+pid: 4 
 pid: 2 
 finished run 5
-pid: 3 
 pid: 0 
-pid: 4 
 pid: 1 
+pid: 3 
 pid: 2 
+pid: 4 
 finished run 6
-pid: 3 
 pid: 0 
-pid: 4 
 pid: 1 
 pid: 2 
+pid: 3 
+pid: 4 
 finished run 7
-pid: 3 
 pid: 0 
-pid: 4 
 pid: 1 
 pid: 2 
+pid: 3 
+pid: 4 
 finished run 8
 pid: 3 
 pid: 0 
@@ -112,65 +112,65 @@ pid: 4
 pid: 1 
 pid: 2 
 finished run 9
-pid: 3 
 pid: 0 
-pid: 4 
+pid: 3 
 pid: 1 
+pid: 4 
 pid: 2 
 finished run 10
-pid: 3 
 pid: 0 
-pid: 4 
+pid: 3 
 pid: 1 
+pid: 4 
 pid: 2 
 finished run 11
-pid: 3 
 pid: 0 
-pid: 4 
+pid: 3 
 pid: 1 
+pid: 4 
 pid: 2 
 finished run 12
-pid: 3 
 pid: 0 
-pid: 4 
+pid: 3 
 pid: 1 
+pid: 4 
 pid: 2 
 finished run 13
-pid: 3 
 pid: 0 
-pid: 4 
 pid: 1 
 pid: 2 
+pid: 3 
+pid: 4 
 finished run 14
 pid: 0 
-pid: 1 
-pid: 2 
 pid: 3 
+pid: 1 
 pid: 4 
+pid: 2 
 finished run 15
 pid: 0 
 pid: 1 
-pid: 3 
 pid: 2 
+pid: 3 
 pid: 4 
 finished run 16
 pid: 0 
-pid: 3 
 pid: 1 
-pid: 4 
 pid: 2 
+pid: 3 
+pid: 4 
 finished run 17
-pid: 3 
 pid: 0 
-pid: 4 
 pid: 1 
 pid: 2 
+pid: 3 
+pid: 4 
 finished run 18
 pid: 0 
-pid: 3 
 pid: 1 
-pid: 4 
 pid: 2 
+pid: 3 
+pid: 4 
 finished run 19
 pid: 0 
 pid: 3 
@@ -179,27 +179,27 @@ pid: 4
 pid: 2 
 finished run 20
 pid: 0 
-pid: 3 
 pid: 1 
-pid: 4 
 pid: 2 
-finished run 21
-pid: 0 
 pid: 3 
-pid: 1 
 pid: 4 
+finished run 21
+pid: 3 
+pid: 0 
+pid: 4 
+pid: 1 
 pid: 2 
 finished run 22
 pid: 0 
-pid: 3 
 pid: 1 
-pid: 4 
 pid: 2 
+pid: 3 
+pid: 4 
 finished run 23
 pid: 0 
-pid: 1 
-pid: 2 
 pid: 3 
+pid: 1 
 pid: 4 
+pid: 2 
 finished run 24
 MKL max threads: 3

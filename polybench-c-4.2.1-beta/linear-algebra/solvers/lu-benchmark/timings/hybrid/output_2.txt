@@ -1,36 +1,36 @@
-Sender: LSF System <lsfadmin@eu-a6-012-16>
-Subject: Job 199987921[2]: <lu_hybrid_strong[2]%36> in cluster <euler> Done
+Sender: LSF System <lsfadmin@eu-a6-012-24>
+Subject: Job 199707066[2]: <lu_hybrid_strong[2]%36> in cluster <euler> Done
 
-Job <lu_hybrid_strong[2]%36> was submitted from host <eu-login-40> by user <sniall> in cluster <euler> at Tue Jan 11 14:39:59 2022
-Job was executed on host(s) <1*eu-a6-012-16>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Tue Jan 11 14:40:06 2022
-                            <1*eu-a6-004-23>
+Job <lu_hybrid_strong[2]%36> was submitted from host <eu-login-06> by user <sniall> in cluster <euler> at Fri Jan  7 16:57:20 2022
+Job was executed on host(s) <1*eu-a6-012-24>, in queue <normal.4h>, as user <sniall> in cluster <euler> at Fri Jan  7 16:57:49 2022
+                            <1*eu-a6-005-13>
 </cluster/home/sniall> was used as the home directory.
 </cluster/home/sniall/DPHPC/dphpc-project/polybench-c-4.2.1-beta/linear-algebra/solvers/lu-benchmark/timings/hybrid> was used as the working directory.
-Started at Tue Jan 11 14:40:06 2022
-Terminated at Tue Jan 11 15:19:15 2022
-Results reported at Tue Jan 11 15:19:15 2022
+Started at Fri Jan  7 16:57:49 2022
+Terminated at Fri Jan  7 17:38:48 2022
+Results reported at Fri Jan  7 17:38:48 2022
 
 Your job looked like:
 
 ------------------------------------------------------------
 # LSBATCH: User input
-unset LSB_AFFINITY_HOSTFILE ; mpirun -n 2 ../../bin/lu-hybrid 25 8192
+unset LSB_AFFINITY_HOSTFILE ; mpirun -n 2 -ppn 1 ../../bin/lu-hybrid 25 8192
 ------------------------------------------------------------
 
 Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   4682.00 sec.
-    Max Memory :                                 554 MB
-    Average Memory :                             536.46 MB
+    CPU time :                                   4902.00 sec.
+    Max Memory :                                 551 MB
+    Average Memory :                             537.99 MB
     Total Requested Memory :                     2048.00 MB
-    Delta Memory :                               1494.00 MB
+    Delta Memory :                               1497.00 MB
     Max Swap :                                   -
     Max Processes :                              10
     Max Threads :                                17
-    Run time :                                   2353 sec.
-    Turnaround time :                            2356 sec.
+    Run time :                                   2458 sec.
+    Turnaround time :                            2488 sec.
 
 The output (if any) follows:
 
@@ -46,8 +46,8 @@ finished run 0
 pid: 1 
 pid: 0 
 finished run 1
-pid: 1 
 pid: 0 
+pid: 1 
 finished run 2
 pid: 1 
 pid: 0 
@@ -64,8 +64,8 @@ finished run 6
 pid: 1 
 pid: 0 
 finished run 7
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 8
 pid: 1 
 pid: 0 
@@ -109,8 +109,8 @@ finished run 21
 pid: 1 
 pid: 0 
 finished run 22
-pid: 0 
 pid: 1 
+pid: 0 
 finished run 23
 pid: 1 
 pid: 0 
